@@ -66,7 +66,8 @@ The value MUST be exact, such as a threshold from the parameters, and never an e
 The reason then carries `counterfactualRelation`, such as `at-most`, and `counterfactualValue`.
 
 Rules can compute such a value exactly, which learning models cannot.
-The Court of Justice of the European Union points to explanations of this kind in case C-203/22.
+Commentators read case C-203/22 as pointing to explanations of this kind.
+That reading of the ruling of the Court of Justice of the European Union is _to be verified_.
 So does the principle of explainability in the Québec statement of principles on artificial intelligence.
 This rule is a SHOULD in version 0.1.
 A later release of a profile may make it a MUST.

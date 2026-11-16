@@ -35,7 +35,8 @@ A report of statistics that never feeds a decision about a party is out of scope
 The proposed text of the federal directive on automated decisions lists rule-based systems in its definition.
 French law asks for a mention on any individual decision that rests on algorithmic processing.
 It asks for it whatever the part of the official.
-A deterministic engine therefore falls within these duties as much as a learning model.
+The research therefore reads both texts as covering a deterministic engine.
+Question 1 of xref:questions-for-counsel.adoc[Questions for counsel] asks a lawyer to confirm this for the 2025 text.
 
 == Roles
 
@@ -61,7 +62,7 @@ Whatever the mechanics, each rule provider MUST meet these four outcomes.
 
 * It implements the decision contract of DEC-020.
 * It passes the decision conformance suite of DEC-083.
-* It produces the same record for the same input, the same context and the same rule version, under DEC-023.
+* It produces the same result for the same input, the same context and the same rule version, under DEC-023.
 * The build of its artifact fixes its rule versions, and a running deployment MUST NOT load or replace one.
 
 The same mechanics will choose other replaceable parts, such as storage or authorization adapters.

@@ -12,11 +12,13 @@ It runs two kinds of checks, and reports every failure with the rule it breaks.
 - Schema checks: each file against its class of the LinkML model, through a small
   reader of the parts of LinkML that the model uses (required slots, ranges, types,
   patterns, enumerations, lists and closed classes). It is not a LinkML validator.
-- Structural checks of the rules: revision links resolve, the resolver finds one rule
-  version, thresholds come from the dated parameters, reason codes exist in the
-  scheme, at most four principal reasons, a gated result has its review steps, the
-  degree of automation matches them, no prose in records, no value of a fact in an
-  event, notices meet the profiles, and the English and French features match.
+- Structural checks of the rules: revision links resolve, a referral or a request for
+  information ends only through a review step or new inputs, the resolver finds at
+  most one rule version and the record names it, thresholds come from the dated
+  parameters, reason codes exist in the scheme, at most four principal reasons, a
+  gated result has its review steps, the degree of automation matches them, no prose
+  in records, no value of a fact in an event, notices meet the profiles, and the
+  English and French features match and each states a reason code.
 """
 import glob
 import json
@@ -338,10 +340,19 @@ def main():
             if ("value" in inp) == ("reference" in inp):
                 fail(where, f"input {inp.get('name')} needs a value or a reference, not both", "DEC-042")
         # Resolver (DEC-035) and interpretation status (DEC-032).
-        rs = r.get("ruleSet", {})
-        known = [v for v in versions if v["ruleSetCode"] == rs.get("code") and v["enactedAt"] <= r["recordTime"]
-                 and covers(v["validity"], r["effectiveDate"])]
-        if len(known) != 1 or known[0]["version"] != rs.get("version"):
+        rs = r.get("ruleSet")
+        known = [v for v in versions if v["ruleSetCode"] == (rs or {}).get("code", dtype["ruleSetCode"])
+                 and v["enactedAt"] <= r["recordTime"] and covers(v["validity"], r["effectiveDate"])]
+        if len(known) > 1:
+            fail(where, "the resolver found more than one rule version for the dates of the record", "DEC-035")
+        elif rs is None:
+            if kind != "not-applicable":
+                fail(where, "ruleSet is required unless the result is not-applicable because no rule version resolved",
+                     "DEC-035")
+            elif known:
+                fail(where, f"rule version {known[0]['version']} resolves for the dates of the record, so the record "
+                     "must name it in ruleSet", "DEC-035")
+        elif not known or known[0]["version"] != rs.get("version"):
             fail(where, "the resolver must find exactly the rule version that the record names", "DEC-035")
         elif known[0]["interpretationStatus"] != "approved":
             fail(where, "a rule version in production needs the status approved", "DEC-032")
@@ -395,6 +406,15 @@ def main():
             chain.append(pred)
             seen.add(pred)
             pred = records[pred][1].get("predecessorId")
+        # A referral or a request for information never ends in an automated result (DEC-043).
+        before = records.get(r.get("predecessorId"), (None, {}))[1]
+        if before.get("resultKind") == "referred" and kind == "decided" and not r.get("reviewStepIds"):
+            fail(where, "a decided record that revises a referred record must name a review step", "DEC-043")
+        if before.get("resultKind") == "insufficient-information" and not r.get("reviewStepIds"):
+            old = {json.dumps(i, sort_keys=True) for i in before.get("inputs", [])}
+            if all(json.dumps(i, sort_keys=True) in old for i in r.get("inputs", [])):
+                fail(where, "a record that revises an insufficient-information record must rest on new inputs or a "
+                     "review step, never on elapsed time alone", "DEC-043")
         # Review steps and degree of automation (DEC-060 to DEC-064).
         own = []
         for sid in r.get("reviewStepIds") or []:
@@ -474,7 +494,7 @@ def main():
             r = records[rid][1]
             want = {"resultKind": r.get("resultKind"), "outcome": r.get("outcome"),
                     "reasonCodes": [x["code"] for x in r.get("reasons", [])],
-                    "automationDegree": r.get("automationDegree"), "ruleSetVersion": r["ruleSet"]["version"],
+                    "automationDegree": r.get("automationDegree"), "ruleSetVersion": (r.get("ruleSet") or {}).get("version"),
                     "predecessorId": r.get("predecessorId")}
             for k, v in want.items():
                 if data.get(k) != v:
@@ -512,7 +532,10 @@ def main():
                     fail(rel(path), f"scenario {tag} states no result", "DEC-080")
                 if not re.search(r'(cites section|cite l’article) "', text):
                     fail(rel(path), f"scenario {tag} cites no provision", "DEC-080")
-                for code in re.findall(r'(?:principal reason is|motif principal est) "([a-z0-9-]+)"', text):
+                named = re.findall(r'(?:principal reason is|motif principal est) "([a-z0-9-]+)"', text)
+                if not named:
+                    fail(rel(path), f"scenario {tag} states no reason code", "DEC-080")
+                for code in named:
                     if code not in codes:
                         fail(rel(path), f"scenario {tag} names reason code {code}, which is not in the scheme", "DEC-050")
 

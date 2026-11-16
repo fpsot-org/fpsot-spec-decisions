@@ -5,7 +5,7 @@ include::_fpsot-terms.adoc[]
 Ce guide mène un organisme public d’un type de décision automatisée à un type de décision conforme.
 Chaque étape cite la règle qu’elle respecte.
 Ce guide ne constitue pas un avis juridique.
-La page des questions pour le conseiller juridique énumère les points qu’une ou un juriste doit régler.
+La page des questions pour les juristes énumère les points qu’une ou un juriste doit régler.
 Les fichiers de `examples/` suivent une allocation de logement fictive à chaque étape.
 
 == Décrire le type de décision
@@ -13,7 +13,7 @@ Les fichiers de `examples/` suivent une allocation de logement fictive à chaque
 Dressez la liste des lois qui régissent la décision, et choisissez les profils, selon DEC-011.
 Déclarez toujours `core`.
 Une institution fédérale canadienne ajoute `ca-federal`, un organisme québécois ajoute `ca-qc`, et une administration française ajoute `fr`.
-Ajoutez `eu-ai-high-risk` quand votre conseiller juridique juge que le règlement européen s’applique.
+Ajoutez `eu-ai-high-risk` quand vos juristes jugent que le règlement européen s’applique.
 
 Fixez le niveau d’incidence à partir de votre évaluation d’impact, selon DEC-013.
 Sous `ca-federal`, c’est le niveau de votre Évaluation de l’incidence algorithmique publiée.

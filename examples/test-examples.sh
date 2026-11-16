@@ -35,8 +35,10 @@ $script") || { echo "FAIL: case $name: the setup script failed"; fail=1; return;
   fi
 }
 
-case_fails missing-rule-set 'ruleSet is required' \
+case_fails missing-rule-set 'ruleSet is required unless the result is not-applicable because no rule version resolved \(DEC-035\)' \
   'd = rj(R1); del d["ruleSet"]; wj(R1, d)'
+case_fails not-applicable-hides-rule-version 'resolves for the dates of the record, so the record must name it in ruleSet \(DEC-035\)' \
+  'd = rj(R1); d["resultKind"] = "not-applicable"; [d.pop(k) for k in ("ruleSet", "referralReason", "recommendedOutcome")]; wj(R1, d)'
 case_fails five-principal-reasons 'principal reasons; give at most four \(DEC-053\)' \
   'd = rj(R2); x = d["reasons"][0]; d["reasons"] = [dict(x, rank=i) for i in range(1, 6)]; wj(R2, d)'
 case_fails unknown-reason-code 'not in the reason scheme \(DEC-050\)' \
@@ -53,6 +55,11 @@ case_fails level-3-without-review 'needs a review step before a decided result \
   'd = rj(R2); del d["reviewStepIds"]; d["automationDegree"] = "fully-automated"; wj(R2, d)'
 case_fails degree-not-from-steps 'degree of automation must be human-confirmed, from the review steps \(DEC-060\)' \
   'd = rj(R2); d["automationDegree"] = "fully-automated"; wj(R2, d)'
+case_fails referral-decided-without-review 'decided record that revises a referred record must name a review step \(DEC-043\)' \
+  'd = rj(R2); del d["reviewStepIds"]; d["automationDegree"] = "fully-automated"; d["changeCause"] = "reprocessing"; wj(R2, d)'
+case_fails missing-facts-ended-by-time 'must rest on new inputs or a review step, never on elapsed time alone \(DEC-043\)' \
+  'd = rj(R1); d["resultKind"] = "insufficient-information"; d["missingFacts"] = ["household-size"]; [d.pop(k) for k in ("referralReason", "recommendedOutcome")]; wj(R1, d)
+d = rj(R2); del d["reviewStepIds"]; d["automationDegree"] = "fully-automated"; d["changeCause"] = "reprocessing"; wj(R2, d)'
 case_fails dual-review-one-person 'two review steps by distinct people \(DEC-064\)' \
   'd = ry("examples/decision-type.yaml"); d["dualReview"] = True; wy("examples/decision-type.yaml", d)'
 case_fails override-without-reason 'needs an override reason \(DEC-062\)' \
@@ -81,6 +88,8 @@ case_fails feature-parity 'same tags and steps \(TST-032\)' \
   'p = "examples/features/fr/example-housing-benefit.feature"; s = open(p, encoding="utf-8").read().replace("@example-housing-benefit-002", "@example-housing-benefit-009"); open(p, "w", encoding="utf-8").write(s)'
 case_fails feature-without-date 'states no effective date \(DEC-080\)' \
   'p = "examples/features/en/example-housing-benefit.feature"; s = open(p, encoding="utf-8").read().replace("And the effective date \"2026-09-01\"", "And the effective date of the application", 1); open(p, "w", encoding="utf-8").write(s)'
+case_fails feature-without-reason-code 'scenario @example-housing-benefit-003 states no reason code \(DEC-080\)' \
+  'p = "examples/features/en/example-housing-benefit.feature"; s = open(p, encoding="utf-8").read().replace("      And the principal reason is \"household-income-missing\"\n", ""); open(p, "w", encoding="utf-8").write(s)'
 
 [ $fail -eq 0 ] && echo "PASS: every case"
 exit $fail

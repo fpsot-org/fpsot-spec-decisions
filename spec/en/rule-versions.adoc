@@ -61,11 +61,12 @@ DEC-003 forbids loading rules at run time, so a deployment cannot add an old ver
 Decisions under appeal still need the version that made them.
 
 [[DEC-035]]
-*DEC-035.* A resolver MUST pick exactly one rule version for each pair of effective date and record time.
+*DEC-035.* A resolver MUST pick at most one rule version for each pair of effective date and record time.
 It considers only the versions enacted at or before the record time.
 Among them, it picks the one whose validity holds the effective date.
 The validities of two versions of one rule set MUST NOT overlap.
 When no version holds the date, the result MUST be `not-applicable`, with a reason code that says so.
+Only such a result MAY leave out `ruleSet`, and every other record MUST name the version that the resolver picked.
 
 With the record time, a replay picks the version that the body knew then, even after a retroactive change.
 The check `examples/check-examples.py` applies this rule to the example records.

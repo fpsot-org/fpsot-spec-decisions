@@ -55,7 +55,7 @@ That article asks for an explicit mention on each individual decision that rests
 Article R311-3-1-2 lists what the person can obtain on request, and its items 2 to 4 are _to be verified_.
 
 The `eu-ai-high-risk` profile follows the link:https://eur-lex.europa.eu/eli/reg/2024/1689/oj[European regulation on artificial intelligence].
-Its Annex III counts a system that evaluates eligibility for public assistance benefits as high-risk.
+Its Annex III counts a system that evaluates eligibility for public assistance benefits as high-risk, _to be verified_.
 Whether a deterministic rules engine is an artificial intelligence system under that regulation is a question for counsel.
 A body adopts this profile when its counsel says that the regulation applies, or by choice.
 

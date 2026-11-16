@@ -21,6 +21,7 @@
       "skos:hasTopConcept": [
         {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-income-above-limit"},
         {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-size"},
+        {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-income-missing"},
         {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/residence-outside-program-area"},
         {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/hardship-exception"},
         {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/other"}
@@ -54,6 +55,21 @@
       "skos:definition": [
         {"@value": "The number of persons in the household, which sets the income limit that applies.", "@language": "en"},
         {"@value": "Le nombre de personnes du ménage, qui fixe la limite de revenu applicable.", "@language": "fr"}
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-income-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {"@id": "https://vocab.example.org/example-housing-benefit-reasons"},
+      "skos:topConceptOf": {"@id": "https://vocab.example.org/example-housing-benefit-reasons"},
+      "skos:notation": "household-income-missing",
+      "skos:prefLabel": [
+        {"@value": "Household income missing", "@language": "en"},
+        {"@value": "Revenu du ménage manquant", "@language": "fr"}
+      ],
+      "skos:definition": [
+        {"@value": "The file holds no household income, which the rules need to compute the result.", "@language": "en"},
+        {"@value": "Le dossier ne contient pas le revenu du ménage, dont les règles ont besoin pour calculer le résultat.", "@language": "fr"}
       ]
     },
     {

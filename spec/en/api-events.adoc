@@ -24,23 +24,29 @@ A result in the body of a success response keeps its reasons and its record iden
 *DEC-071.* A decision service MUST emit a business event under OBS-070 for each decision record, review step and notice record.
 Each event MUST carry the lifecycle `complete` of OBS-072 and an activity key of OBS-071.
 Its objects MUST name the record, with the qualifier `decision`, and the objects of the record, under OBS-073.
-It SHOULD carry the attributes of this table.
+Each event MUST carry the required attributes of this table that apply to its record, and SHOULD carry the others.
 It MUST NOT carry the value of an input fact, an amount or a name.
 
-[cols="2,3",options="header"]
+[cols="3,1,3",options="header"]
 |===
-|Attribute |Value
-|`org.fpsot.decision.type` |The code of the decision type.
-|`org.fpsot.decision.result_kind` |The result kind of DEC-024.
-|`org.fpsot.decision.outcome` |The outcome code of a decided result.
-|`org.fpsot.decision.reason_codes` |The reason codes, in order of rank.
-|`org.fpsot.decision.rule_set.code` |The code of the rule set.
-|`org.fpsot.decision.rule_set.version` |The rule version.
-|`org.fpsot.decision.automation_degree` |The degree of automation of DEC-060.
-|`org.fpsot.decision.predecessor.id` |The record that this one revises, if any.
+|Attribute |Presence |Value
+|`org.fpsot.decision.type` |Required |The code of the decision type.
+|`org.fpsot.decision.result_kind` |Required |The result kind of DEC-024.
+|`org.fpsot.decision.outcome` |Required |The outcome code of a decided result.
+|`org.fpsot.decision.reason_codes` |Recommended |The reason codes, in order of rank.
+|`org.fpsot.decision.rule_set.code` |Required |The code of the rule set.
+|`org.fpsot.decision.rule_set.version` |Required |The rule version.
+|`org.fpsot.decision.automation_degree` |Recommended |The degree of automation of DEC-060.
+|`org.fpsot.decision.predecessor.id` |Required |The record that this one revises, if any.
+|`org.fpsot.decision.change_cause` |Required |Why the record revises its predecessor, under DEC-043.
+|`org.fpsot.decision.review_step.action` |Required |The action of a review step, under DEC-062.
+|`org.fpsot.decision.review_step.agreement` |Required |Whether the reviewer agreed with the result shown, under DEC-062.
 |===
 
 The activity keys come from a scheme of the deploying body, such as `decide-application`, `review-decision` and `issue-notice`.
+An attribute applies when the record has a value for it.
+For a review step or a notice, the record is the decision that it is about.
+The required attributes are those that the statistics of DEC-066 need.
 The inventory of the component lists these attributes and the scheme, under OBS-010.
 Process mining and the statistics of DEC-066 then work from the events alone, with no personal value.
 

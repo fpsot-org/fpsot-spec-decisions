@@ -13,7 +13,7 @@ Fonctionnalité: Admissibilité à l’allocation de logement d’exemple
       Étant donné l’ensemble de règles "example-housing-benefit" à la version "1.2.0"
       Et la date d’effet "2026-09-01"
       Et un ménage de 3 personnes dont le revenu du ménage est de "53410.00" CAD
-      Quand le service de décision statue sur la demande
+      Quand le fournisseur de règles évalue la demande
       Alors le type de résultat est "decided" avec l’issue "refused"
       Et le motif principal est "household-income-above-limit" avec la limite "52000.00" CAD
       Et le motif cite l’article "4" de la loi "E-1"
@@ -23,7 +23,7 @@ Fonctionnalité: Admissibilité à l’allocation de logement d’exemple
       Étant donné l’ensemble de règles "example-housing-benefit" à la version "1.2.0"
       Et la date d’effet "2026-09-01"
       Et un ménage de 3 personnes dont le revenu du ménage est de "52000.00" CAD
-      Quand le service de décision statue sur la demande
+      Quand le fournisseur de règles évalue la demande
       Alors le type de résultat est "decided" avec l’issue "granted"
       Et le motif principal est "household-size" avec la limite "52000.00" CAD
       Et le motif cite l’article "4" de la loi "E-1"
@@ -35,6 +35,7 @@ Fonctionnalité: Admissibilité à l’allocation de logement d’exemple
       Étant donné l’ensemble de règles "example-housing-benefit" à la version "1.2.0"
       Et la date d’effet "2026-09-01"
       Et un ménage de 3 personnes sans revenu du ménage au dossier
-      Quand le service de décision statue sur la demande
+      Quand le fournisseur de règles évalue la demande
       Alors le type de résultat est "insufficient-information" avec le fait manquant "household-income"
+      Et le motif principal est "household-income-missing"
       Et le motif cite l’article "4" de la loi "E-1"

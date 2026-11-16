@@ -63,11 +63,12 @@ Un déploiement ne peut donc pas ajouter une ancienne version plus tard.
 Les décisions en appel ont encore besoin de la version qui les a produites.
 
 [[DEC-035]]
-*DEC-035.* Un résolveur DOIT choisir exactement une version de règles pour chaque couple de date d’effet et de moment d’enregistrement.
+*DEC-035.* Un résolveur DOIT choisir au plus une version de règles par couple de date d’effet et de moment d’enregistrement.
 Il ne considère que les versions adoptées au plus tard au moment d’enregistrement.
 Parmi elles, il choisit celle dont la validité comprend la date d’effet.
 Les validités de deux versions d’un même ensemble de règles NE DOIVENT PAS se chevaucher.
 Quand aucune version ne couvre la date, le résultat DOIT être `not-applicable`, avec un code de motif qui le dit.
+Seul un tel résultat PEUT omettre `ruleSet`, et tout autre enregistrement DOIT nommer la version que le résolveur a choisie.
 
 Grâce au moment d’enregistrement, une réexécution choisit la version que l’organisme connaissait alors, même après un changement rétroactif.
 Le script `examples/check-examples.py` applique cette règle aux enregistrements d’exemple.

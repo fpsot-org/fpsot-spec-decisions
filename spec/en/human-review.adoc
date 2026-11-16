@@ -4,6 +4,7 @@ include::_fpsot-terms.adoc[]
 Several regimes ask for a person in the loop, and they agree that a token step does not count.
 Québec guidance says that a minor human step without real effect leaves a decision fully automated.
 Under the European regulation on artificial intelligence, a person must be able to override the output of a high-risk system.
+This reading of article 14 is _to be verified_.
 At its two highest levels, the proposed text of the federal directive keeps the final decision for a person.
 
 People also tend to trust a machine too much.
@@ -43,6 +44,7 @@ The files `examples/decision-record-1.json`, `examples/review-step.json` and `ex
 It MUST hold the reviewer as the actor of IAM-091, and the party that the reviewer acts for, under IAM-064.
 It MUST hold the authority of the reviewer, what the service showed, the action and whether the reviewer agreed.
 It MUST hold a justification in the words of the reviewer, with its language, and the times of the step.
+The service MUST NOT pre-fill or offer a template for the justification.
 A change or a disagreement MUST carry an override reason from the reason scheme.
 
 The identity specification owns the actor and the represented party, and this rule takes them as they are.
@@ -86,7 +88,8 @@ That is a question for counsel.
 *DEC-066.* A deploying body MUST be able to count how often reviewers agree, change or reverse results.
 It MUST count them for each decision type and rule version.
 It MUST also count observations, reconsiderations and appeals, and how often they change the result.
-It MUST compute these counts from business events, with no identifier of a person, under DEC-044.
+It MUST compute these counts from the attributes of the business events of DEC-071.
+The counts MUST NOT hold an identifier of a person, under DEC-044.
 A reviewer appears as a role, under OBS-075, and never by name.
 
 The proposed text of the federal directive asks institutions to document and analyze human overrides.

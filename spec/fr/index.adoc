@@ -18,13 +18,14 @@ Les règles reposent donc sur quatre éléments qui fonctionnent avec tout moteu
 * Le contrat de décision : une entrée typée, un contexte d’évaluation avec la date d’effet et quatre résultats possibles.
 * Les métadonnées des règles : source juridique, dates d’effet, moment d’adoption et état de la revue juridique d’une version.
 * L’enregistrement de décision : un enregistrement pour chaque résultat, fait de codes et de valeurs, jamais de texte rédigé.
-* La suite de conformité : les mêmes tests pour les règles de la {abbr-fpsot-first}, une substitution et un adaptateur DMN.
+* La suite de conformité : des tests communs aux règles par défaut de la {abbr-fpsot-first}, aux substitutions et aux adaptateurs DMN.
 
 Les règles réutilisent les autres spécifications de la {abbr-fpsot} et n’en redéfinissent aucun élément.
 Une décision émet les événements d’affaires de la spécification sur l’observabilité.
-Ses réviseurs sont les acteurs de la spécification sur l’identité.
+Les personnes qui la révisent sont les acteurs de la spécification sur l’identité.
 Ses codes de motif sont des concepts de la spécification sur les vocabulaires.
-La spécification sur les documents signés appose un cachet sur ses enregistrements et les inscrit dans un journal de transparence.
+Un organisme appose un cachet sur ses enregistrements selon la spécification sur les documents signés.
+Il les inscrit aussi dans un journal de transparence.
 
 == Portée
 
@@ -37,7 +38,8 @@ Un rapport statistique qui n’alimente jamais une décision au sujet d’une pa
 Le texte proposé de la directive fédérale nomme les systèmes à base de règles dans sa définition.
 Le droit français exige une mention sur toute décision individuelle qui repose sur un traitement algorithmique.
 Il l’exige quelle que soit la part de l’agente ou de l’agent.
-Un moteur déterministe entre donc dans ces obligations autant qu’un modèle d’apprentissage.
+La recherche lit donc ces deux textes comme visant aussi un moteur déterministe.
+La question 1 des xref:questions-for-counsel.adoc[Questions pour les juristes] demande de le confirmer pour le texte de 2025.
 
 == Rôles
 
@@ -63,7 +65,7 @@ Quels que soient ces mécanismes, chaque fournisseur de règles DOIT atteindre c
 
 * Il met en œuvre le contrat de décision de DEC-020.
 * Il réussit la suite de conformité des décisions de DEC-083.
-* Il produit le même enregistrement pour la même entrée, le même contexte et la même version de règles, selon DEC-023.
+* Il produit le même résultat pour la même entrée, le même contexte et la même version de règles, selon DEC-023.
 * La construction de son artefact fixe ses versions de règles.
 Un déploiement en marche NE DOIT PAS en charger ni en remplacer.
 
@@ -79,7 +81,7 @@ Seul l’organisme responsable, avec ses juristes, peut dire si ses décisions r
 
 Cette spécification énonce la pratique de la {abbr-fpsot}, et elle ne constitue pas un avis juridique.
 Les points qui demandent une ou un juriste ne figurent jamais dans une règle.
-Ils figurent dans des notes informatives et à la page xref:questions-for-counsel.adoc[Questions pour le conseiller juridique].
+Ils figurent dans des notes informatives et à la page xref:questions-for-counsel.adoc[Questions pour les juristes].
 Un texte juridique que la recherche n’a pas lu à sa source porte la mention _à vérifier_.
 Ces textes comprennent le texte de 2025 de la directive fédérale et certains articles français.
 Ils comprennent aussi le libellé de l’article 65.2 de la Loi sur l’accès du Québec.
@@ -113,7 +115,7 @@ Les règles se répartissent en huit parties, suivies de deux pages informatives
 * xref:testing.adoc[Essais et conformité] fixe les scénarios, les corpus figés et la suite de conformité.
 * xref:maturity.adoc[Maturité des règles sous forme de code] est informative.
 Elle donne une échelle de cinq niveaux et des notes sur les moteurs à suivre.
-* xref:questions-for-counsel.adoc[Questions pour le conseiller juridique] est informative, et énumère les points juridiques qu’une ou un juriste doit régler.
+* xref:questions-for-counsel.adoc[Questions pour les juristes] est informative, et énumère les points juridiques qu’une ou un juriste doit régler.
 
 == Spécifications liées
 

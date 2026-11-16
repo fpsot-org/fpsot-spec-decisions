@@ -55,7 +55,7 @@ Cet article exige une mention explicite sur chaque décision individuelle qui re
 L’article R311-3-1-2 énumère ce que la personne peut obtenir sur demande, et ses points 2 à 4 sont _à vérifier_.
 
 Le profil `eu-ai-high-risk` suit le link:https://eur-lex.europa.eu/eli/reg/2024/1689/oj[règlement européen sur l’intelligence artificielle].
-Son annexe III classe à haut risque un système qui évalue l’admissibilité aux prestations d’aide publique.
+Son annexe III classe à haut risque un système qui évalue l’admissibilité aux prestations d’aide publique, _à vérifier_.
 Un moteur de règles déterministe est-il un système d’intelligence artificielle au sens de ce règlement ?
 C’est une question pour les juristes.
 Un organisme adopte ce profil quand ses juristes concluent que le règlement s’applique, ou par choix.

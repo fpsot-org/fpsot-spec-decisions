@@ -25,23 +25,29 @@ Un résultat dans le corps d’une réponse de succès garde ses motifs et l’i
 Cela vaut pour les enregistrements de décision, les étapes de révision et les enregistrements d’avis.
 Chaque événement DOIT porter l’étape de cycle de vie `complete` d’OBS-072 et une clé d’activité d’OBS-071.
 Ses objets DOIVENT nommer l’enregistrement, avec le qualificatif `decision`, et les objets de l’enregistrement, selon OBS-073.
-Il DEVRAIT porter les attributs de ce tableau.
+Chaque événement DOIT porter les attributs obligatoires de ce tableau qui s’appliquent à son enregistrement, et DEVRAIT porter les autres.
 Il NE DOIT PAS porter la valeur d’un fait en intrant, un montant ou un nom.
 
-[cols="2,3",options="header"]
+[cols="3,1,3",options="header"]
 |===
-|Attribut |Valeur
-|`org.fpsot.decision.type` |Le code du type de décision.
-|`org.fpsot.decision.result_kind` |Le type de résultat de DEC-024.
-|`org.fpsot.decision.outcome` |Le code de l’issue d’un résultat décidé.
-|`org.fpsot.decision.reason_codes` |Les codes de motif, par ordre de rang.
-|`org.fpsot.decision.rule_set.code` |Le code de l’ensemble de règles.
-|`org.fpsot.decision.rule_set.version` |La version de règles.
-|`org.fpsot.decision.automation_degree` |Le degré d’automatisation de DEC-060.
-|`org.fpsot.decision.predecessor.id` |L’enregistrement que celui-ci révise, s’il y a lieu.
+|Attribut |Présence |Valeur
+|`org.fpsot.decision.type` |Obligatoire |Le code du type de décision.
+|`org.fpsot.decision.result_kind` |Obligatoire |Le type de résultat de DEC-024.
+|`org.fpsot.decision.outcome` |Obligatoire |Le code de l’issue d’un résultat décidé.
+|`org.fpsot.decision.reason_codes` |Recommandé |Les codes de motif, par ordre de rang.
+|`org.fpsot.decision.rule_set.code` |Obligatoire |Le code de l’ensemble de règles.
+|`org.fpsot.decision.rule_set.version` |Obligatoire |La version de règles.
+|`org.fpsot.decision.automation_degree` |Recommandé |Le degré d’automatisation de DEC-060.
+|`org.fpsot.decision.predecessor.id` |Obligatoire |L’enregistrement que celui-ci révise, s’il y a lieu.
+|`org.fpsot.decision.change_cause` |Obligatoire |La cause pour laquelle l’enregistrement révise son prédécesseur, selon DEC-043.
+|`org.fpsot.decision.review_step.action` |Obligatoire |L’action d’une étape de révision, selon DEC-062.
+|`org.fpsot.decision.review_step.agreement` |Obligatoire |L’accord ou le désaccord de la personne qui révise avec le résultat montré, selon DEC-062.
 |===
 
 Les clés d’activité viennent d’un schéma de l’organisme responsable, comme `decide-application`, `review-decision` et `issue-notice`.
+Un attribut s’applique quand l’enregistrement a une valeur pour lui.
+Pour une étape de révision ou un avis, cet enregistrement est la décision visée.
+Les attributs obligatoires sont ceux dont les statistiques de DEC-066 ont besoin.
 L’inventaire du composant énumère ces attributs et le schéma, selon OBS-010.
 L’exploration de processus et les statistiques de DEC-066 fonctionnent alors à partir des seuls événements, sans valeur personnelle.
 

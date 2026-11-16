@@ -20,10 +20,15 @@ and versions follow [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.h
 - Interfaces and events DEC-070 to DEC-073: results as successful responses, business events without personal values, three CloudEvents types with their schemas in `registry/events/`, and authorized, audited access to records.
 - Testing and conformance DEC-080 to DEC-086: scenarios with dates and cited provisions, frozen corpora, property invariants, a data-driven decision conformance suite, replacement under TST-045, baseline and override comparison, and the declaration of a DMN provider.
 - Informative pages on a five-level rules as code maturity scale, defined by FPSOT, with notes on engines to watch, and on questions for counsel.
-- The LinkML model `model/decisions.yaml`, with a copy of the data types model.
+- The LinkML model `model/decisions.yaml`, with the evaluation context and the result of the contract, the decision record built from that result, and a copy of the data types model.
 - Examples for a fictional housing benefit: a decision type, a reason scheme, two rule versions, a parameter set, a referred record, a review step, the final record that revises it, a notice, an event and a feature in English and French, with a check script and its test, run by the `examples` job of the continuous integration.
 - Comparison data with international and European Union rows, and rows for Canada, Québec and France.
 - How-to guide that puts a decision type under the specification.
+
+### Known gaps
+
+- The generated forms of the model under DMO-014 and DMO-015 are deferred to the conformance suite.
+- The `model/examples/` folder of DMO-017 is deferred to the conformance suite; the examples sit in `examples/` for now.
 
 [Unreleased]: https://github.com/fpsot-org/fpsot-spec-decisions/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/fpsot-org/fpsot-spec-decisions/releases/tag/v0.1.0

@@ -68,7 +68,8 @@ La valeur DOIT être exacte, comme un seuil tiré des paramètres, et jamais une
 Le motif porte alors `counterfactualRelation`, comme `at-most`, et `counterfactualValue`.
 
 Des règles peuvent calculer une telle valeur exactement, ce que les modèles d’apprentissage ne peuvent pas faire.
-La Cour de justice de l’Union européenne oriente vers des explications de ce type dans l’affaire C-203/22.
+Des commentateurs lisent l’affaire C-203/22 comme orientant vers des explications de ce type.
+Cette lecture de l’arrêt de la Cour de justice de l’Union européenne est _à vérifier_.
 Le principe d’explicabilité de l’énoncé de principes du Québec sur l’intelligence artificielle va dans le même sens.
 Cette règle est un DEVRAIT dans la version 0.1.
 Une version ultérieure d’un profil pourra en faire un DOIT.
@@ -81,7 +82,7 @@ Un service DOIT rendre chaque avis au moment de l’émettre, à partir de l’e
 Il DOIT employer la langue officielle que la personne a choisie.
 Il DOIT garder un enregistrement d’avis de la classe `Notice`.
 Cet enregistrement nomme le gabarit, sa version, la langue, le canal et le moment.
-L’organisme DOIT apposer un cachet sur l’avis rendu, et nommer son manifeste de cachet selon LOG-019.
+L’organisme DOIT cacheter l’avis rendu selon la spécification sur les documents signés, et nommer son manifeste de cachet selon LOG-019.
 
 Les textes de DEC-054 et de DEC-062 sont les seuls textes qu’une personne écrit dans ces enregistrements.
 Un seul enregistrement sert alors à un avis en français, à un avis en anglais et à l’explication sur demande.

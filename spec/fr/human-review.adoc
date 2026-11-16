@@ -4,6 +4,7 @@ include::_fpsot-terms.adoc[]
 Plusieurs régimes exigent une personne dans la boucle, et ils s’entendent pour dire qu’une étape symbolique ne compte pas.
 Selon les orientations du Québec, une intervention humaine mineure sans effet réel laisse la décision entièrement automatisée.
 Selon le règlement européen sur l’intelligence artificielle, une personne doit pouvoir passer outre au résultat d’un système à haut risque.
+Cette lecture de l’article 14 est _à vérifier_.
 Aux deux niveaux les plus élevés, le texte proposé de la directive fédérale réserve la décision finale à une personne.
 
 Les gens ont aussi tendance à trop se fier à la machine.
@@ -39,11 +40,11 @@ Les fichiers `examples/decision-record-1.json`, `examples/review-step.json` et `
 == Étapes de révision
 
 [[DEC-062]]
-*DEC-062.* Chaque étape de révision DOIT être un enregistrement de la classe `ReviewStep` de `model/decisions.yaml`.
-Elle reste distincte de l’enregistrement de décision.
+*DEC-062.* Chaque étape de révision DOIT être un enregistrement de la classe `ReviewStep` de `model/decisions.yaml`, distinct de l’enregistrement de décision.
 Elle DOIT contenir la personne qui révise, comme acteur d’IAM-091, et la partie qu’elle représente, selon IAM-064.
 Elle DOIT contenir le pouvoir de cette personne, ce que le service a montré, l’action et l’accord ou le désaccord.
 Elle DOIT contenir une justification dans les mots de cette personne, avec sa langue, et les heures de l’étape.
+Le service NE DOIT PAS préremplir la justification ni en proposer un modèle.
 Une modification ou un désaccord DOIT porter un motif de dérogation tiré du schéma de motifs.
 
 La spécification sur l’identité est responsable de l’acteur et de la partie représentée, et cette règle les reprend tels quels.
@@ -76,12 +77,12 @@ Un organisme peut employer le même contrôle pour des décisions à forte incid
 Elle DEVRAIT aussi indiquer combien de temps l’enregistrement est resté affiché.
 Un organisme responsable DOIT couvrir ces preuves dans son {term-privacy-impact-assessment} avant de les recueillir.
 Il NE DOIT PAS s’en servir pour évaluer une employée ou un employé.
-Seules son évaluation et ses conventions collectives peuvent faire exception à cette règle.
+Il ne le peut que si son évaluation et ses conventions collectives le permettent toutes deux.
 
 Ces preuves aident un organisme à montrer que son étape humaine a eu un effet réel.
 Elles sont aussi une forme de surveillance du personnel.
 Au Québec, elles peuvent exiger une évaluation selon la Loi sur l’accès et une discussion avec les syndicats.
-C’est une question pour un conseiller juridique.
+C’est une question pour les juristes.
 
 == Statistiques de dérogation
 
@@ -89,7 +90,8 @@ C’est une question pour un conseiller juridique.
 *DEC-066.* Un organisme responsable DOIT pouvoir compter combien de fois les personnes qui révisent confirment, modifient ou infirment les résultats.
 Il DOIT les compter pour chaque type de décision et chaque version de règles.
 Il DOIT aussi compter les observations, les réexamens et les appels, et combien de fois ils modifient le résultat.
-Il DOIT calculer ces nombres à partir des événements d’affaires, sans identifiant de personne, selon DEC-044.
+Il DOIT calculer ces nombres à partir des attributs des événements d’affaires de DEC-071.
+Ces nombres NE DOIVENT PAS contenir d’identifiant de personne, selon DEC-044.
 Une personne qui révise apparaît comme un rôle, selon OBS-075, et jamais par son nom.
 
 Le texte proposé de la directive fédérale demande aux institutions de documenter et d’analyser les dérogations humaines.

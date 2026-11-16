@@ -17,7 +17,8 @@ Les faits manquants et le jugement humain y ont ainsi leur propre place.
 [[DEC-020]]
 *DEC-020.* Chaque fournisseur de règles DOIT mettre en œuvre le contrat de décision de son type de décision.
 La forme du contrat indépendante du langage est le modèle de `model/decisions.yaml`.
-Les faits d’entrée suivent la classe `InputFact`, le contexte suit DEC-022 et le résultat suit la classe `DecisionRecord`.
+Les faits d’entrée suivent la classe `InputFact`, le contexte suit la classe `EvaluationContext` et le résultat suit la classe `DecisionResult`.
+Le service de décision construit un `DecisionRecord` à partir de chaque `DecisionResult`, selon DEC-040.
 Un fournisseur en Java DOIT aussi mettre en œuvre la liaison Java de DEC-021.
 Un fournisseur dans un autre langage DOIT faire correspondre ses résultats au même modèle.
 
@@ -49,31 +50,44 @@ public record EvaluationContext(
         LocalDate effectiveDate,
         Instant recordTime,
         String decisionType,
-        List<ProfileReference> profiles) {
+        List<ProfileReference> profiles,
+        Optional<Locale> language) {
+}
+
+public record Provenance(
+        List<ParameterSetReference> parameterSets,
+        List<String> presumptions,
+        Optional<TraceReference> trace) {
 }
 
 public sealed interface Result<O>
         permits Decided, Referred, InsufficientInformation, NotApplicable {
-    RuleVersion ruleVersion();
     List<Reason> reasons();
+    Provenance provenance();
 }
 
-public record Decided<O>(O outcome, RuleVersion ruleVersion, List<Reason> reasons)
+public record Decided<O>(O outcome, Optional<Money> amount, RuleVersion ruleVersion,
+        List<Reason> reasons, Provenance provenance) implements Result<O> {
+}
+
+public record Referred<O>(String referralReason, Optional<O> recommendedOutcome,
+        RuleVersion ruleVersion, List<Reason> reasons, Provenance provenance)
         implements Result<O> {
-}
-
-public record Referred<O>(String referralReason, Optional<O> recommendation,
-        RuleVersion ruleVersion, List<Reason> reasons) implements Result<O> {
 }
 
 public record InsufficientInformation<O>(List<String> missingFacts,
-        RuleVersion ruleVersion, List<Reason> reasons) implements Result<O> {
-}
-
-public record NotApplicable<O>(RuleVersion ruleVersion, List<Reason> reasons)
+        RuleVersion ruleVersion, List<Reason> reasons, Provenance provenance)
         implements Result<O> {
 }
+
+public record NotApplicable<O>(Optional<RuleVersion> ruleVersion,
+        List<Reason> reasons, Provenance provenance) implements Result<O> {
+}
 ----
+
+Chaque `record` de cet exemple correspond à la classe `EvaluationContext` ou `DecisionResult` du modèle.
+Seul `NotApplicable` peut ne pas avoir de version de règles.
+C’est le cas quand aucune version ne couvre les dates du dossier, selon DEC-035.
 
 Un appelant traite alors chaque type dans un seul `switch`, et le compilateur rejette un `switch` qui en oublie un.
 
@@ -114,7 +128,7 @@ TST-011 exige la même chose du code qui lit l’heure ou une valeur aléatoire.
 == Types de résultat
 
 [[DEC-024]]
-*DEC-024.* Le résultat DOIT être de l’un de ces quatre types, et un profil NE DOIT PAS en retirer un.
+*DEC-024.* Le résultat DOIT être d’un seul de ces quatre types, et un profil NE DOIT PAS en retirer un.
 
 * `decided` : les règles ont abouti à une issue, comme `granted`, `refused` ou `partly-granted`.
 * `referred` : une personne doit décider.
@@ -127,6 +141,7 @@ Le service de décision le traite comme une erreur, selon DEC-070, et n’enregi
 
 Un résultat qui ne peut qu’accorder ou refuser cache les dossiers qui demandent une personne.
 Chaque type porte ses motifs et sa version de règles, si bien que l’enregistrement de DEC-040 peut expliquer chaque type.
+La seule exception est un résultat `not-applicable` pour des dates qu’aucune version de règles ne couvre, selon DEC-035.
 
 [[DEC-025]]
 *DEC-025.* Un fournisseur de règles NE DOIT PAS laisser un fait manquant ou inconnu mener à une issue défavorable.

@@ -76,9 +76,13 @@ A reference to a source system that can change or destroy the value cannot eithe
 [[DEC-043]]
 *DEC-043.* A decision service MUST NOT change or delete a decision record before its retention ends.
 To correct, review, reconsider or reprocess a decision, it MUST create a new record.
-The new record MUST name the old one in `predecessorId`, and give a `changeCause` code.
-It MUST hold every field again, so that it stands alone.
+The new record MUST name the old one in `predecessorId`, give a `changeCause` code and hold every field again.
+A record that revises a `referred` record with a `decided` result MUST name at least one review step.
+A record that revises an `insufficient-information` record MUST rest on new inputs or on a review step.
+It MUST NOT rest on elapsed time alone.
 
+Each new record then stands alone.
+A referral or a request for information never turns into an automated result by itself.
 Change causes come from a scheme under the vocabularies specification, such as `human-review`, `correction`, `appeal` or `retroactive-law`.
 The file `examples/decision-record-2.json` revises `examples/decision-record-1.json` after a human review.
 OBS-078 sets the same principle for business events.
@@ -92,7 +96,7 @@ OBS-078 sets the same principle for business events.
 Only the roles that the deploying body names may read it, under IAM-050.
 * The business event of DEC-071 holds identifiers, codes and the rule version.
 It MUST NOT hold the value of an input fact, an amount or a name.
-* Statistics for monitoring come from the events and hold no identifier of a person.
+* Statistics for monitoring come from the events and hold no direct identifier of a person.
 They MUST replace each such identifier with a keyed pseudonym for one purpose, under OBS-093.
 
 A system MUST NOT copy an input value into an event or into a statistics store.
@@ -123,7 +127,8 @@ The body MUST keep each rule version, parameter file and reason scheme release w
 
 Only the schedule of the deploying body sets how long a record stays.
 The retention profile of OBS-101 does not apply to decision records.
-The profile pages and the comparison data give the floors that the research found, each _to be verified_.
+The comparison data gives the retention periods that the research found, each _to be verified_.
+The page xref:questions-for-counsel.adoc[Questions for counsel] asks a lawyer which floors apply.
 
 == Replay
 

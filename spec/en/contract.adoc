@@ -16,7 +16,8 @@ The result is one of four kinds, so that missing facts and human judgment have t
 [[DEC-020]]
 *DEC-020.* Each rule provider MUST implement the decision contract of its decision type.
 The language-neutral form of the contract is the model of `model/decisions.yaml`.
-The input facts follow the class `InputFact`, the context follows DEC-022 and the result follows the class `DecisionRecord`.
+The input facts follow the class `InputFact`, the context follows the class `EvaluationContext` and the result follows the class `DecisionResult`.
+The decision service builds a `DecisionRecord` from each `DecisionResult`, under DEC-040.
 A provider in Java MUST also implement the Java binding of DEC-021.
 A provider in another language MUST map its results to the same model.
 
@@ -47,31 +48,43 @@ public record EvaluationContext(
         LocalDate effectiveDate,
         Instant recordTime,
         String decisionType,
-        List<ProfileReference> profiles) {
+        List<ProfileReference> profiles,
+        Optional<Locale> language) {
+}
+
+public record Provenance(
+        List<ParameterSetReference> parameterSets,
+        List<String> presumptions,
+        Optional<TraceReference> trace) {
 }
 
 public sealed interface Result<O>
         permits Decided, Referred, InsufficientInformation, NotApplicable {
-    RuleVersion ruleVersion();
     List<Reason> reasons();
+    Provenance provenance();
 }
 
-public record Decided<O>(O outcome, RuleVersion ruleVersion, List<Reason> reasons)
+public record Decided<O>(O outcome, Optional<Money> amount, RuleVersion ruleVersion,
+        List<Reason> reasons, Provenance provenance) implements Result<O> {
+}
+
+public record Referred<O>(String referralReason, Optional<O> recommendedOutcome,
+        RuleVersion ruleVersion, List<Reason> reasons, Provenance provenance)
         implements Result<O> {
-}
-
-public record Referred<O>(String referralReason, Optional<O> recommendation,
-        RuleVersion ruleVersion, List<Reason> reasons) implements Result<O> {
 }
 
 public record InsufficientInformation<O>(List<String> missingFacts,
-        RuleVersion ruleVersion, List<Reason> reasons) implements Result<O> {
-}
-
-public record NotApplicable<O>(RuleVersion ruleVersion, List<Reason> reasons)
+        RuleVersion ruleVersion, List<Reason> reasons, Provenance provenance)
         implements Result<O> {
 }
+
+public record NotApplicable<O>(Optional<RuleVersion> ruleVersion,
+        List<Reason> reasons, Provenance provenance) implements Result<O> {
+}
 ----
+
+Each record of this example maps to the class `EvaluationContext` or `DecisionResult` of the model.
+Only `NotApplicable` can lack a rule version, when no version holds the dates of the case, under DEC-035.
 
 A caller then handles every kind in one `switch`, and the compiler rejects a `switch` that misses one.
 
@@ -122,6 +135,7 @@ The decision service treats it as an error, under DEC-070, and records no decisi
 
 A result that can only grant or refuse hides the cases that need a person.
 Each kind carries its reasons and its rule version, so the record of DEC-040 can explain every kind.
+The one exception is a `not-applicable` result for dates that no rule version holds, under DEC-035.
 
 [[DEC-025]]
 *DEC-025.* A rule provider MUST NOT let a missing or unknown fact lead to an adverse outcome.

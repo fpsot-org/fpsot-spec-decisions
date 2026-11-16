@@ -18,7 +18,7 @@ Other specs own business events and event ids (OBS), actors and representation (
 
 - Applies to every decision type that software makes or assists about one party, whatever the technique (DEC-001).
 - State your roles: rule provider, decision service, deploying body (DEC-002).
-- Provider discovery, defaults and override precedence belong to the future capability spec; every provider implements the contract, passes the suite, gives the same record for the same input, context and rule version, and is fixed at build time, with no rule loaded at run time (DEC-003).
+- Provider discovery, defaults and override precedence belong to the future capability spec; every provider implements the contract, passes the suite, gives the same result for the same input, context and rule version, and is fixed at build time, with no rule loaded at run time (DEC-003).
 - A conformance claim never says that decisions meet a law (DEC-004). Follow the pinned versions (DEC-005); suites check output only, under TST-044 (DEC-006).
 
 ## Profiles
@@ -31,7 +31,7 @@ Other specs own business events and event ids (OBS), actors and representation (
 
 ## Contract
 
-- Each provider implements the contract; the language-neutral form is the model; Java providers also implement the Java binding (DEC-020).
+- Each provider implements the contract; the language-neutral form is the model: `InputFact`, `EvaluationContext` and `DecisionResult`; the service builds a `DecisionRecord` from each `DecisionResult`; Java providers also implement the Java binding (DEC-020).
 - Java binding: plain module, no framework annotation, no framework or engine dependency; record input; sealed result of records; no engine interface exposed (DEC-021).
 - Context holds the effective date, the record time, the decision type and the profiles with releases; an optional language never changes the result (DEC-022).
 - Compute only from input, context, rule version and parameters; no clock, random source, file, database or network; same input gives the same result and reasons (DEC-023).
@@ -48,7 +48,7 @@ Other specs own business events and event ids (OBS), actors and representation (
 - Status `draft`, `policy-reviewed` or `approved`; only `approved` runs in production (DEC-032).
 - Presumptions and inferred facts are named, cited rules; records list each one applied (DEC-033).
 - The artifact holds every version an open decision may need; removing one is a major version; state the review window per decision type (DEC-034).
-- Resolver: versions enacted at or before the record time, then the one whose validity holds the effective date; no overlaps; none found gives `not-applicable` (DEC-035).
+- Resolver: at most one version, from those enacted at or before the record time, whose validity holds the effective date; no overlaps; none found gives `not-applicable`, the only record that may omit `ruleSet` (DEC-035).
 - Retroactive change: a new version, new revised decisions with cause `retroactive-law`, never an overwrite; payments are their own events (DEC-036).
 - Amounts and thresholds in `ParameterSet` files (should), each value with validity, enactment time and source, packaged at build, never read from a mutable store (DEC-037).
 - FPSOT publishes its reference rules; adopters should publish theirs or name the legal ground (DEC-038).
@@ -58,7 +58,7 @@ Other specs own business events and event ids (OBS), actors and representation (
 - One `DecisionRecord` for each result of any kind, with fields taken from their owning specs (DEC-040).
 - Record `id` = the business event's `org.fpsot.event.id` = the CloudEvents `id` = the seal manifest `id` (DEC-041).
 - Keep input values or immutable references that live as long as the record, never a hash alone, with source, as-of date and collection method (DEC-042).
-- Never change a record; corrections, reviews and reprocessing create a new full record with `predecessorId` and `changeCause` (DEC-043).
+- Never change a record; corrections, reviews and reprocessing create a new full record with `predecessorId` and `changeCause`; a `decided` revision of a `referred` record names a review step; a revision of an `insufficient-information` record rests on new inputs or a review step, never on elapsed time alone (DEC-043).
 - Three stores apart: full inputs in the access-controlled record; ids and codes only in business events; statistics with keyed pseudonyms under OBS-093 (DEC-044).
 - Seal each record under the signed records spec in a series of at least `seal-log` (LOG-002); destroy the salt with the record (DEC-045).
 - Retention rules name the schedule rule, legal hold and destruction events as OBS-102 to OBS-104 set; keep rule versions, parameters and scheme releases while a record uses them (DEC-046).
@@ -81,25 +81,25 @@ Other specs own business events and event ids (OBS), actors and representation (
 
 - Derive `automationDegree` from the review steps: `fully-automated`, `human-confirmed`, `human-decided`; never from a setting (DEC-060).
 - Where a profile level or the decision type asks for review: no final `decided` without a review step; until then `referred` with `human-review-required` and `recommendedOutcome`; the final record revises the referred one (DEC-061).
-- Each `ReviewStep` is its own record: actor (IAM-091), represented party (IAM-064), authority, items shown, action, agreement, justification with language, times; an override reason for a change or disagreement (DEC-062).
+- Each `ReviewStep` is its own record: actor (IAM-091), represented party (IAM-064), authority, items shown, action, agreement, justification with language, times; the service never pre-fills the justification or offers a template for it; an override reason for a change or disagreement (DEC-062).
 - Reviewers can set aside, change or reverse results; an authorized role can stop automation of a decision type; observations, reconsiderations and appeals lead to review steps (DEC-063).
 - Dual review: two steps by different actors before a final `decided` (DEC-064).
 - Engagement evidence (should), only once the privacy impact assessment covers it; never to rate one employee without that assessment and labor agreements (DEC-065).
-- Count agreement, change and reversal rates and recourse outcomes per decision type and rule version from events without identities (DEC-066).
+- Count agreement, change and reversal rates and recourse outcomes per decision type and rule version from the attributes of the DEC-071 events, without identities (DEC-066).
 
 ## Interfaces and events
 
 - Every result is a `2xx` response; problem details under API-030 only when no result can be produced (DEC-070).
-- A business event under OBS-070 for each record, review step and notice, with lifecycle `complete`, an activity key and object references; no input value, amount or name (DEC-071).
+- A business event under OBS-070 for each record, review step and notice, with lifecycle `complete`, an activity key and object references; the required `org.fpsot.decision.*` attributes, including `change_cause`, `review_step.action` and `review_step.agreement`, whenever the record has a value; no input value, amount or name (DEC-071).
 - CloudEvents to other services: `org.fpsot.decisions.decision.recorded`, `org.fpsot.decisions.review-step.recorded`, `org.fpsot.decisions.notice.issued`; data per `registry/events/`; ids and codes only (DEC-072).
 - Authorize every read of a record (IAM-050) and audit it (OBS-042); the person or a representative can obtain their own record (DEC-073).
 
 ## Testing
 
-- Gherkin scenarios per rule version in English and French: effective date, inputs, result kind and outcome, reason codes, cited provision (DEC-080).
+- Gherkin scenarios per rule version in English and French: effective date, inputs, result kind and outcome, reason codes, cited provision; a decision table may drive one Scenario Outline per table rule, each row one case of that rule (DEC-080).
 - A frozen corpus per rule version once in production; a changed expected result needs a new version (DEC-081).
-- Property tests (should): reasons present, one version per date, no adverse outcome on missing facts, determinism, intended monotonicity (DEC-082).
+- Property tests (should): reasons present, at most one version per date, no adverse outcome on missing facts, determinism, intended monotonicity (DEC-082).
 - FPSOT publishes a data-driven decision conformance suite with a Java runner; every provider passes it; results are never a certification (DEC-083).
 - A replacing provider meets TST-045: passes the replaced provider's scenarios and corpus except listed, retested changes (DEC-084).
 - Run baseline and override on the same corpus and publish the differences (should) (DEC-085).
-- A DMN provider (may) states its DMN version (1.6 should) and the compatibility kit commit and score; models fixed at build (DEC-086).
+- A DMN provider (may) states its DMN version, which must be 1.6 or a later version under DEC-005, and the compatibility kit commit and score; models fixed at build (DEC-086).

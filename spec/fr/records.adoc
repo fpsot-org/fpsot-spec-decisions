@@ -77,9 +77,13 @@ Une référence à un système source qui peut modifier ou détruire la valeur n
 [[DEC-043]]
 *DEC-043.* Un service de décision NE DOIT PAS modifier ni supprimer un enregistrement avant la fin de sa conservation.
 Pour corriger, réviser, réexaminer ou retraiter une décision, il DOIT créer un nouvel enregistrement.
-Le nouvel enregistrement DOIT nommer l’ancien dans `predecessorId`, et donner un code `changeCause`.
-Il DOIT contenir de nouveau tous les champs, pour se suffire à lui-même.
+Le nouvel enregistrement DOIT nommer l’ancien dans `predecessorId`, donner un code `changeCause` et contenir de nouveau tous les champs.
+Un enregistrement qui révise un enregistrement `referred` par un résultat `decided` DOIT nommer au moins une étape de révision.
+Un enregistrement qui révise un enregistrement `insufficient-information` DOIT reposer sur de nouveaux intrants ou sur une étape de révision.
+Il NE DOIT PAS reposer sur le seul passage du temps.
 
+Chaque nouvel enregistrement se suffit alors à lui-même.
+Un renvoi ou une demande de renseignements ne devient jamais de lui-même un résultat automatisé.
 Les causes de changement viennent d’un schéma selon la spécification sur les vocabulaires.
 En voici des exemples : `human-review`, `correction`, `appeal` ou `retroactive-law`.
 Le fichier `examples/decision-record-2.json` révise `examples/decision-record-1.json` après une révision humaine.
@@ -91,10 +95,10 @@ OBS-078 fixe le même principe pour les événements d’affaires.
 *DEC-044.* Un organisme responsable DOIT tenir séparés trois lieux de conservation des données de décision.
 
 * L’enregistrement de décision contient les intrants complets.
-Seuls les rôles que nomme l’organisme responsable PEUVENT le lire, selon IAM-050.
+Seuls les rôles que nomme l’organisme responsable peuvent le lire, selon IAM-050.
 * L’événement d’affaires de DEC-071 contient des identifiants, des codes et la version de règles.
 Il NE DOIT PAS contenir la valeur d’un fait en intrant, un montant ou un nom.
-* Les statistiques de suivi viennent des événements et ne contiennent aucun identifiant de personne.
+* Les statistiques de suivi viennent des événements et ne contiennent aucun identifiant direct de personne.
 Elles DOIVENT remplacer chacun de ces identifiants par un pseudonyme à clé propre à une seule finalité, selon OBS-093.
 
 Un système NE DOIT PAS copier la valeur d’un intrant dans un événement ou dans un lieu de statistiques.
@@ -126,7 +130,8 @@ Il les garde tant qu’un enregistrement qui s’en sert demeure.
 
 Seul le calendrier de l’organisme responsable fixe la durée de conservation d’un enregistrement.
 Le profil de conservation d’OBS-101 ne s’applique pas aux enregistrements de décision.
-Les pages des profils et les données de comparaison donnent les seuils minimaux trouvés, chacun _à vérifier_.
+Les données de comparaison donnent les durées de conservation que la recherche a trouvées, chacune _à vérifier_.
+La page xref:questions-for-counsel.adoc[Questions pour les juristes] demande à des juristes quels seuils minimaux s’appliquent.
 
 == Réexécution
 

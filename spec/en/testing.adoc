@@ -16,7 +16,8 @@ This page adds what decisions need: dates, frozen expected results and one share
 *DEC-080.* Each rule version MUST have scenarios in Gherkin, under TST-020 to TST-036.
 Each scenario MUST state the effective date, the input facts, the result kind and the outcome.
 It MUST also state the expected reason codes and the provision that it tests.
-A decision table MAY drive a Scenario Outline, with one row for each case, under TST-026.
+A decision table MAY drive the scenarios, with one Scenario Outline for each rule of the table, under TST-026.
+Each row of the Examples table of that outline is then one case of that rule.
 
 link:https://openfisca.org/doc/coding-the-legislation/writing_yaml_tests.html[OpenFisca tests] give a period, inputs and expected outputs for each case.
 The scenarios of this rule give the same facts in words that a policy expert can read.
@@ -80,7 +81,8 @@ A published comparison shows the effect of a change before it reaches people.
 
 [[DEC-086]]
 *DEC-086.* A rule provider MAY run a model in Decision Model and Notation, DMN, behind the same contract.
-Such a provider MUST state the DMN version that its models use, and SHOULD use version 1.6.
+Such a provider MUST state the DMN version that its models use.
+It MUST use DMN 1.6 or a later version under DEC-005.
 It MUST state the commit of the DMN Technology Compatibility Kit that its engine passes, and its score.
 The build MUST fix its models, under DEC-003.
 
