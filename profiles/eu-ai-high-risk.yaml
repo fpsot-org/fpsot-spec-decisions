@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: Community-Spec-1.0
+# Jurisdiction profile of the FPSOT decisions specification (DEC-011, DEC-012), in the form
+# of the class Profile of model/decisions.yaml. Released apart from the core rules.
+# High-risk systems of Annex III of Regulation (EU) 2024/1689, such as the evaluation of
+# eligibility for public assistance benefits. Whether a deterministic rules engine is an
+# "AI system" under that regulation is a question for counsel: a body adopts this profile
+# when its counsel says the regulation applies, or by choice. The article contents were
+# read through a secondary site and are to be verified. Not legal advice.
+code: eu-ai-high-risk
+version: 0.1.0
+title: {en: European Union high-risk AI profile, fr: Profil de l’Union européenne pour l’IA à haut risque}
+impactAssessmentKinds: [fundamental-rights-impact-assessment]
+levels:
+  - {level: level-1, humanReview: false, dualReview: false, automationNotice: required, recourseNotice: recommended, allReasons: false}
+  - {level: level-2, humanReview: false, dualReview: false, automationNotice: required, recourseNotice: recommended, allReasons: false}
+  - {level: level-3, humanReview: false, dualReview: false, automationNotice: required, recourseNotice: recommended, allReasons: false}
+  - {level: level-4, humanReview: false, dualReview: false, automationNotice: required, recourseNotice: recommended, allReasons: false}

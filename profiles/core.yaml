@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: Community-Spec-1.0
+# Jurisdiction profile of the FPSOT decisions specification (DEC-011, DEC-012), in the form
+# of the class Profile of model/decisions.yaml. Released apart from the core rules.
+# The core profile applies to every decision type. It sets no mandatory control of its
+# own beyond the core rules; a deploying body adds the profiles whose law applies.
+code: core
+version: 0.1.0
+title: {en: Core profile, fr: Profil de base}
+levels:
+  - {level: level-1, humanReview: false, dualReview: false, automationNotice: recommended, recourseNotice: recommended, allReasons: false}
+  - {level: level-2, humanReview: false, dualReview: false, automationNotice: recommended, recourseNotice: recommended, allReasons: false}
+  - {level: level-3, humanReview: false, dualReview: false, automationNotice: recommended, recourseNotice: recommended, allReasons: false}
+  - {level: level-4, humanReview: false, dualReview: false, automationNotice: recommended, recourseNotice: recommended, allReasons: false}

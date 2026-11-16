@@ -1,0 +1,127 @@
+= Versions de règles et dates d’effet
+include::_fpsot-terms.adoc[]
+
+Pour reproduire une décision passée, il faut savoir quel droit s’appliquait et ce que l’organisme savait alors.
+Ce sont deux horloges.
+La date d’effet dit quel droit s’applique à un dossier.
+Le moment d’enregistrement dit ce que l’organisme avait consigné quand il a décidé.
+link:https://martinfowler.com/articles/bitemporal-history.html[Martin Fowler] appelle ce couple l’historique bitemporel.
+
+Les règles d’un type de décision changent avec la loi, souvent avec des dates dans le passé.
+Cette page fixe les métadonnées de chaque version de règles et la façon dont un résolveur en choisit une.
+Elle garde aussi les montants datés à part de la logique.
+
+== Métadonnées d’une version de règles
+
+[[DEC-030]]
+*DEC-030.* Chaque version de règles DOIT porter les métadonnées de la classe `RuleVersion` de `model/decisions.yaml`.
+
+* L’ensemble de règles et le numéro de version, selon Semantic Versioning 2.0.0.
+* La validité : les dates d’effet des dossiers que la version tranche, sous forme d’intervalle selon DAT-023.
+* Le moment d’adoption : l’instant où l’organisme responsable a adopté la version, qui est son moment d’enregistrement.
+* Les sources juridiques que la version traduit en code, selon DEC-031.
+* Le statut de son interprétation juridique, selon DEC-032.
+* Les présomptions nommées qu’elle applique, selon DEC-033, et l’indicateur de DEC-027.
+
+Chaque enregistrement de décision DOIT nommer la version de règles, le condensé de son artefact et ses coordonnées de construction.
+DEC-040 le prévoit.
+
+Le fichier `examples/rule-versions.yaml` contient deux versions d’un ensemble de règles.
+
+[[DEC-031]]
+*DEC-031.* Chaque source juridique DOIT être une {abbr-uri-first} stable de la disposition, jusqu’à l’article ou à l’alinéa.
+Si la loi existe dans plus d’une langue officielle, la source DEVRAIT donner l’{abbr-uri} de chaque version linguistique.
+
+Les lois fédérales et québécoises existent en français et en anglais, chacune à sa propre adresse.
+Une lectrice ou un lecteur dans l’une ou l’autre langue peut alors ouvrir la disposition qu’applique une règle.
+
+[[DEC-032]]
+*DEC-032.* Chaque version de règles DOIT indiquer son statut d’interprétation : `draft`, `policy-reviewed` ou `approved`.
+Un service de décision NE DOIT PAS employer en production une version de règles dont le statut n’est pas `approved`.
+L’organisme responsable décide qui approuve, par exemple ses services juridiques.
+
+L’administration fiscale française consigne l’approbation de chaque interprétation juridique dans le suivi de son link:https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[projet Catala].
+Un statut dans les métadonnées laisse la même trace, quel que soit l’outil d’un organisme.
+
+[[DEC-033]]
+*DEC-033.* Une présomption ou un fait inféré DOIT être une règle nommée qui cite sa source juridique.
+Un fournisseur de règles NE DOIT PAS estimer un fait, comme un revenu tiré d’une moyenne, sans une telle règle.
+L’enregistrement DOIT énumérer chaque présomption qui a fourni un fait, selon DEC-040.
+
+Personne ne peut examiner ni contester une présomption qui n’a ni nom ni source.
+
+== Choix de la version
+
+[[DEC-034]]
+*DEC-034.* L’artefact d’un fournisseur de règles DOIT contenir chaque version de règles dont une décision ouverte peut encore avoir besoin.
+Cela comprend chaque version dont un organisme peut encore trancher, réviser, réexaminer ou réexécuter les dossiers.
+Retirer une telle version DOIT entraîner une nouvelle version majeure de l’artefact.
+L’organisme responsable DOIT indiquer, pour chaque type de décision, combien de temps une décision reste ouverte à la révision.
+
+DEC-003 interdit de charger des règles pendant l’exécution.
+Un déploiement ne peut donc pas ajouter une ancienne version plus tard.
+Les décisions en appel ont encore besoin de la version qui les a produites.
+
+[[DEC-035]]
+*DEC-035.* Un résolveur DOIT choisir exactement une version de règles pour chaque couple de date d’effet et de moment d’enregistrement.
+Il ne considère que les versions adoptées au plus tard au moment d’enregistrement.
+Parmi elles, il choisit celle dont la validité comprend la date d’effet.
+Les validités de deux versions d’un même ensemble de règles NE DOIVENT PAS se chevaucher.
+Quand aucune version ne couvre la date, le résultat DOIT être `not-applicable`, avec un code de motif qui le dit.
+
+Grâce au moment d’enregistrement, une réexécution choisit la version que l’organisme connaissait alors, même après un changement rétroactif.
+Le script `examples/check-examples.py` applique cette règle aux enregistrements d’exemple.
+
+[[DEC-036]]
+*DEC-036.* Un changement rétroactif DOIT prendre une nouvelle version de règles dont la validité commence avant son moment d’adoption.
+Pour les dossiers passés, le service de décision DOIT créer de nouvelles décisions, chacune une révision de l’originale selon DEC-043.
+Il NE DOIT PAS modifier ni remplacer un enregistrement original.
+La cause de changement de chaque nouvel enregistrement DOIT être `retroactive-law`.
+Un paiement ou un recouvrement qui en découle DOIT être un événement d’affaires distinct.
+
+L’historique montre alors la décision originale et la décision traitée de nouveau, avec la version qui a produit chacune.
+
+== Paramètres datés
+
+[[DEC-037]]
+*DEC-037.* Les montants, taux et seuils qui changent avec la loi DEVRAIENT résider dans des fichiers de paramètres.
+Ces fichiers restent à part de la logique des règles.
+Chaque fichier DOIT suivre la classe `ParameterSet` de `model/decisions.yaml`.
+Chaque valeur DOIT contenir sa validité, son moment d’adoption et sa source juridique.
+La construction DOIT intégrer les fichiers de paramètres à la version de règles.
+Un fournisseur NE DOIT PAS les lire d’un lieu de stockage que quelqu’un peut modifier pendant l’exécution.
+
+Les montants changent plus souvent que la logique.
+Des juristes peuvent revoir un fichier de données sans lire de code.
+link:https://openfisca.org/doc/coding-the-legislation/legislation_parameters.html[OpenFisca] garde chaque paramètre dans un fichier de valeurs datées, chacune avec un renvoi à la loi.
+Les montants d’argent suivent DAT-050 à DAT-055.
+Le fichier `examples/parameters/example-housing-benefit-limits.yaml` montre un paramètre à deux valeurs.
+
+== Publication
+
+[[DEC-038]]
+*DEC-038.* La {abbr-fpsot-first} DOIT publier la source, les scénarios et les sources juridiques de ses propres règles de référence.
+Un organisme responsable DEVRAIT publier les mêmes éléments pour ses propres règles et substitutions.
+Il le fait dans la description de chaque type de décision.
+Un organisme qui ne les publie pas DOIT nommer le fondement juridique dans cette description.
+
+La France, l’enquête sur Robodebt et le jugement SyRI vont tous dans le sens de règles publiées.
+Certaines lois permettent à un organisme de retenir des renseignements protégés, comme des détails qui aideraient à déjouer un contrôle.
+Un organisme peut-il encore retenir des règles en code source ouvert ?
+C’est une question pour les juristes.
+
+== Références
+
+=== Références informatives
+
+* link:https://martinfowler.com/articles/bitemporal-history.html[Bitemporal History], Martin Fowler. link:https://web.archive.org/web/20260830155909/https://martinfowler.com/articles/bitemporal-history.html[Copie archivée]
+* link:https://openfisca.org/doc/coding-the-legislation/legislation_parameters.html[Legislation parameters], documentation d’OpenFisca. link:https://web.archive.org/web/20260412222533/https://openfisca.org/doc/coding-the-legislation/legislation_parameters.html[Copie archivée]
+* link:https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[ir-catala, étiquettes du suivi des billets], Direction générale des Finances publiques, sur la forge de l’Adullact. link:https://web.archive.org/web/20261116032627/https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[Copie archivée]
+
+== Historique du document
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Changement
+|0.1.0 |2026-11-15 |Première version.
+|===

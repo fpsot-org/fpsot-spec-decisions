@@ -1,0 +1,126 @@
+= Reasons and explanations
+include::_fpsot-terms.adoc[]
+
+Every regime that the research examined gives the person some right to know why.
+They differ in depth.
+Québec guidance speaks of the reasons and the main factors and parameters, with their relative weight.
+French law speaks of the parameters as they applied to the case of the person.
+The Court of Justice of the European Union asks for the procedure and the principles that the controller actually applied.
+
+The most tested model of reasons is not governmental.
+link:https://www.consumerfinance.gov/rules-policy/regulations/1002/9/[Regulation B] of the United States asks lenders for specific principal reasons that describe the factors actually scored.
+It rejects vague reasons, such as a failure to meet internal standards.
+Its official commentary says that more than four reasons is not likely to help the applicant.
+
+This page turns those duties into codes and values, which a service renders into a notice in each language.
+
+== Reason codes
+
+[[DEC-050]]
+*DEC-050.* Each reason code MUST be a concept of a concept scheme that meets the vocabularies specification.
+The scheme gives each code its labels and definitions in English and in French, under VOC-010 and VOC-015.
+A code never changes and never moves to another concept, under VOC-007.
+Each record MUST name the release of the scheme that its codes come from, under VOC-036.
+A code MUST name a factor of the decision, such as `household-income-above-limit`.
+
+The file `examples/reason-codes.jsonld` is a small reason scheme.
+Its codes describe the facts that drove the result, not the result itself.
+
+[[DEC-051]]
+*DEC-051.* A reason code MUST NOT state only a verdict or a general failure.
+Codes such as `not-eligible`, `does-not-meet-criteria`, `internal-policy` or `score-too-low` do not conform.
+
+A person cannot contest a reason that names no fact.
+
+[[DEC-052]]
+*DEC-052.* A record MUST give its reasons in order of importance, with a rank from 1.
+Each reason MUST say whether it is principal, and MUST cite the provision that its rule element applies.
+Each reason SHOULD give the value of the factor and the threshold that the rule compared it with.
+These values come from the inputs and from the dated parameters of DEC-037.
+
+A notice in any language and at any depth can then come from the same record.
+
+[[DEC-053]]
+*DEC-053.* A record SHOULD mark at most four reasons as principal.
+A notice SHOULD give the principal reasons first.
+When a profile sets `allReasons`, the explanation MUST give every reason of the record.
+
+The `fr` profile sets `allReasons`, since French law speaks of the parameters as they applied to the case.
+A long list of reasons hides the ones that matter.
+
+[[DEC-054]]
+*DEC-054.* A reason scheme MAY hold the code `other`.
+Only a person in a review step MAY give that code, and a rule provider MUST NOT.
+A reason with the code `other` MUST carry text in English and in French in `otherText`.
+
+A rule provider knows every reason that its rules can produce, so it never needs `other`.
+A reviewer may meet a case that no code covers.
+The text in both languages lets the body render the notice in the language of the person.
+
+== Counterfactuals
+
+[[DEC-055]]
+*DEC-055.* For each principal reason, a rule provider SHOULD give the exact value at which the reason stops applying.
+It assumes that the other facts stay the same.
+The value MUST be exact, such as a threshold from the parameters, and never an estimate.
+The reason then carries `counterfactualRelation`, such as `at-most`, and `counterfactualValue`.
+
+Rules can compute such a value exactly, which learning models cannot.
+The Court of Justice of the European Union points to explanations of this kind in case C-203/22.
+So does the principle of explainability in the Québec statement of principles on artificial intelligence.
+This rule is a SHOULD in version 0.1.
+A later release of a profile may make it a MUST.
+
+== Notices
+
+[[DEC-056]]
+*DEC-056.* A decision record MUST NOT hold rendered prose.
+A service MUST render each notice when it issues it, from the record and a versioned template.
+It MUST use the official language that the person chose.
+It MUST keep a notice record of the class `Notice`.
+That record names the template, its release, the language, the channel and the time.
+The body MUST seal the rendered notice under the signed records specification, and name its seal manifest under LOG-019.
+
+The texts of DEC-054 and DEC-062 are the only text that a person writes in these records.
+One record then serves a notice in English, a notice in French and a deeper explanation on request.
+The sealed notice keeps the exact text that the person received.
+
+[[DEC-057]]
+*DEC-057.* Each notice MUST meet the notice controls of the profiles of its decision type.
+
+* `automationNotice`: the notice states that automation took part in the decision, and how much.
+* `recourseNotice`: the notice gives each recourse or observations channel, with its contact and its deadline.
+
+The notice record MUST state whether the notice said that automation took part.
+It MUST list each channel that the notice offered.
+
+Québec guidance asks the body to inform the person at the latest when it gives the decision.
+It also asks for the means to send observations to a staff member who can review the decision.
+
+== General explanation
+
+[[DEC-058]]
+*DEC-058.* A deploying body SHOULD explain each decision type in a published text, in plain language and in both languages.
+It SHOULD give the main factors and their relative weight, the degree of automation and the recourse.
+It SHOULD also link to the rule source of DEC-038.
+
+A person can then understand the rules before applying, and an outside reviewer can check them.
+
+== References
+
+=== Informative
+
+* link:https://www.consumerfinance.gov/rules-policy/regulations/1002/9/[12 CFR 1002.9, Notifications], Consumer Financial Protection Bureau, Regulation B. link:https://web.archive.org/web/20261013034327/https://www.consumerfinance.gov/rules-policy/regulations/1002/9/[Archived copy]
+* link:https://www.consumerfinance.gov/rules-policy/regulations/1002/c/[12 CFR 1002, Appendix C, Sample Notification Forms], Consumer Financial Protection Bureau, Regulation B. link:https://web.archive.org/web/20261009121518/https://www.consumerfinance.gov/rules-policy/regulations/1002/c/[Archived copy]
+* link:https://curia.europa.eu/juris/liste.jsf?num=C-203/22[Case C-203/22, Dun & Bradstreet Austria], Court of Justice of the European Union, judgment of 2025-02-27. link:https://web.archive.org/web/20260107023217/https://curia.europa.eu/juris/liste.jsf?num=C-203/22[Archived copy]
+* link:https://arxiv.org/abs/1711.00399v2[Counterfactual Explanations without Opening the Black Box], Sandra Wachter, Brent Mittelstadt and Chris Russell, arXiv, version 2. link:https://web.archive.org/web/20240718092231/https://arxiv.org/abs/1711.00399v2[Archived copy]
+* link:https://cdn-contenu.quebec.ca/cdn-contenu/adm/min/cybersecurite_numerique/Publications/Strategie_IA/Enonce_IA.pdf[Énoncé de principes pour une utilisation responsable de l'intelligence artificielle par les organismes publics], Gouvernement du Québec, édition 2025. link:https://web.archive.org/web/20260822182626/https://cdn-contenu.quebec.ca/cdn-contenu/adm/min/cybersecurite_numerique/Publications/Strategie_IA/Enonce_IA.pdf[Archived copy]
+* link:https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise[Décision fondée exclusivement sur un traitement automatisé], Gouvernement du Québec, 2025-10-20. link:https://web.archive.org/web/20260820015019/https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise[Archived copy]
+
+== Document history
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Change
+|0.1.0 |2026-11-15 |First version.
+|===

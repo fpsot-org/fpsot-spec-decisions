@@ -1,0 +1,43 @@
+{
+  "specversion": "1.0",
+  "id": "01994d84-3e9a-7d21-b6c7-5a6b7c8d9e03",
+  "source": "/v1/decisions",
+  "type": "org.fpsot.decisions.decision.recorded",
+  "time": "2026-09-15T14:16:43.010Z",
+  "datacontenttype": "application/json",
+  "subject": "01994d84-3e9a-7d21-b6c7-5a6b7c8d9e03",
+  "dataschema": "https://fpsot.org/schemas/decisions/events/org.fpsot.decisions.decision.recorded.schema.json",
+  "data": {
+    "decisionId": "01994d84-3e9a-7d21-b6c7-5a6b7c8d9e03",
+    "decisionType": "example-housing-benefit",
+    "decisionTypeVersion": "1.0.0",
+    "profiles": [
+      {
+        "code": "core",
+        "version": "0.1.0"
+      },
+      {
+        "code": "ca-federal",
+        "version": "0.1.0"
+      }
+    ],
+    "impactLevel": "level-3",
+    "ruleSetCode": "example-housing-benefit",
+    "ruleSetVersion": "1.2.0",
+    "resultKind": "decided",
+    "outcome": "refused",
+    "reasonCodes": [
+      "household-income-above-limit",
+      "household-size"
+    ],
+    "principalReasonCodes": [
+      "household-income-above-limit"
+    ],
+    "automationDegree": "human-confirmed",
+    "reviewStepIds": [
+      "01994d7e-2b10-7c3a-8e55-4f6a7b8c9d02"
+    ],
+    "predecessorId": "0199485a-6f2c-7b1e-9a40-3c5d7e8f9a01",
+    "changeCause": "human-review"
+  }
+}

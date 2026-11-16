@@ -1,33 +1,35 @@
-= FPSOT specification template
+= FPSOT decisions specification
 
-This repository is the starting point for an FPSOT specification.
-Create a new repository from it, then replace this text.
-
-== Start a specification
-
-. Set `SPEC_PREFIX` in `.github/workflows/ci.yml` to the three-letter prefix of the requirement IDs.
-. Replace the titles in `spec/`, `docs/antora.yml`, `publiccode.yml`, `AGENTS.md`, `NOTICE` and `skill/SKILL.md`.
-. Replace the example requirement TPL-001 and the example row in `jurisdictions/baseline.yaml`.
-. List each spec page in `spec/<lang>/book.adoc`. The glossary stays the last include.
-
-Each page ends with a document history.
-Each guide page sets `:page-type:` to tutorial, how-to, reference or explanation.
-Write abbreviations and defined terms as `{abbr-…}` and `{term-…}` from the term base of `fpsot-spec-writing`.
-Write English in US spelling.
-Each page that cites outside sources ends with a References section, right before its document history.
-Each code block names its language, such as `[source,text]` or `[source,plantuml]`.
-The continuous integration writes `_fpsot-terms.adoc`, the glossaries and the comparison pages. Git ignores them.
+Rules for software that makes an individual administrative decision, or helps a person make one, whatever the engine behind it.
+The specification standardizes the decision, not the engine.
+Each decision type declares jurisdiction profiles and an impact level, and the level turns on controls such as human review.
+A rule provider implements a plain contract with four result kinds, and each rule version carries its legal source and two clocks.
+Each result leaves a record of codes and values, sealed under the FPSOT signed records specification, with reasons that name factors and a review step for each human action.
+One conformance suite tests the FPSOT default rules, an override and a DMN adapter alike. Version 0.1 is a draft.
 
 == Implement this spec
 
 Read the normative text in `spec/en/` or `spec/fr/`.
-Each requirement has an ID, such as `XYZ-001`.
-Check your implementation against every requirement.
+Each requirement has an ID from `DEC-001` to `DEC-086`.
+
+* Describe each decision type with its profiles, its impact level and its impact assessments (DEC-010 to DEC-014). The profiles are data files in `profiles/`.
+* Implement the decision contract: record inputs, an evaluation context with the effective date and the record time, and four result kinds (DEC-020 to DEC-028).
+* Give each rule version its metadata, keep every version that an open decision needs, and keep amounts in dated parameter files (DEC-030 to DEC-038).
+* Keep one record for each result, in the form of `model/decisions.yaml`, and never change it (DEC-040 to DEC-048).
+* Give reasons as codes of a concept scheme, with values and the cited provision, and render notices at notice time (DEC-050 to DEC-058).
+* Gate final results on review steps where a profile asks for it, and derive the degree of automation from them (DEC-060 to DEC-066).
+* Answer refusals as successes, emit business events and CloudEvents events without personal values (DEC-070 to DEC-073). The event schemas are in `registry/events/`.
+* Test with scenarios, frozen corpora and the decision conformance suite (DEC-080 to DEC-086).
+* Run `bash examples/test-examples.sh` to check the example files, after `pip install --require-hashes -r examples/requirements.txt`.
 
 == Adopt this spec
 
-Read the guides in `docs/modules/en/pages/` or `docs/modules/fr/pages/`.
-They explain what the spec gives your organization and how to require it.
+Read the guide in `docs/modules/en/pages/index.adoc` or `docs/modules/fr/pages/index.adoc`.
+It takes one decision type through every step, with a fictional housing benefit as the example.
+A request for proposals can require a rule provider or a decision service to meet the roles of DEC-002, and to pass the suite of DEC-083.
+The comparison data in `jurisdictions/` shows how the European Union, Canada, Québec and France handle the same topics.
+The pages `maturity.adoc` and `questions-for-counsel.adoc` are informative, and the latter lists the legal questions that a lawyer must settle.
+This specification is not legal advice.
 
 == Layout
 
@@ -36,10 +38,22 @@ They explain what the spec gives your organization and how to require it.
 | Folder | Content
 
 | `spec/`
-| Normative text, in English and French. `book.adoc` joins the pages into one book.
+| Normative text, in English and French. `book.adoc` joins the pages into one book, published as PDF with each release.
 
 | `docs/`
 | Guides, in the Antora folder layout.
+
+| `model/`
+| The LinkML model of the decision record, the review step, the notice, the decision type, the profile and the rule version, with a copy of the data types model.
+
+| `profiles/`
+| The jurisdiction profiles, each released apart from the core rules.
+
+| `registry/`
+| The JSON Schemas of the data of each event type.
+
+| `examples/`
+| Synthetic example files for a fictional housing benefit, and the scripts that check them.
 
 | `skill/`
 | The agent skill: a short summary that cites requirement IDs.
@@ -51,7 +65,7 @@ They explain what the spec gives your organization and how to require it.
 | PlantUML sources and their rendered SVG files.
 
 | `jurisdictions/`
-| Comparison data per jurisdiction. `baseline.yaml` lists the compared requirements.
+| Comparison data: how each government handles the same topics.
 |===
 
 == License

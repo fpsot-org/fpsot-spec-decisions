@@ -1,15 +1,79 @@
-= Guide
-:page-type: explanation
+= Put a decision type under the decisions specification
+:page-type: how-to
 include::_fpsot-terms.adoc[]
 
-This page explains the specification for the people who adopt it.
-Each guide page has one type.
-It is a tutorial, a how-to guide, a reference or an explanation.
+This guide takes a public body from one automated decision type to a conforming one.
+Each step cites the rule it meets.
+It is not legal advice, and the page of questions for counsel lists the points that a lawyer must settle.
+The files in `examples/` follow a fictional housing benefit through every step.
+
+== Describe the decision type
+
+List the laws that govern the decision, and pick the profiles, under DEC-011.
+Always declare `core`.
+A Canadian federal institution adds `ca-federal`, a Québec body adds `ca-qc`, and a French administration adds `fr`.
+Add `eu-ai-high-risk` when your counsel says that the European regulation applies.
+
+Set the impact level from your impact assessment, under DEC-013.
+Under `ca-federal`, it is the level of your published Algorithmic Impact Assessment.
+Name each assessment that your profiles ask for, under DEC-014.
+
+Write the description of the decision type, under DEC-010.
+The file `examples/decision-type.yaml` shows one.
+
+== Write the reason scheme
+
+Publish a concept scheme of reason codes under the vocabularies specification, under DEC-050.
+Give each code a label and a definition in English and in French.
+Name a factor in each code, such as `household-income-above-limit`, never a verdict, under DEC-051.
+The file `examples/reason-codes.jsonld` shows a small scheme.
+
+== Write the rules
+
+Implement the decision contract, under DEC-020 to DEC-023.
+Return `insufficient-information` when a fact is missing, never a refusal, under DEC-025.
+Return `referred` when the law leaves room for discretion or hardship, under DEC-026.
+
+Give each rule version its metadata, under DEC-030 to DEC-033.
+Put amounts and thresholds in a dated parameter file, under DEC-037.
+Keep every version that an open decision may need in the artifact, under DEC-034.
+
+Write the scenarios with your policy experts, in English and in French, under DEC-080.
+Freeze a corpus of cases for each version before it takes effect, under DEC-081.
+
+== Run the decision service
+
+Store one record for each result, under DEC-040, and seal it under the signed records specification, under DEC-045.
+Keep the input values in the record, and only identifiers and codes in the events, under DEC-042 and DEC-044.
+
+At levels 3 and 4 of `ca-federal`, the service refers each result to an officer first, under DEC-061.
+The officer confirms or changes it in a review step, with a justification, under DEC-062.
+The final record revises the referred one, under DEC-043.
+
+== Give the notice
+
+Render the notice from the record, in the language of the person, under DEC-056.
+State that automation took part, and give the recourse channel, as your profiles ask, under DEC-057.
+Seal the rendered notice, and keep a notice record that names its seal.
+
+== Check the result
+
+Run the example check on a copy of the repository that holds your files under the same names.
+
+[source,text]
+----
+pip install --require-hashes -r examples/requirements.txt
+python3 examples/check-examples.py path/to/your/copy
+----
+
+A pass shows that your records and review steps hold together under the structural rules.
+The same holds for your notices, your events and your features.
+It does not test your rules, which the decision conformance suite of DEC-083 will do.
 
 == Document history
 
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
-|0.1.0 |2026-11-03 |First version.
+|0.1.0 |2026-11-15 |First version.
 |===

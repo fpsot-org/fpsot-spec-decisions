@@ -1,0 +1,183 @@
+= Contrat de décision
+include::_fpsot-terms.adoc[]
+
+Le contrat de décision est l’interface entre un service de décision et les règles d’un type de décision.
+Il a une forme que tout langage peut lire, et une liaison pour Java.
+Cette page décrit le contrat.
+Elle ne fournit pas de code : le court extrait Java de cette page est informatif.
+
+Le contrat a trois parties.
+L’entrée contient les faits d’un dossier.
+Le contexte d’évaluation dit quel droit s’applique et ce que le système savait.
+Le résultat est de l’un de quatre types.
+Les faits manquants et le jugement humain y ont ainsi leur propre place.
+
+== Forme du contrat
+
+[[DEC-020]]
+*DEC-020.* Chaque fournisseur de règles DOIT mettre en œuvre le contrat de décision de son type de décision.
+La forme du contrat indépendante du langage est le modèle de `model/decisions.yaml`.
+Les faits d’entrée suivent la classe `InputFact`, le contexte suit DEC-022 et le résultat suit la classe `DecisionRecord`.
+Un fournisseur en Java DOIT aussi mettre en œuvre la liaison Java de DEC-021.
+Un fournisseur dans un autre langage DOIT faire correspondre ses résultats au même modèle.
+
+La suite de conformité de DEC-083 vérifie le contrat au moyen de ce modèle.
+Un fournisseur écrit dans un autre langage, ou compilé d’un autre langage de règles, peut réussir la même suite.
+
+[[DEC-021]]
+*DEC-021.* La liaison Java DOIT être un module Java ordinaire.
+Elle NE DOIT PAS porter d’annotation de cadre d’application, ni dépendre d’un cadre d’application ou d’un moteur.
+L’entrée d’un type de décision DOIT être un enregistrement Java, un `record`.
+Le résultat DOIT être une interface scellée dont les types permis sont des `record`.
+Il y en a un pour chaque type de résultat de DEC-024.
+Un fournisseur de règles NE DOIT PAS exposer l’interface d’un moteur par le contrat.
+
+Un module sans code de cadre d’application fonctionne dans tout programme Java, qu’il tourne sur un cadre d’application ou non.
+Un résultat scellé permet au compilateur de vérifier que chaque appelant traite chaque type de résultat.
+Java l’offre au moyen des link:https://openjdk.org/jeps/409[classes scellées] et du link:https://openjdk.org/jeps/441[filtrage par motif dans switch].
+
+Cet exemple est informatif.
+Ses noms montrent la forme de la liaison, et une version ultérieure de la liaison pourra nommer les choses autrement.
+
+[source,java]
+----
+public interface Decision<I extends Record, O> {
+    Result<O> decide(I input, EvaluationContext context);
+}
+
+public record EvaluationContext(
+        LocalDate effectiveDate,
+        Instant recordTime,
+        String decisionType,
+        List<ProfileReference> profiles) {
+}
+
+public sealed interface Result<O>
+        permits Decided, Referred, InsufficientInformation, NotApplicable {
+    RuleVersion ruleVersion();
+    List<Reason> reasons();
+}
+
+public record Decided<O>(O outcome, RuleVersion ruleVersion, List<Reason> reasons)
+        implements Result<O> {
+}
+
+public record Referred<O>(String referralReason, Optional<O> recommendation,
+        RuleVersion ruleVersion, List<Reason> reasons) implements Result<O> {
+}
+
+public record InsufficientInformation<O>(List<String> missingFacts,
+        RuleVersion ruleVersion, List<Reason> reasons) implements Result<O> {
+}
+
+public record NotApplicable<O>(RuleVersion ruleVersion, List<Reason> reasons)
+        implements Result<O> {
+}
+----
+
+Un appelant traite alors chaque type dans un seul `switch`, et le compilateur rejette un `switch` qui en oublie un.
+
+[source,java]
+----
+String kind = switch (result) {
+    case Decided<Outcome> decided -> "decided";
+    case Referred<Outcome> referred -> "referred";
+    case InsufficientInformation<Outcome> missing -> "insufficient-information";
+    case NotApplicable<Outcome> notApplicable -> "not-applicable";
+};
+----
+
+== Contexte d’évaluation
+
+[[DEC-022]]
+*DEC-022.* Le contexte d’évaluation DOIT contenir la date d’effet, le moment d’enregistrement, le type de décision et les profils.
+Il DOIT nommer la version de chaque profil.
+La date d’effet est la date dont le droit s’applique au dossier, comme la date d’une demande.
+Le moment d’enregistrement est la limite de connaissance : seuls comptent les faits et versions enregistrés jusque-là.
+Le contexte PEUT contenir la langue officielle de la personne, pour les avis à venir.
+Cette langue NE DOIT PAS changer le résultat ni les motifs.
+
+La date d’effet est une date de calendrier selon DAT-014, et le moment d’enregistrement est un instant selon DAT-010.
+Ni l’un ni l’autre n’est le moment de l’exécution, que l’enregistrement garde à part selon DEC-040.
+
+[[DEC-023]]
+*DEC-023.* Un fournisseur de règles DOIT calculer son résultat seulement à partir de quatre éléments.
+Ce sont l’entrée, le contexte, sa version de règles et ses paramètres.
+Il NE DOIT PAS lire l’horloge, une source aléatoire, un fichier, une base de données ni un service réseau.
+La même entrée, le même contexte et la même version de règles DOIVENT donner le même résultat.
+Les motifs DOIVENT aussi être les mêmes, dans le même ordre.
+
+Un fournisseur qui ne lit rien d’autre peut réexécuter toute décision passée, selon DEC-047.
+Un fait dont les règles ont besoin, comme une valeur d’un autre registre, entre comme donnée d’entrée avec sa source.
+TST-011 exige la même chose du code qui lit l’heure ou une valeur aléatoire.
+
+== Types de résultat
+
+[[DEC-024]]
+*DEC-024.* Le résultat DOIT être de l’un de ces quatre types, et un profil NE DOIT PAS en retirer un.
+
+* `decided` : les règles ont abouti à une issue, comme `granted`, `refused` ou `partly-granted`.
+* `referred` : une personne doit décider.
+La cause est un pouvoir discrétionnaire, une situation difficile, des preuves contradictoires ou une révision qu’exige un profil.
+* `insufficient-information` : un fait dont les règles ont besoin manque, et le résultat énumère chaque fait manquant.
+* `not-applicable` : les règles ne couvrent pas le dossier ou la date d’effet.
+
+Un échec de calcul, comme une défaillance du fournisseur, NE DOIT PAS être un résultat.
+Le service de décision le traite comme une erreur, selon DEC-070, et n’enregistre aucune décision.
+
+Un résultat qui ne peut qu’accorder ou refuser cache les dossiers qui demandent une personne.
+Chaque type porte ses motifs et sa version de règles, si bien que l’enregistrement de DEC-040 peut expliquer chaque type.
+
+[[DEC-025]]
+*DEC-025.* Un fournisseur de règles NE DOIT PAS laisser un fait manquant ou inconnu mener à une issue défavorable.
+Quand un fait dont les règles ont besoin manque, le résultat DOIT être `insufficient-information` ou `referred`.
+Un fournisseur NE DOIT PAS combler un fait manquant par une valeur par défaut.
+Seule une règle de présomption nommée de DEC-033 PEUT fixer une telle valeur.
+
+Des comptes rendus sur le link:https://www.itnews.com.au/news/robodebt-report-calls-for-automated-decision-making-review-body-597734[programme australien Robodebt] décrivent des dettes qui reposaient sur des estimations de revenu.
+Chaque personne devait ensuite prouver qu’elle ne devait rien.
+Un type de résultat distinct pour les faits manquants laisse ce fardeau là où la loi le place.
+
+[[DEC-026]]
+*DEC-026.* Les règles DOIVENT pouvoir retourner `referred` quand la loi permet un pouvoir discrétionnaire ou une exception pour situation difficile.
+Un fournisseur NE DOIT PAS retourner un résultat `decided` défavorable quand la loi laisse le dossier à une personne.
+L’enregistrement DOIT donner le motif du renvoi, comme `discretion` ou `hardship`.
+
+Une clause de situation difficile que le logiciel ne peut atteindre ne protège personne.
+Le renvoi garde le pouvoir discrétionnaire dans le flux de décision, là où l’enregistrement peut le montrer.
+
+[[DEC-027]]
+*DEC-027.* Une règle DEVRAIT donner un résultat proportionné aux faits, comme un montant réduit plutôt qu’un refus.
+Un petit changement dans un seul fait peut parfois faire perdre toute la prestation.
+Les métadonnées d’une telle version de règles DOIVENT alors fixer `cliffEdge` à `true`.
+L’organisme responsable DEVRAIT revoir chacune de ces règles avec ses spécialistes des politiques.
+
+Une règle qui retire toute une prestation pour un défaut mineur cause des torts à grande échelle.
+Cet indicateur d’effet de seuil permet de repérer ces règles sans lire le code.
+
+[[DEC-028]]
+*DEC-028.* Les règles d’attribution NE DOIVENT PAS employer une cote de risque ou de fraude non déclarée en entrée.
+Une donnée d’entrée déclarée a sa propre entrée dans la description du type de décision.
+Cette entrée cite la disposition qui permet cette donnée.
+Une cote de risque DOIT venir de son propre type de décision, avec ses propres enregistrements selon cette spécification.
+
+Un tribunal néerlandais a invalidé en 2020 la link:https://www.rechtspraak.nl/organisatie-en-contact/organisatie/rechtbanken/rechtbank-den-haag/nieuws/2020/02/syri-legislation-in-breach-of-european-convention-on-human-rights[loi sur le profilage de risque SyRI].
+Il a jugé que personne à l’extérieur ne pouvait voir ni vérifier le fonctionnement du système.
+Une cote qui alimente à l’abri des regards des règles d’attribution présente le même risque.
+
+== Références
+
+=== Références informatives
+
+* link:https://openjdk.org/jeps/409[JEP 409: Sealed Classes], OpenJDK, livrée dans le JDK 17. link:https://web.archive.org/web/20261114005136/https://openjdk.org/jeps/409[Copie archivée]
+* link:https://openjdk.org/jeps/441[JEP 441: Pattern Matching for switch], OpenJDK, livrée dans le JDK 21. link:https://web.archive.org/web/20261116032512/https://openjdk.org/jeps/441[Copie archivée]
+* link:https://www.itnews.com.au/news/robodebt-report-calls-for-automated-decision-making-review-body-597734[Robodebt report calls for automated decision-making review body], iTnews, 2023-07. link:https://web.archive.org/web/20260726091704/https://www.itnews.com.au/news/robodebt-report-calls-for-automated-decision-making-review-body-597734[Copie archivée]
+* link:https://www.rechtspraak.nl/organisatie-en-contact/organisatie/rechtbanken/rechtbank-den-haag/nieuws/2020/02/syri-legislation-in-breach-of-european-convention-on-human-rights[SyRI legislation in breach of European Convention on Human Rights], District Court of The Hague, 2020-02-05. link:https://web.archive.org/web/20261006165650/https://www.rechtspraak.nl/organisatie-en-contact/organisatie/rechtbanken/rechtbank-den-haag/nieuws/2020/02/syri-legislation-in-breach-of-european-convention-on-human-rights[Copie archivée]
+
+== Historique du document
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Changement
+|0.1.0 |2026-11-15 |Première version.
+|===

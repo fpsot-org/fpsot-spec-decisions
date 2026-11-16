@@ -1,0 +1,121 @@
+= Rule versions and effective dates
+include::_fpsot-terms.adoc[]
+
+To reproduce a past decision, a reader must know which law applied and what the body knew then.
+These are two clocks.
+The effective date says which law applies to a case.
+The record time says what the body had recorded when it decided.
+link:https://martinfowler.com/articles/bitemporal-history.html[Martin Fowler] calls this pair bitemporal history.
+
+The rules of a decision type change with the law, often with dates in the past.
+This page sets the metadata of each rule version and how a resolver picks one.
+It also keeps dated amounts apart from the logic.
+
+== Metadata of a rule version
+
+[[DEC-030]]
+*DEC-030.* Each rule version MUST carry the metadata of the class `RuleVersion` of `model/decisions.yaml`.
+
+* The rule set and the version number, under Semantic Versioning 2.0.0.
+* The validity: the effective dates whose cases the version decides, as an interval under DAT-023.
+* The enactment time: the instant when the deploying body adopted the version, which is its record time.
+* The legal sources that the version encodes, under DEC-031.
+* The status of its legal interpretation, under DEC-032.
+* The named presumptions that it applies, under DEC-033, and the flag of DEC-027.
+
+Each decision record MUST name the rule version, the digest of its artifact and its build coordinates, under DEC-040.
+
+The file `examples/rule-versions.yaml` holds two versions of one rule set.
+
+[[DEC-031]]
+*DEC-031.* Each legal source MUST be a stable {abbr-uri-first} of the provision, down to the article or the paragraph.
+Where the law exists in more than one official language, the source SHOULD give the {abbr-uri} of each language version.
+
+Federal and Québec laws exist in English and in French, each with its own address.
+A reader in either language can then open the provision that a rule applies.
+
+[[DEC-032]]
+*DEC-032.* Each rule version MUST state its interpretation status: `draft`, `policy-reviewed` or `approved`.
+A decision service MUST NOT use a rule version in production unless its status is `approved`.
+The deploying body decides who approves, such as its legal services.
+
+The French tax administration records the sign-off of each legal interpretation in the tracker of its link:https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[Catala project].
+A status in the metadata gives the same trace, whatever tool a body uses.
+
+[[DEC-033]]
+*DEC-033.* A presumption or an inferred fact MUST be a named rule that cites its legal source.
+A rule provider MUST NOT estimate a fact, such as an income from an average, without such a rule.
+The record MUST list each presumption that supplied a fact, under DEC-040.
+
+Nobody can review or contest a presumption that has no name and no source.
+
+== Resolving the version
+
+[[DEC-034]]
+*DEC-034.* The artifact of a rule provider MUST hold every rule version that an open decision may still need.
+That includes each version whose cases a body can still decide, review, reconsider or replay.
+Removing such a version MUST take a new major version of the artifact.
+The deploying body MUST state, for each decision type, how long a decision stays open to review.
+
+DEC-003 forbids loading rules at run time, so a deployment cannot add an old version later.
+Decisions under appeal still need the version that made them.
+
+[[DEC-035]]
+*DEC-035.* A resolver MUST pick exactly one rule version for each pair of effective date and record time.
+It considers only the versions enacted at or before the record time.
+Among them, it picks the one whose validity holds the effective date.
+The validities of two versions of one rule set MUST NOT overlap.
+When no version holds the date, the result MUST be `not-applicable`, with a reason code that says so.
+
+With the record time, a replay picks the version that the body knew then, even after a retroactive change.
+The check `examples/check-examples.py` applies this rule to the example records.
+
+[[DEC-036]]
+*DEC-036.* A retroactive change MUST take a new rule version whose validity starts before its enactment time.
+For past cases, the decision service MUST create new decisions, each a revision of the original under DEC-043.
+It MUST NOT change or replace an original record.
+The cause of change of each new record MUST be `retroactive-law`.
+A payment or a recovery that follows MUST be a business event of its own.
+
+The history then shows both the original decision and the reprocessed one, with the version that made each.
+
+== Dated parameters
+
+[[DEC-037]]
+*DEC-037.* Amounts, rates and thresholds that change with the law SHOULD live in parameter files, apart from the rule logic.
+Each file MUST follow the class `ParameterSet` of `model/decisions.yaml`.
+Each value MUST hold its validity, its enactment time and its legal source.
+The build MUST package the parameter files with the rule version.
+A provider MUST NOT read them from a store that someone can change while it runs.
+
+Amounts change more often than logic, and lawyers can review a data file without reading code.
+link:https://openfisca.org/doc/coding-the-legislation/legislation_parameters.html[OpenFisca] keeps each parameter in a file of dated values, each with a reference to the law.
+Money follows DAT-050 to DAT-055.
+The file `examples/parameters/example-housing-benefit-limits.yaml` shows a parameter with two values.
+
+== Publication
+
+[[DEC-038]]
+*DEC-038.* {abbr-fpsot-first} MUST publish the source, the scenarios and the legal sources of its own reference rules.
+A deploying body SHOULD publish the same for its own rules and overrides, in the description of each decision type.
+A body that does not publish them MUST name the legal ground in that description.
+
+France, the Robodebt inquiry and the SyRI judgment all point toward published rules.
+Some law lets a body keep back protected information, such as details that would help people defeat a control.
+Whether a body can still keep back rules that are open source is a question for counsel.
+
+== References
+
+=== Informative
+
+* link:https://martinfowler.com/articles/bitemporal-history.html[Bitemporal History], Martin Fowler. link:https://web.archive.org/web/20260830155909/https://martinfowler.com/articles/bitemporal-history.html[Archived copy]
+* link:https://openfisca.org/doc/coding-the-legislation/legislation_parameters.html[Legislation parameters], OpenFisca documentation. link:https://web.archive.org/web/20260412222533/https://openfisca.org/doc/coding-the-legislation/legislation_parameters.html[Archived copy]
+* link:https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[ir-catala, labels of the issue tracker], Direction générale des Finances publiques, on the Adullact forge. link:https://web.archive.org/web/20261116032627/https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[Archived copy]
+
+== Document history
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Change
+|0.1.0 |2026-11-15 |First version.
+|===

@@ -1,0 +1,111 @@
+= Tests et conformité
+include::_fpsot-terms.adoc[]
+
+L’indépendance envers le moteur est une affirmation qu’un test peut vérifier.
+Si chaque fournisseur de règles réussit les mêmes tests, un organisme peut remplacer les règles par défaut de la {abbr-fpsot-first}.
+Il n’a pas à refaire ses évaluations.
+Cette page fixe ces tests, en plus de la spécification sur les tests.
+
+La spécification sur les tests exige déjà des scénarios en Gherkin, écrits avec des spécialistes, selon TST-020 et TST-021.
+Un composant qui remplace une règle d’affaires doit réussir ses scénarios, sauf ceux qu’il change, selon TST-045.
+Cette page ajoute ce dont les décisions ont besoin : des dates, des résultats attendus figés et une suite commune.
+
+== Scénarios
+
+[[DEC-080]]
+*DEC-080.* Chaque version de règles DOIT avoir des scénarios en Gherkin, selon TST-020 à TST-036.
+Chaque scénario DOIT énoncer la date d’effet, les faits en entrée, le type de résultat et l’issue.
+Il DOIT aussi énoncer les codes de motif attendus et la disposition qu’il vérifie.
+Une table de décision PEUT alimenter un plan du scénario, avec une ligne par cas, selon TST-026.
+
+Les link:https://openfisca.org/doc/coding-the-legislation/writing_yaml_tests.html[tests d’OpenFisca] donnent, pour chaque cas, une période, des entrées et des sorties attendues.
+Les scénarios de cette règle donnent les mêmes faits, avec des mots qu’une ou un spécialiste des politiques peut lire.
+Les fichiers de `examples/features/` montrent une fonctionnalité en anglais et en français, selon TST-030.
+
+== Corpus figés
+
+[[DEC-081]]
+*DEC-081.* Chaque version de règles DOIT avoir un corpus de cas avec leurs résultats et motifs attendus.
+Ce corpus DOIT employer des données synthétiques, selon TST-050.
+Dès que la version prend effet en production, les résultats attendus de son corpus NE DOIVENT PAS changer.
+Un changement de résultat attendu DOIT passer par une nouvelle version de règles.
+
+Un corpus figé prouve qu’une construction ultérieure de la même version décide encore comme avant.
+La réexécution « telle que décidée » de DEC-047 en dépend.
+
+== Invariants
+
+[[DEC-082]]
+*DEC-082.* Un fournisseur de règles DEVRAIT vérifier ces propriétés sur des entrées générées, en plus de ses scénarios.
+
+* Chaque résultat porte au moins un motif, et chaque code de motif existe dans le schéma.
+* Pour chaque date d’effet et chaque moment d’enregistrement, le résolveur choisit au plus une version.
+* Un fait manquant ne mène jamais à une issue défavorable.
+* La même entrée et le même contexte donnent le même résultat et les mêmes motifs.
+* Là où la loi le veut, le résultat évolue dans un seul sens quand un fait augmente.
+Une prestation qui baisse quand le revenu monte en est un exemple.
+
+Les outils de tests fondés sur les propriétés, comme link:https://jqwik.net/[jqwik] pour Java, génèrent de nombreuses entrées.
+Ils réduisent ensuite un échec à son plus petit cas.
+
+== Suite de conformité des décisions
+
+[[DEC-083]]
+*DEC-083.* La {abbr-fpsot} DOIT publier une suite de conformité des décisions pour chacun de ses types de décision de référence.
+Chaque cas DOIT être un fichier de données qui contient l’entrée, le contexte, le résultat et les motifs.
+Chaque fournisseur de règles de ce type DOIT réussir la suite, quels que soient son langage ou son moteur.
+La suite DOIT respecter TST-044 à TST-048, et écrire ses résultats sous une forme lisible par une machine.
+
+La {abbr-fpsot} fournit un exécuteur pour les fournisseurs en Java.
+Un fournisseur dans un autre langage peut exécuter les mêmes cas avec son propre exécuteur, selon TST-044.
+Un résultat de la suite n’est jamais une certification de la {abbr-fpsot}, selon TST-047.
+Le modèle de `model/decisions.yaml` et les fichiers de `examples/` en sont les premiers jeux d’essai.
+
+[[DEC-084]]
+*DEC-084.* Un fournisseur de règles qui en remplace un autre DOIT respecter TST-045 pour son type de décision.
+Il DOIT réussir les scénarios et le corpus du fournisseur qu’il remplace, sauf les cas qu’il change exprès.
+Il DOIT énumérer chaque cas changé avec son étiquette, et donner un nouveau scénario pour chaque comportement changé.
+
+Un ministère peut alors substituer une règle des règles par défaut et montrer quels cas son changement touche.
+
+== Comparer les règles de référence et une substitution
+
+[[DEC-085]]
+*DEC-085.* Un organisme responsable qui substitue un fournisseur de règles DEVRAIT exécuter les deux sur le même corpus.
+Ce sont les règles de référence et la substitution.
+Il DEVRAIT publier les écarts, en nombre de cas pour chaque changement d’issue et de motif principal.
+
+OpenFisca appelle un tel changement une réforme, et l’exécute à côté du droit en vigueur.
+Le link:https://modparl.substack.com/p/leximpact[projet LexImpact] fait de même en France pour les projets d’amendement.
+Une comparaison publiée montre l’effet d’un changement avant qu’il touche les personnes.
+
+== Fournisseurs en Decision Model and Notation
+
+[[DEC-086]]
+*DEC-086.* Un fournisseur de règles PEUT exécuter un modèle en Decision Model and Notation, DMN, derrière le même contrat.
+Un tel fournisseur DOIT déclarer la version de DMN de ses modèles, et DEVRAIT employer la version 1.6.
+Il DOIT déclarer le commit de la trousse de compatibilité technologique de DMN que réussit son moteur, et son score.
+La construction DOIT figer ses modèles, selon DEC-003.
+
+DMN ne définit aucun format de résultat de décision, ni de gestion des versions des modèles au-delà de leur nom.
+L’enregistrement, les versions de règles et les motifs viennent donc de cette spécification, quel que soit le moteur.
+La link:https://dmn-tck.github.io/tck/[page des résultats de la trousse] indique qu’elle reflète DMN 1.4.
+Un score ne dit donc rien des fonctions ultérieures.
+La page xref:maturity.adoc[Maturité des règles sous forme de code] nomme des moteurs à suivre, à titre d’information seulement.
+
+== Références
+
+=== Références informatives
+
+* link:https://openfisca.org/doc/coding-the-legislation/writing_yaml_tests.html[Writing YAML tests], OpenFisca documentation. link:https://web.archive.org/web/20251112010629/https://openfisca.org/doc/coding-the-legislation/writing_yaml_tests.html[Copie archivée]
+* link:https://jqwik.net/[jqwik, property-based testing on the JUnit Platform]. link:https://web.archive.org/web/20261012221202/https://jqwik.net/[Copie archivée]
+* link:https://modparl.substack.com/p/leximpact[LexImpact], ModParl. link:https://web.archive.org/web/20250830110553/https://modparl.substack.com/p/leximpact[Copie archivée]
+* link:https://dmn-tck.github.io/tck/[DMN Technology Compatibility Kit, results], DMN TCK working group. link:https://web.archive.org/web/20261004122620/https://dmn-tck.github.io/tck/[Copie archivée]
+
+== Historique du document
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Changement
+|0.1.0 |2026-11-15 |Première version.
+|===

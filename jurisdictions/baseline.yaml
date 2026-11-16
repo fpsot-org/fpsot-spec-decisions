@@ -1,12 +1,103 @@
 # Comparison data. The format is defined by fpsot-spec-doc (model/jurisdiction.yaml).
-# This example row compares requirement TPL-001. Replace it with the rows of this specification.
-# Add one file per jurisdiction, such as ca.yaml or ca/qc.yaml, only when a source exists.
+# The international column draws on international and European Union instruments, which bind
+# no Canadian body. Several article contents were read through an unofficial consolidated text
+# and are marked "to be verified". This file is informational and not legal advice.
 topics:
-  keywords: {en: Requirement keywords, fr: Mots clés des exigences}
+  scope: {en: Scope, fr: Portée}
+  impact-assessment: {en: Impact assessment, fr: Évaluation d’impact}
+  records: {en: Decision records, fr: Enregistrements de décision}
+  reasons: {en: Reasons and explanations, fr: Motifs et explications}
+  notices: {en: Notices and recourse, fr: Avis et recours}
+  human-review: {en: Human review, fr: Révision humaine}
+  decision-models: {en: Decision models, fr: Modèles de décision}
 rows:
-  - id: TPL-001
-    topic: keywords
-    requirement: {en: Use the BCP 14 keywords., fr: Utiliser les mots clés du BCP 14.}
-    international: {en: "BCP 14 defines MUST, SHOULD and MAY. Only the capital forms carry that meaning.", fr: "Le BCP 14 définit MUST, SHOULD et MAY. Seules les majuscules ont ce sens."}
-    international_source: {title: "RFC 8174, Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words (BCP 14)", version: "BCP 14", date: "2017-05", url: "https://www.rfc-editor.org/info/rfc8174", archive: "https://web.archive.org/web/20261103005743/https://www.rfc-editor.org/info/rfc8174/"}
-    fpsot: {en: "Keywords in capitals, with a fixed French mapping.", fr: "Mots clés en majuscules, avec une correspondance française fixe."}
+  - id: DEC-001
+    topic: scope
+    requirement: {en: "Apply the rules to every decision type that software makes or assists, whatever the technique.", fr: "Appliquer les règles à chaque type de décision que des logiciels prennent ou appuient, quelle que soit la technique."}
+    international: {en: "The European regulation on artificial intelligence applies to AI systems. Whether a deterministic rules engine is one is a question for counsel.", fr: "Le règlement européen sur l’intelligence artificielle s’applique aux systèmes d’IA. La question de savoir si un moteur de règles déterministe en est un relève d’une ou d’un juriste."}
+    international_source: {title: "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence", date: "2024-06-13", url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj", archive: "https://web.archive.org/web/20261115193616/https://eur-lex.europa.eu/eli/reg/2024/1689/oj"}
+    fpsot: {en: "Any technique counts: plain code, decision tables, DMN models, logic programs and learning models.", fr: "Toute technique compte : code simple, tables de décision, modèles DMN, programmes logiques et modèles d’apprentissage."}
+  - id: DEC-013
+    topic: impact-assessment
+    requirement: {en: "State one impact level for each decision type; the level, not the rule provider, decides which controls apply.", fr: "Indiquer un niveau d’incidence pour chaque type de décision; le niveau, et non le fournisseur de règles, décide des contrôles applicables."}
+    international: {en: "The European regulation lists, among high-risk uses, systems that public authorities use to evaluate eligibility for public assistance benefits and services. The annex contents are to be verified.", fr: "Le règlement européen range parmi les usages à haut risque les systèmes qu’utilisent les autorités publiques pour évaluer l’admissibilité aux prestations et services d’assistance publique. Le contenu de l’annexe est à vérifier."}
+    international_source: {title: "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence", date: "2024-06-13", url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj", archive: "https://web.archive.org/web/20261115193616/https://eur-lex.europa.eu/eli/reg/2024/1689/oj"}
+    fpsot: {en: "Four levels for every profile. The ca-federal profile takes the level of the Algorithmic Impact Assessment.", fr: "Quatre niveaux pour chaque profil. Le profil ca-federal reprend le niveau de l’Évaluation de l’incidence algorithmique."}
+  - id: DEC-014
+    topic: impact-assessment
+    requirement: {en: "Name each impact assessment that the profiles ask for, and run nothing in production without it.", fr: "Nommer chaque évaluation d’impact que demandent les profils, et ne rien exploiter en production sans elle."}
+    international: {en: "Public bodies that deploy a high-risk system must assess its impact on fundamental rights before first use. The article contents are to be verified.", fr: "Les organismes publics qui déploient un système à haut risque doivent évaluer son impact sur les droits fondamentaux avant la première utilisation. Le contenu de l’article est à vérifier."}
+    international_source: {title: "Article 27 of Regulation (EU) 2024/1689, unofficial consolidated text, Future of Life Institute", url: "https://artificialintelligenceact.eu/article/27/", archive: "https://web.archive.org/web/20261111163804/https://artificialintelligenceact.eu/article/27/"}
+    fpsot: {en: "Each profile names its kinds of assessment. A decision service refuses production while one is missing.", fr: "Chaque profil nomme ses types d’évaluation. Un service de décision refuse la production tant qu’il en manque une."}
+  - id: DEC-038
+    topic: reasons
+    requirement: {en: "Publish the source, the scenarios and the legal sources of the rules, or name the legal ground for not doing so.", fr: "Publier la source, les scénarios et les sources juridiques des règles, ou nommer le fondement juridique qui l’empêche."}
+    international: {en: "A public authority that deploys a high-risk system registers its use in the database of the European Union. The articles are to be verified.", fr: "Une autorité publique qui déploie un système à haut risque enregistre cette utilisation dans la base de données de l’Union européenne. Les articles sont à vérifier."}
+    international_source: {title: "Article 26 of Regulation (EU) 2024/1689, unofficial consolidated text, Future of Life Institute", url: "https://artificialintelligenceact.eu/article/26/", archive: "https://web.archive.org/web/20261115192728/https://artificialintelligenceact.eu/article/26/"}
+    fpsot: {en: "A MUST for the reference rules of FPSOT, and a SHOULD for adopters with a documented exception.", fr: "Une obligation pour les règles de référence de la FPSOT, et une recommandation pour les adoptants, avec une exception documentée."}
+  - id: DEC-040
+    topic: records
+    requirement: {en: "Keep one record for each result, with its inputs, rule version, reasons and review steps.", fr: "Tenir un enregistrement pour chaque résultat, avec ses intrants, sa version de règles, ses motifs et ses étapes de révision."}
+    international: {en: "A high-risk system must record events automatically over its lifetime, and its deployer keeps those logs for at least six months. The article contents are to be verified.", fr: "Un système à haut risque doit consigner automatiquement les événements pendant sa durée de vie, et la personne qui le déploie conserve ces journaux au moins six mois. Le contenu des articles est à vérifier."}
+    international_source: {title: "Article 12 of Regulation (EU) 2024/1689, unofficial consolidated text, Future of Life Institute", url: "https://artificialintelligenceact.eu/article/12/", archive: "https://web.archive.org/web/20261112213545/https://artificialintelligenceact.eu/article/12/"}
+    fpsot: {en: "One record of codes and values for each result, sealed under the log specification, with the retention of the body's schedule.", fr: "Un enregistrement de codes et de valeurs pour chaque résultat, cacheté selon la spécification sur les journaux, conservé selon le calendrier de l’organisme."}
+  - id: DEC-042
+    topic: records
+    requirement: {en: "Keep the value of each input fact, or an immutable reference to a stored copy, never a hash alone.", fr: "Garder la valeur de chaque fait d’intrant, ou une référence immuable à une copie conservée, jamais un simple condensé."}
+    international: {en: "A person can obtain from a controller a copy of the personal data that it processes about them. The article contents are to be verified.", fr: "Une personne peut obtenir du responsable du traitement une copie des données personnelles qu’il traite à son sujet. Le contenu de l’article est à vérifier."}
+    international_source: {title: "Regulation (EU) 2016/679, General Data Protection Regulation", date: "2016-04-27", url: "https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng", archive: "https://web.archive.org/web/20261113053822/https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng"}
+    fpsot: {en: "The record keeps the values, with their source, their date and how the body collected them.", fr: "L’enregistrement garde les valeurs, avec leur source, leur date et la façon dont l’organisme les a recueillies."}
+  - id: DEC-043
+    topic: records
+    requirement: {en: "Never change a record; a correction or a review creates a new record that names its predecessor.", fr: "Ne jamais modifier un enregistrement; une correction ou une révision crée un nouvel enregistrement qui nomme son prédécesseur."}
+    international: {en: "PROV-O links an entity to the earlier entity that it revises.", fr: "PROV-O relie une entité à l’entité antérieure qu’elle révise."}
+    international_source: {title: "PROV-O: The PROV Ontology, W3C Recommendation", date: "2013-04-30", url: "https://www.w3.org/TR/2013/REC-prov-o-20130430/", archive: "https://web.archive.org/web/20261104001552/https://www.w3.org/TR/2013/REC-prov-o-20130430/"}
+    fpsot: {en: "Append-only records, with a predecessor and a cause of change.", fr: "Des enregistrements en ajout seul, avec un prédécesseur et une cause de modification."}
+  - id: DEC-052
+    topic: reasons
+    requirement: {en: "Give ordered reasons, each with its factor, its values and the provision it applies.", fr: "Donner des motifs ordonnés, chacun avec son facteur, ses valeurs et la disposition qu’il applique."}
+    international: {en: "The person can obtain an explanation of the procedure and the principles actually applied to their data, in a form that they can understand.", fr: "La personne peut obtenir une explication de la procédure et des principes réellement appliqués à ses données, sous une forme qu’elle peut comprendre."}
+    international_source: {title: "Case C-203/22, Dun & Bradstreet Austria, Court of Justice of the European Union", date: "2025-02-27", url: "https://curia.europa.eu/juris/liste.jsf?num=C-203/22", archive: "https://web.archive.org/web/20260107023217/https://curia.europa.eu/juris/liste.jsf?num=C-203/22"}
+    fpsot: {en: "Reason codes that name factors, with values, thresholds and the cited provision, and at most four principal reasons.", fr: "Des codes de motif qui nomment des facteurs, avec les valeurs, les seuils et la disposition citée, et au plus quatre motifs principaux."}
+  - id: DEC-057
+    topic: notices
+    requirement: {en: "Meet the notice controls of the profiles: a notice of automation and the recourse channels.", fr: "Respecter les contrôles d’avis des profils : une mention du traitement automatisé et les voies de recours."}
+    international: {en: "A deployer of a high-risk system that decides or helps decide about people must inform them that they are subject to it. The article contents are to be verified.", fr: "La personne qui déploie un système à haut risque qui prend ou aide à prendre des décisions sur des personnes doit les en informer. Le contenu de l’article est à vérifier."}
+    international_source: {title: "Article 26 of Regulation (EU) 2024/1689, unofficial consolidated text, Future of Life Institute", url: "https://artificialintelligenceact.eu/article/26/", archive: "https://web.archive.org/web/20261115192728/https://artificialintelligenceact.eu/article/26/"}
+    fpsot: {en: "The core profile recommends both. Each legal profile turns them into requirements.", fr: "Le profil de base recommande les deux. Chaque profil juridique en fait des exigences."}
+  - id: DEC-060
+    topic: human-review
+    requirement: {en: "Derive the degree of automation of each record from the review steps behind it.", fr: "Déduire le degré d’automatisation de chaque enregistrement des étapes de révision qui le précèdent."}
+    international: {en: "Data protection law sets apart decisions based solely on automated processing that have legal or similar effects. The article contents are to be verified.", fr: "Le droit de la protection des données traite à part les décisions fondées exclusivement sur un traitement automatisé qui ont des effets juridiques ou similaires. Le contenu de l’article est à vérifier."}
+    international_source: {title: "Regulation (EU) 2016/679, General Data Protection Regulation", date: "2016-04-27", url: "https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng", archive: "https://web.archive.org/web/20261113053822/https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng"}
+    fpsot: {en: "Three degrees, computed from the review steps that occurred, never set in advance.", fr: "Trois degrés, calculés à partir des étapes de révision réellement faites, jamais fixés d’avance."}
+  - id: DEC-061
+    topic: human-review
+    requirement: {en: "Where a profile level asks for it, return no final decision without a review step.", fr: "Là où un niveau de profil le demande, ne rendre aucune décision finale sans étape de révision."}
+    international: {en: "People who oversee a high-risk system must be able to understand it, disregard or reverse its output and stop it. The article contents are to be verified.", fr: "Les personnes qui supervisent un système à haut risque doivent pouvoir le comprendre, écarter ou renverser son résultat et l’arrêter. Le contenu de l’article est à vérifier."}
+    international_source: {title: "Article 14 of Regulation (EU) 2024/1689, unofficial consolidated text, Future of Life Institute", url: "https://artificialintelligenceact.eu/article/14/", archive: "https://web.archive.org/web/20261109025259/https://artificialintelligenceact.eu/article/14/"}
+    fpsot: {en: "Gating by impact level, review steps as their own records, and a stop function for each decision type.", fr: "Un contrôle selon le niveau d’incidence, des étapes de révision enregistrées à part et une fonction d’arrêt pour chaque type de décision."}
+  - id: DEC-064
+    topic: human-review
+    requirement: {en: "Under dual review, require two review steps by two different people.", fr: "En double révision, exiger deux étapes de révision par deux personnes différentes."}
+    international: {en: "For remote biometric identification, two natural persons must verify a result before anyone acts on it. The article contents are to be verified.", fr: "Pour l’identification biométrique à distance, deux personnes physiques doivent vérifier un résultat avant qu’on agisse sur lui. Le contenu de l’article est à vérifier."}
+    international_source: {title: "Article 14 of Regulation (EU) 2024/1689, unofficial consolidated text, Future of Life Institute", url: "https://artificialintelligenceact.eu/article/14/", archive: "https://web.archive.org/web/20261109025259/https://artificialintelligenceact.eu/article/14/"}
+    fpsot: {en: "Dual review is a setting of a decision type or a profile level, for any decision.", fr: "La double révision est un réglage du type de décision ou du niveau de profil, pour toute décision."}
+  - id: DEC-066
+    topic: human-review
+    requirement: {en: "Count how often reviewers agree, change or reverse results, from events without identities.", fr: "Compter à quelle fréquence les personnes qui révisent confirment, modifient ou renversent les résultats, à partir d’événements sans identité."}
+    international: {en: "A deployer monitors the operation of a high-risk system and reports serious incidents. The article contents are to be verified.", fr: "La personne qui déploie un système à haut risque en surveille le fonctionnement et signale les incidents graves. Le contenu de l’article est à vérifier."}
+    international_source: {title: "Article 26 of Regulation (EU) 2024/1689, unofficial consolidated text, Future of Life Institute", url: "https://artificialintelligenceact.eu/article/26/", archive: "https://web.archive.org/web/20261115192728/https://artificialintelligenceact.eu/article/26/"}
+    fpsot: {en: "Counts per decision type and rule version, with reviewers as roles, never by name.", fr: "Des comptes par type de décision et par version de règles, avec les personnes qui révisent désignées par leur rôle, jamais par leur nom."}
+  - id: DEC-073
+    topic: reasons
+    requirement: {en: "Let the person obtain their own record: inputs, reasons with values, rule version and degree of automation.", fr: "Permettre à la personne d’obtenir son propre enregistrement : intrants, motifs avec valeurs, version de règles et degré d’automatisation."}
+    international: {en: "A person affected by a decision based on a high-risk system can obtain a clear explanation of the role of the system and the main elements of the decision. The article contents are to be verified.", fr: "Une personne visée par une décision fondée sur un système à haut risque peut obtenir une explication claire du rôle du système et des principaux éléments de la décision. Le contenu de l’article est à vérifier."}
+    international_source: {title: "Article 86 of Regulation (EU) 2024/1689, unofficial consolidated text, Future of Life Institute", url: "https://artificialintelligenceact.eu/article/86/", archive: "https://web.archive.org/web/20261029182809/https://artificialintelligenceact.eu/article/86/"}
+    fpsot: {en: "The record itself, through an authorized interface, and a notice rendered from it.", fr: "L’enregistrement lui-même, par une interface autorisée, et un avis produit à partir de lui."}
+  - id: DEC-086
+    topic: decision-models
+    requirement: {en: "A DMN provider states its DMN version and the commit and score of the compatibility kit that its engine passes.", fr: "Un fournisseur DMN indique sa version de DMN ainsi que le commit et le score de la trousse de compatibilité que réussit son moteur."}
+    international: {en: "DMN 1.6 defines decision models and their expression language. It defines no format for decision results.", fr: "DMN 1.6 définit les modèles de décision et leur langage d’expression. Elle ne définit aucun format pour les résultats de décision."}
+    international_source: {title: "Decision Model and Notation, Object Management Group", version: "1.6", url: "https://www.omg.org/spec/DMN/1.6/", archive: "https://web.archive.org/web/20261012072712/https://www.omg.org/spec/DMN/1.6/"}
+    fpsot: {en: "DMN is optional and sits behind the same contract. Records, versions and reasons come from this specification.", fr: "DMN est facultatif et se place derrière le même contrat. Les enregistrements, les versions et les motifs viennent de cette spécification."}

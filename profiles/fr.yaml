@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: Community-Spec-1.0
+# Jurisdiction profile of the FPSOT decisions specification (DEC-011, DEC-012), in the form
+# of the class Profile of model/decisions.yaml. Released apart from the core rules.
+# French administrations. Article L311-3-1 of the Code des relations entre le public et
+# l'administration asks for an explicit mention on each individual decision taken on the
+# basis of algorithmic processing, whatever the part of the agent. Article R311-3-1-2 lists
+# what the administration gives on request; its items 2 to 4 are to be verified. French law
+# sets no impact levels, so the controls are the same at every level. Not legal advice.
+code: fr
+version: 0.1.0
+title: {en: France profile, fr: Profil de la France}
+levels:
+  - {level: level-1, humanReview: false, dualReview: false, automationNotice: required, recourseNotice: recommended, allReasons: true}
+  - {level: level-2, humanReview: false, dualReview: false, automationNotice: required, recourseNotice: recommended, allReasons: true}
+  - {level: level-3, humanReview: false, dualReview: false, automationNotice: required, recourseNotice: recommended, allReasons: true}
+  - {level: level-4, humanReview: false, dualReview: false, automationNotice: required, recourseNotice: recommended, allReasons: true}

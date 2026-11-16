@@ -1,0 +1,84 @@
+= Interfaces and events
+include::_fpsot-terms.adoc[]
+
+A decision leaves a service in three ways.
+It leaves as the response of an interface, as a business event and as an event to other services.
+This page sets each of them, through the RESTful API and observability specifications.
+It defines no new error format and no new event format.
+
+== Responses
+
+[[DEC-070]]
+*DEC-070.* An interface that returns a result of the contract MUST answer with a `2xx` status code, whatever its kind.
+A refusal, a referral, a request for information and a `not-applicable` result are results, not errors.
+The interface MUST answer with problem details under API-030 only when the service cannot produce a result.
+Such failures include an invalid request and a fault in the rule provider.
+It MUST then use the problem types of API-032 when they fit.
+
+A client that treats a refusal as an error may retry it, hide it or lose its reasons.
+A result in the body of a success response keeps its reasons and its record identifier.
+
+== Business events
+
+[[DEC-071]]
+*DEC-071.* A decision service MUST emit a business event under OBS-070 for each decision record, review step and notice record.
+Each event MUST carry the lifecycle `complete` of OBS-072 and an activity key of OBS-071.
+Its objects MUST name the record, with the qualifier `decision`, and the objects of the record, under OBS-073.
+It SHOULD carry the attributes of this table.
+It MUST NOT carry the value of an input fact, an amount or a name.
+
+[cols="2,3",options="header"]
+|===
+|Attribute |Value
+|`org.fpsot.decision.type` |The code of the decision type.
+|`org.fpsot.decision.result_kind` |The result kind of DEC-024.
+|`org.fpsot.decision.outcome` |The outcome code of a decided result.
+|`org.fpsot.decision.reason_codes` |The reason codes, in order of rank.
+|`org.fpsot.decision.rule_set.code` |The code of the rule set.
+|`org.fpsot.decision.rule_set.version` |The rule version.
+|`org.fpsot.decision.automation_degree` |The degree of automation of DEC-060.
+|`org.fpsot.decision.predecessor.id` |The record that this one revises, if any.
+|===
+
+The activity keys come from a scheme of the deploying body, such as `decide-application`, `review-decision` and `issue-notice`.
+The inventory of the component lists these attributes and the scheme, under OBS-010.
+Process mining and the statistics of DEC-066 then work from the events alone, with no personal value.
+
+== Events to other services
+
+[[DEC-072]]
+*DEC-072.* An event that a decision service sends to another service MUST be a CloudEvents event under API-100 and API-101.
+It MUST have a type of this table, and its data MUST follow the schema of that type in `registry/events/`.
+Its `id` MUST be the identifier of the record, under DEC-041.
+Its data MUST hold identifiers and codes only, under DEC-044.
+
+[cols="3,3",options="header"]
+|===
+|Type |When
+|`org.fpsot.decisions.decision.recorded` |A decision service stores a decision record.
+|`org.fpsot.decisions.review-step.recorded` |A decision service stores a review step.
+|`org.fpsot.decisions.notice.issued` |A body issues a notice about a decision.
+|===
+
+The names follow NAM-050 and NAM-051, and the schemas follow API-103.
+A consumer that needs the inputs reads the record through the interface of DEC-073, with its own authorization.
+The file `examples/decision-event.json` is the event of the final record of the example.
+
+== Access to records
+
+[[DEC-073]]
+*DEC-073.* An interface that serves decision records MUST ask the authorization engine on every request, under IAM-050.
+Each read of a record MUST be an access event under OBS-042.
+The person concerned, or a representative under IAM-064, MUST be able to obtain their own record.
+That includes the inputs, the reasons with their values, the rule version and the degree of automation.
+
+A person who asks what a decision used must get the facts of the record, not a later summary.
+The notice of DEC-056 renders the same content in plain language.
+
+== Document history
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Change
+|0.1.0 |2026-11-15 |First version.
+|===

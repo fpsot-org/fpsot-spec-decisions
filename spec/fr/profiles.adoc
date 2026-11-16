@@ -1,0 +1,115 @@
+= Profils juridictionnels
+include::_fpsot-terms.adoc[]
+
+Les lois sur les décisions automatisées diffèrent en profondeur, non en nature.
+Chacune demande un avis, une explication, un recours auprès d’une personne, une évaluation d’incidence et un enregistrement.
+Elles diffèrent sur le moment où une personne doit intervenir et sur la profondeur de l’explication.
+Elles diffèrent aussi sur l’évaluation qui doit venir en premier.
+Cette page range ces différences dans des profils, à part des règles de base.
+Un changement dans une loi devient alors une nouvelle version d’un profil, et non un changement du contrat.
+
+La recherche a lu plusieurs de ces lois par des guides gouvernementaux ou des sources secondaires.
+Chaque fichier de profil nomme les textes qu’il suit et marque ceux qui sont _à vérifier_.
+Un profil énonce la pratique de la {abbr-fpsot-first}, et il ne constitue pas un avis juridique.
+
+== Types de décision
+
+[[DEC-010]]
+*DEC-010.* Un organisme responsable DOIT décrire chaque type de décision dans un fichier de la classe `DecisionType` de `model/decisions.yaml`.
+La description DOIT donner les profils applicables avec leurs versions, le niveau d’incidence et le pouvoir légal de décider.
+Elle DOIT aussi donner le schéma de motifs, l’ensemble de règles et les paramètres de révision.
+L’organisme DOIT publier une nouvelle version de la description à chaque changement, selon Semantic Versioning 2.0.0.
+Chaque enregistrement de décision nomme la version qui s’appliquait, selon DEC-040.
+
+Le fichier `examples/decision-type.yaml` décrit une allocation de logement fictive.
+
+== Les profils
+
+[[DEC-011]]
+*DEC-011.* Un type de décision DOIT déclarer le profil `core`, et chaque profil de ce tableau dont la loi s’applique.
+Le service de décision DOIT appliquer chaque contrôle de chaque profil déclaré au niveau d’incidence du type de décision.
+Quand deux profils fixent le même contrôle, le réglage le plus strict s’applique.
+Chaque profil est un fichier de la classe `Profile` dans le dossier `profiles/`.
+
+[cols="2,3,3,4",options="header"]
+|===
+|Profil |S’applique à |Évaluation d’incidence |Principaux contrôles
+|`core` |Tout type de décision |Aucune nommée |Les règles de base seulement. Une mention du traitement automatisé et une voie de recours sont recommandées.
+|`ca-federal` |Institutions fédérales du Canada soumises à la Directive sur la prise de décisions automatisée |Évaluation de l’incidence algorithmique |Une mention du traitement automatisé et un recours à chaque niveau. Une étape de révision avant un résultat final aux niveaux 3 et 4.
+|`ca-qc` |Organismes publics du Québec |{term-privacy-impact-assessment}, selon l’article 63.5 de la Loi sur l’accès, _à vérifier_ |Une mention quand la décision est entièrement automatisée. Une voie de recours et un moyen de présenter des observations dans chaque avis.
+|`fr` |Administrations françaises |Aucune nommée dans cette version |Une mention explicite du traitement algorithmique sur chaque décision. Tous les motifs dans l’explication.
+|`eu-ai-high-risk` |Systèmes à haut risque du règlement européen sur l’intelligence artificielle |Analyse d’impact sur les droits fondamentaux |Une mention du traitement automatisé. Les fonctions de dérogation et d’arrêt de DEC-063, qui s’appliquent sous tout profil.
+|===
+
+Le profil `ca-federal` suit le texte proposé de la directive fédérale, qu’expose un document de 2024 du {abbr-tbs-first}.
+Aux niveaux 3 et 4, ce texte réserve la décision finale à une personne, à des points d’intervention humaine définis.
+Des sources secondaires datent une modification ultérieure du 24 juin 2025, et son contenu est _à vérifier_.
+
+Le profil `ca-qc` suit le link:https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise[guide gouvernemental sur l’article 65.2] de la Loi sur l’accès du Québec.
+Cet article vise une décision fondée exclusivement sur un traitement automatisé de renseignements personnels.
+Selon le guide, une intervention humaine mineure et sans effet réel laisse la décision entièrement automatisée.
+Le libellé de cet article et l’article 8 de la Loi sur la justice administrative sont _à vérifier_.
+
+Le profil `fr` suit l’link:https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033205535[article L311-3-1] du Code des relations entre le public et l’administration.
+Cet article exige une mention explicite sur chaque décision individuelle qui repose sur un traitement algorithmique.
+L’article R311-3-1-2 énumère ce que la personne peut obtenir sur demande, et ses points 2 à 4 sont _à vérifier_.
+
+Le profil `eu-ai-high-risk` suit le link:https://eur-lex.europa.eu/eli/reg/2024/1689/oj[règlement européen sur l’intelligence artificielle].
+Son annexe III classe à haut risque un système qui évalue l’admissibilité aux prestations d’aide publique.
+Un moteur de règles déterministe est-il un système d’intelligence artificielle au sens de ce règlement ?
+C’est une question pour les juristes.
+Un organisme adopte ce profil quand ses juristes concluent que le règlement s’applique, ou par choix.
+
+== Versions d’un profil
+
+[[DEC-012]]
+*DEC-012.* Chaque profil DOIT avoir son propre numéro de version selon Semantic Versioning 2.0.0.
+Ce numéro est distinct de la version de cette spécification.
+Un profil NE DOIT PAS retirer un type de résultat de DEC-024, ni assouplir un DOIT des règles de base.
+Une version qui retire ou assouplit un contrôle du même profil DOIT prendre une nouvelle version majeure.
+Un enregistrement de décision DOIT nommer la version de chaque profil qui s’appliquait, selon DEC-040.
+
+Les lois sur les décisions automatisées évoluent encore, comme le montrent le texte fédéral de 2025 et les révisions européennes.
+Une version de profil peut suivre un tel changement sans briser le contrat des fournisseurs de règles.
+
+== Niveaux d’incidence
+
+[[DEC-013]]
+*DEC-013.* Un type de décision DOIT indiquer un niveau d’incidence, de `level-1` à `level-4`.
+Sous le profil `ca-federal`, le niveau DOIT être celui de son Évaluation de l’incidence algorithmique publiée.
+Sous les autres profils, l’organisme responsable DOIT fixer le niveau à partir de sa propre évaluation d’incidence.
+C’est le niveau, et jamais le fournisseur de règles, qui décide des contrôles applicables.
+
+L’link:https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html[outil d’évaluation fédéral] mesure le risque et le classe en quatre niveaux.
+Les mesures d’atténuation n’abaissent pas le niveau, et seule une nouvelle évaluation peut le changer.
+Le Québec et la France ne fixent aucun niveau.
+Leurs profils appliquent donc les mêmes contrôles à chaque niveau.
+
+== Évaluations d’incidence
+
+[[DEC-014]]
+*DEC-014.* Un type de décision DOIT nommer chaque évaluation d’incidence que ses profils exigent, avec sa référence et sa date.
+Un service de décision NE DOIT PAS exécuter un type de décision en production tant qu’une telle évaluation manque.
+L’organisme responsable DOIT revoir l’évaluation quand la portée ou les règles du type de décision changent.
+
+Le service peut vérifier cette règle à partir de la seule description, avant la première décision.
+Le contenu de chaque évaluation reste la responsabilité de l’organisme responsable.
+
+== Références
+
+=== Références informatives
+
+* link:https://wiki.gccollab.ca/images/0/00/Text_changes_to_the_Directive.pdf[Text changes to the Directive on Automated Decision-Making], Treasury Board of Canada Secretariat, 2024-11. link:https://web.archive.org/web/20261012132637/https://wiki.gccollab.ca/images/0/00/Text_changes_to_the_Directive.pdf[Copie archivée]
+* link:https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592[Directive on Automated Decision-Making], Treasury Board of Canada Secretariat, modifiée le 2025-06-24, texte à vérifier. link:https://web.archive.org/web/20261110083537/https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592[Copie archivée]
+* link:https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html[Algorithmic Impact Assessment tool], Government of Canada, 2026-09-15. link:https://web.archive.org/web/20260831193114/https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html[Copie archivée]
+* link:https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise[Décision fondée exclusivement sur un traitement automatisé], Gouvernement du Québec, 2025-10-20. link:https://web.archive.org/web/20260820015019/https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise[Copie archivée]
+* link:https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033205535[Code des relations entre le public et l'administration, article L311-3-1], Légifrance, version en vigueur depuis le 2016-10-09. link:https://web.archive.org/web/20250126141052/https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033205535/[Copie archivée]
+* link:https://eur-lex.europa.eu/eli/reg/2024/1689/oj[Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence], European Union, 2024-06-13. link:https://web.archive.org/web/20261115193616/https://eur-lex.europa.eu/eli/reg/2024/1689/oj[Copie archivée]
+
+== Historique du document
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Changement
+|0.1.0 |2026-11-15 |Première version.
+|===

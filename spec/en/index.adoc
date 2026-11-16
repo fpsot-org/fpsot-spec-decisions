@@ -1,8 +1,145 @@
 = FPSOT decisions specification
 include::_fpsot-terms.adoc[]
 
-Replace this page with the normative text of the specification.
-Start with the scope, then the conformance classes, then the requirements.
+This specification sets what software must record and prove about each decision that it makes or helps a person make.
+It covers individual administrative decisions, such as eligibility for a benefit, a permit or a grant.
+It standardizes the decision, not the engine.
+A rule can run as plain code, as a decision table or in any other way.
+It can also run as a model in Decision Model and Notation, DMN.
+
+Each law that the research for this specification examined regulates what a public body can show about one decision.
+The body must show that automation took part, and which inputs and rule version produced the result.
+It must also give the main reasons.
+It must show who reviewed the result, with what authority, and how the person can contest it.
+None of these laws asks which engine computed the result.
+The rules therefore rest on four parts that work with any engine.
+
+* The decision contract: a typed input, an evaluation context with the effective date, and a closed set of four results.
+* Rule metadata: the legal source, dates of effect, enactment time and legal review state of a rule version.
+* The decision record: one record for each result, built from codes and values, never from prose.
+* The decision conformance suite: the same tests for the {abbr-fpsot-first} default rules, for an override and for a DMN adapter.
+
+The rules reuse the other {abbr-fpsot} specifications and redefine none of their parts.
+A decision emits the business events of the observability specification, and its reviewers are the actors of the identity specification.
+Its reason codes are concepts of the vocabularies specification.
+Under the signed records specification, a body seals its records and logs them in a transparency log.
+
+== Scope
+
+[[DEC-001]]
+*DEC-001.* These rules apply to each type of decision that software makes, or helps a person make, about one party.
+A system MUST apply them whatever technique computes the result.
+Plain code, decision tables, DMN models, logic programs and learning models all count.
+A report of statistics that never feeds a decision about a party is out of scope.
+
+The proposed text of the federal directive on automated decisions lists rule-based systems in its definition.
+French law asks for a mention on any individual decision that rests on algorithmic processing.
+It asks for it whatever the part of the official.
+A deterministic engine therefore falls within these duties as much as a learning model.
+
+== Roles
+
+[[DEC-002]]
+*DEC-002.* Each party that claims conformance MUST state which of these roles it fills.
+A party can fill more than one role.
+
+* A rule provider implements the rules of one decision type behind the decision contract.
+The {abbr-fpsot} default rules, an override by a public body and a DMN adapter are all rule providers.
+* A decision service runs a rule provider, applies the controls of the profiles and keeps the records.
+* A deploying body is the public body that answers for the decisions.
+It chooses the profiles, completes the impact assessments and gives the notices.
+
+Each rule names the role that it binds.
+A buyer then knows what to ask of each supplier, and a tester knows what to check.
+
+== Providers and the capability specification
+
+[[DEC-003]]
+*DEC-003.* This specification does not set how a system finds a rule provider, picks a default or applies an override.
+A future {abbr-fpsot} specification on capabilities will set those mechanics for every replaceable part, rules included.
+Whatever the mechanics, each rule provider MUST meet these four outcomes.
+
+* It implements the decision contract of DEC-020.
+* It passes the decision conformance suite of DEC-083.
+* It produces the same record for the same input, the same context and the same rule version, under DEC-023.
+* The build of its artifact fixes its rule versions, and a running deployment MUST NOT load or replace one.
+
+The same mechanics will choose other replaceable parts, such as storage or authorization adapters.
+Defining them here would make unrelated specifications depend on this one.
+
+== Legal status
+
+[[DEC-004]]
+*DEC-004.* A conformance claim MUST NOT state or suggest that the decisions of a system meet any law.
+Conformance shows that a system can produce the evidence that several laws ask for.
+Only the deploying body, with its counsel, can say whether its decisions meet its law.
+
+This specification states the practice of {abbr-fpsot}, and it is not legal advice.
+Points that need a lawyer sit in informative notes and on the page xref:questions-for-counsel.adoc[Questions for counsel], never in a rule.
+A legal text that the research did not read at its source carries the mark _to be verified_.
+Such texts include the 2025 text of the federal directive and some French articles.
+They also include the wording of article 65.2 of the Québec Access Act.
+
+== Versions and conformance testing
+
+[[DEC-005]]
+*DEC-005.* An implementation MUST follow the versions of the outside standards that this page lists under Standards.
+It MAY follow a later version of the same standard when the parts that it uses keep their meaning.
+A record must stay readable while someone can still contest the decision.
+Each reader must then know which text applies.
+
+[[DEC-006]]
+*DEC-006.* A conformance suite of this specification MUST check the output of a provider or a service, under TST-044.
+The output is the results, the records, the review steps, the notices and the events.
+The suite MUST NOT need the source code of the implementation.
+The folders `model/`, `profiles/`, `registry/` and `examples/` hold the first fixtures.
+The script `examples/check-examples.py` checks them, and the decision conformance suite of DEC-083 will follow.
+
+== Parts
+
+The rules come in eight parts, and two informative pages follow them.
+
+* xref:profiles.adoc[Jurisdiction profiles] sets the profiles, the impact levels and the controls that they turn on.
+* xref:contract.adoc[Decision contract] sets the input, the evaluation context and the four kinds of result.
+* xref:rule-versions.adoc[Rule versions and effective dates] sets the metadata of each rule version, the two clocks and the dated parameters.
+* xref:records.adoc[Decision records] sets the record of each result, its revisions, its integrity and its replay.
+* xref:reasons.adoc[Reasons and explanations] sets the reason codes, the counterfactuals and the notices.
+* xref:human-review.adoc[Human review] sets the degree of automation, the review steps and their gating.
+* xref:api-events.adoc[Interfaces and events] sets the responses of an interface and the events of a decision.
+* xref:testing.adoc[Testing and conformance] sets the scenarios, the frozen corpora and the conformance suite.
+* xref:maturity.adoc[Rules as code maturity] is informative, and gives a scale of five levels and the notes on engines to watch.
+* xref:questions-for-counsel.adoc[Questions for counsel] is informative, and lists the legal points that a lawyer must settle.
+
+== Related specifications
+
+This specification builds on other {abbr-fpsot} specifications, and cites their rules by number.
+
+* The observability specification sets the business events, under OBS-070 to OBS-079, and their identifiers, under OBS-024.
+It also sets the form of instants, under OBS-030, keyed pseudonyms, under OBS-093, and retention, under OBS-100 to OBS-105.
+* The identity and access specification sets the actor of an event, under IAM-091, and representation, under IAM-061 and IAM-064.
+* The vocabularies specification sets the concept schemes with their codes, labels and versions, under VOC-001 to VOC-065.
+* The RESTful API specification sets the problem details, under API-030, and the events, under API-100 to API-104.
+* The signed records specification sets the seals, the seal manifests and the transparency log, under LOG-002, LOG-019 and LOG-031.
+* The testing specification sets scenarios, under TST-020 to TST-036, and conformance suites, under TST-044 to TST-048.
+* The data models specification sets the form of a LinkML model, under DMO-010 to DMO-024.
+* The data types specification sets the form of dates, instants, intervals, money and identifiers, under DAT-010 to DAT-072.
+* The naming specification sets the names of fields, events and codes, under NAM-010, NAM-050 and NAM-060.
+
+== Examples
+
+The folder `examples/` holds synthetic files for a fictional housing benefit.
+The program, its act and every address are fictional.
+
+* `decision-type.yaml` describes the decision type, with its profiles and its impact level, under DEC-010.
+* `reason-codes.jsonld` is the reason scheme, under DEC-050.
+* `rule-versions.yaml` and `parameters/` hold two rule versions and a dated parameter set, under DEC-030 and DEC-037.
+* `decision-record-1.json` is a result that the service referred to a person, under DEC-061.
+* `review-step.json` is the review step of an officer, under DEC-062.
+* `decision-record-2.json` is the final decision, a revision of the first record, under DEC-043.
+* `notice.json` and `decision-event.json` are the notice record and the event of the final decision.
+* `features/` holds the scenario in English and in French, under DEC-080.
+
+The script `examples/test-examples.sh` checks that `examples/check-examples.py` rejects broken copies of these files.
 
 == Conformance
 
@@ -11,35 +148,33 @@ ____
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 (link:https://www.rfc-editor.org/info/rfc2119[RFC 2119], link:https://www.rfc-editor.org/info/rfc8174[RFC 8174]) when, and only when, they appear in all capitals, as shown here.
 ____
 
-The keywords follow requirement WRT-010 of the {abbr-fpsot-first} writing specification.
+The keywords follow requirement WRT-010 of the {abbr-fpsot} writing specification.
 The French version uses the French keywords of WRT-011.
 
-== Requirements
+== Standards
 
-Give each requirement an anchor line with its ID, directly above its paragraph.
-The anchor looks like `+[[XYZ-001]]+`.
-The example below shows the form. Replace it with the first requirement.
+The rules summarize outside standards in their own words and take no text from them.
+They cite these versions.
 
-[[TPL-001]]
-*TPL-001.* A normative statement MUST use one of the {abbr-bcp-first} 14 keywords in capitals.
-The keyword gives the rule its strength.
+* Provenance: link:https://www.w3.org/TR/2013/REC-prov-o-20130430/[PROV-O], a {abbr-w3c-first} Recommendation, 30 April 2013.
+* Decision models: link:https://www.omg.org/spec/DMN/1.6/[DMN 1.6] of the Object Management Group.
+* Versions: link:https://semver.org/spec/v2.0.0.html[Semantic Versioning 2.0.0].
+* Concept schemes, events, scenarios and models: the versions that the vocabularies, interface, testing and data models specifications pin.
 
 == References
-
-List here each outside source that this page cites, with the same address as its link in the text.
-Each entry gives the title, publisher, version, date and an archived copy.
 
 === Normative
 
 * link:https://www.rfc-editor.org/info/rfc2119[RFC 2119, Key words for use in RFCs to Indicate Requirement Levels], IETF, BCP 14, 1997-03. link:https://web.archive.org/web/20261103005705/https://www.rfc-editor.org/info/rfc2119/[Archived copy]
 * link:https://www.rfc-editor.org/info/rfc8174[RFC 8174, Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words], IETF, BCP 14, 2017-05. link:https://web.archive.org/web/20261103005743/https://www.rfc-editor.org/info/rfc8174/[Archived copy]
+* link:https://www.w3.org/TR/2013/REC-prov-o-20130430/[PROV-O: The PROV Ontology], W3C, Recommendation, 2013-04-30. link:https://web.archive.org/web/20261104001552/https://www.w3.org/TR/2013/REC-prov-o-20130430/[Archived copy]
+* link:https://www.omg.org/spec/DMN/1.6/[Decision Model and Notation], Object Management Group, version 1.6, 2026. link:https://web.archive.org/web/20261012072712/https://www.omg.org/spec/DMN/1.6/[Archived copy]
+* link:https://semver.org/spec/v2.0.0.html[Semantic Versioning], version 2.0.0. link:https://web.archive.org/web/20261111141303/https://semver.org/spec/v2.0.0.html[Archived copy]
 
 == Document history
-
-Add one row for each version that changes this page.
 
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
-|0.1.0 |2026-11-03 |First version.
+|0.1.0 |2026-11-15 |First version.
 |===

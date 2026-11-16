@@ -9,22 +9,48 @@ developmentStatus: concept
 softwareType: "standalone/other"
 description:
   en:
-    shortDescription: Template for FPSOT specification repositories.
+    shortDescription: Rules that make each automated or assisted government decision recorded, explained, reviewable and testable, whatever the engine.
     longDescription: >
-      Starting point for an FPSOT specification repository. It holds the
-      layout, the Community Specification License files, and the CI that
-      checks requirement IDs, links, languages and prose.
+      Rules for software that makes an individual administrative decision, or
+      helps a person make one. The specification standardizes the decision,
+      not the engine. Each decision type declares jurisdiction profiles and an
+      impact level that turn on controls such as human review. A rule provider
+      implements a plain contract with four result kinds, and each rule
+      version carries its legal source and two clocks. Each result leaves an
+      append-only record of codes and values, with reasons that name factors
+      and a review step for each human action. One conformance suite tests
+      default rules, overrides and decision model adapters alike.
     features:
-      - Specification repository layout
+      - Jurisdiction profiles for Canada, Québec, France and the European Union
+      - Decision contract with four result kinds, in any language
+      - Bitemporal rule versions and dated parameters
+      - Decision records aligned with PROV-O, sealed and append-only
+      - Factor-named reason codes with counterfactual values
+      - Human review steps gated by impact level
+      - Conformance suite for every rule provider
   fr:
-    shortDescription: Gabarit des dépôts de spécification de FPSOT.
+    shortDescription: Règles pour que chaque décision publique automatisée ou assistée soit enregistrée, expliquée, révisable et vérifiable, quel que soit le moteur.
     longDescription: >
-      Point de départ d'un dépôt de spécification de FPSOT. Il contient la
-      structure, les fichiers de la Community Specification License, et
-      l'intégration continue qui vérifie les identifiants, les liens, les
-      langues et la rédaction.
+      Règles pour les logiciels qui prennent une décision administrative
+      individuelle, ou qui aident une personne à la prendre. La spécification
+      normalise la décision, et non le moteur. Chaque type de décision déclare
+      des profils juridictionnels et un niveau d’incidence qui activent des
+      contrôles comme la révision humaine. Un fournisseur de règles met en
+      œuvre un contrat simple à quatre types de résultat, et chaque version de
+      règles porte sa source juridique et deux horloges. Chaque résultat
+      laisse un enregistrement en ajout seul, fait de codes et de valeurs, avec
+      des motifs qui nomment des facteurs et une étape de révision pour chaque
+      action humaine. Une seule suite de conformité vérifie de la même façon
+      les règles par défaut, les substitutions et les adaptateurs de modèles
+      de décision.
     features:
-      - Structure d'un dépôt de spécification
+      - Profils juridictionnels pour le Canada, le Québec, la France et l’Union européenne
+      - Contrat de décision à quatre types de résultat, dans tout langage
+      - Versions de règles bitemporelles et paramètres datés
+      - Enregistrements de décision alignés sur PROV-O, cachetés et en ajout seul
+      - Codes de motif qui nomment des facteurs, avec valeurs contrefactuelles
+      - Étapes de révision humaine selon le niveau d’incidence
+      - Suite de conformité pour chaque fournisseur de règles
 legal:
   license: Community-Spec-1.0
 maintenance:

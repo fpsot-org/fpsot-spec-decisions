@@ -1,8 +1,153 @@
 = Spécification FPSOT sur les décisions
 include::_fpsot-terms.adoc[]
 
-Remplacez cette page par le texte normatif de la spécification.
-Commencez par la portée, puis les classes de conformité, puis les exigences.
+Cette spécification fixe ce qu’un logiciel doit consigner et prouver pour chaque décision.
+Cela vaut pour les décisions qu’il prend et pour celles qu’il aide une personne à prendre.
+Elle couvre les décisions administratives individuelles, comme l’admissibilité à une prestation, à un permis ou à une subvention.
+Elle normalise la décision, et non le moteur.
+Une règle peut s’exécuter en code ordinaire, sous forme de table de décision ou de toute autre façon.
+Elle peut aussi s’exécuter comme un modèle en Decision Model and Notation, DMN.
+
+Chaque loi qu’a examinée la recherche pour cette spécification encadre ce qu’un organisme public peut montrer d’une décision.
+L’organisme doit montrer que l’automatisation y a pris part, avec les données et la version de règles en cause.
+Il doit donner les principaux motifs et montrer qui a révisé le résultat, avec quel pouvoir.
+Il doit dire comment la personne peut le contester.
+Aucune de ces lois ne demande quel moteur a calculé le résultat.
+Les règles reposent donc sur quatre éléments qui fonctionnent avec tout moteur.
+
+* Le contrat de décision : une entrée typée, un contexte d’évaluation avec la date d’effet et quatre résultats possibles.
+* Les métadonnées des règles : source juridique, dates d’effet, moment d’adoption et état de la revue juridique d’une version.
+* L’enregistrement de décision : un enregistrement pour chaque résultat, fait de codes et de valeurs, jamais de texte rédigé.
+* La suite de conformité : les mêmes tests pour les règles de la {abbr-fpsot-first}, une substitution et un adaptateur DMN.
+
+Les règles réutilisent les autres spécifications de la {abbr-fpsot} et n’en redéfinissent aucun élément.
+Une décision émet les événements d’affaires de la spécification sur l’observabilité.
+Ses réviseurs sont les acteurs de la spécification sur l’identité.
+Ses codes de motif sont des concepts de la spécification sur les vocabulaires.
+La spécification sur les documents signés appose un cachet sur ses enregistrements et les inscrit dans un journal de transparence.
+
+== Portée
+
+[[DEC-001]]
+*DEC-001.* Ces règles visent chaque type de décision qu’un logiciel prend, ou aide à prendre, au sujet d’une partie.
+Un système DOIT les appliquer, quelle que soit la technique qui calcule le résultat.
+Le code ordinaire, les tables de décision, les modèles DMN, les programmes logiques et les modèles d’apprentissage comptent tous.
+Un rapport statistique qui n’alimente jamais une décision au sujet d’une partie est hors de portée.
+
+Le texte proposé de la directive fédérale nomme les systèmes à base de règles dans sa définition.
+Le droit français exige une mention sur toute décision individuelle qui repose sur un traitement algorithmique.
+Il l’exige quelle que soit la part de l’agente ou de l’agent.
+Un moteur déterministe entre donc dans ces obligations autant qu’un modèle d’apprentissage.
+
+== Rôles
+
+[[DEC-002]]
+*DEC-002.* Chaque partie qui déclare sa conformité DOIT indiquer lesquels de ces rôles elle remplit.
+Une partie peut remplir plus d’un rôle.
+
+* Un fournisseur de règles met en œuvre les règles d’un type de décision derrière le contrat de décision.
+Les règles par défaut de la {abbr-fpsot}, une substitution et un adaptateur DMN sont tous des fournisseurs de règles.
+* Un service de décision exécute un fournisseur de règles, applique les contrôles des profils et tient les enregistrements.
+* Un organisme responsable est l’organisme public qui répond des décisions.
+Il choisit les profils, réalise les évaluations d’incidence et donne les avis.
+
+Chaque règle nomme le rôle qu’elle vise.
+Un acheteur sait alors quoi exiger de chaque fournisseur, et une personne qui teste sait quoi vérifier.
+
+== Fournisseurs et spécification sur les capacités
+
+[[DEC-003]]
+*DEC-003.* Cette spécification ne fixe pas comment un système trouve un fournisseur, choisit un défaut ou applique une substitution.
+Une future spécification de la {abbr-fpsot} sur les capacités fixera ces mécanismes pour toute pièce remplaçable, règles comprises.
+Quels que soient ces mécanismes, chaque fournisseur de règles DOIT atteindre ces quatre résultats.
+
+* Il met en œuvre le contrat de décision de DEC-020.
+* Il réussit la suite de conformité des décisions de DEC-083.
+* Il produit le même enregistrement pour la même entrée, le même contexte et la même version de règles, selon DEC-023.
+* La construction de son artefact fixe ses versions de règles.
+Un déploiement en marche NE DOIT PAS en charger ni en remplacer.
+
+Les mêmes mécanismes choisiront d’autres pièces remplaçables, comme des adaptateurs de stockage ou d’autorisation.
+Les définir ici rendrait des spécifications sans lien dépendantes de celle-ci.
+
+== Statut juridique
+
+[[DEC-004]]
+*DEC-004.* Une déclaration de conformité NE DOIT PAS affirmer ni laisser entendre que les décisions d’un système respectent une loi.
+La conformité montre qu’un système peut produire la preuve que plusieurs lois demandent.
+Seul l’organisme responsable, avec ses juristes, peut dire si ses décisions respectent sa loi.
+
+Cette spécification énonce la pratique de la {abbr-fpsot}, et elle ne constitue pas un avis juridique.
+Les points qui demandent une ou un juriste ne figurent jamais dans une règle.
+Ils figurent dans des notes informatives et à la page xref:questions-for-counsel.adoc[Questions pour le conseiller juridique].
+Un texte juridique que la recherche n’a pas lu à sa source porte la mention _à vérifier_.
+Ces textes comprennent le texte de 2025 de la directive fédérale et certains articles français.
+Ils comprennent aussi le libellé de l’article 65.2 de la Loi sur l’accès du Québec.
+
+== Versions et essais de conformité
+
+[[DEC-005]]
+*DEC-005.* Une mise en œuvre DOIT suivre les versions des normes externes que cette page énumère sous Normes.
+Elle PEUT suivre une version ultérieure de la même norme si les parties qu’elle emploie gardent leur sens.
+Un enregistrement doit rester lisible tant qu’une personne peut encore contester la décision.
+Chaque lecteur doit alors savoir quel texte s’applique.
+
+[[DEC-006]]
+*DEC-006.* Une suite de conformité de cette spécification DOIT vérifier la sortie d’un fournisseur ou d’un service, selon TST-044.
+La sortie comprend les résultats, les enregistrements, les étapes de révision, les avis et les événements.
+La suite NE DOIT PAS exiger le code source de la mise en œuvre.
+Les dossiers `model/`, `profiles/`, `registry/` et `examples/` contiennent les premiers jeux d’essai.
+Le script `examples/check-examples.py` les vérifie, et la suite de conformité des décisions de DEC-083 suivra.
+
+== Parties
+
+Les règles se répartissent en huit parties, suivies de deux pages informatives.
+
+* xref:profiles.adoc[Profils juridictionnels] fixe les profils, les niveaux d’incidence et les contrôles qu’ils activent.
+* xref:contract.adoc[Contrat de décision] fixe l’entrée, le contexte d’évaluation et les quatre types de résultat.
+* xref:rule-versions.adoc[Versions de règles et dates d’effet] fixe les métadonnées des versions, les deux horloges et les paramètres datés.
+* xref:records.adoc[Enregistrements de décision] fixe l’enregistrement de chaque résultat, ses révisions, son intégrité et sa réexécution.
+* xref:reasons.adoc[Motifs et explications] fixe les codes de motif, les valeurs contrefactuelles et les avis.
+* xref:human-review.adoc[Révision humaine] fixe le degré d’automatisation, les étapes de révision et leur contrôle.
+* xref:api-events.adoc[Interfaces et événements] fixe les réponses d’une interface et les événements d’une décision.
+* xref:testing.adoc[Essais et conformité] fixe les scénarios, les corpus figés et la suite de conformité.
+* xref:maturity.adoc[Maturité des règles sous forme de code] est informative.
+Elle donne une échelle de cinq niveaux et des notes sur les moteurs à suivre.
+* xref:questions-for-counsel.adoc[Questions pour le conseiller juridique] est informative, et énumère les points juridiques qu’une ou un juriste doit régler.
+
+== Spécifications liées
+
+Cette spécification s’appuie sur d’autres spécifications de la {abbr-fpsot}, et cite leurs règles par numéro.
+
+* La spécification sur l’observabilité fixe les événements d’affaires, selon OBS-070 à OBS-079, et leurs identifiants, selon OBS-024.
+Elle fixe aussi la forme des instants, selon OBS-030, et les pseudonymes à clé, selon OBS-093.
+Elle fixe enfin la conservation, selon OBS-100 à OBS-105.
+* La spécification sur l’identité et l’accès fixe l’acteur d’un événement, selon IAM-091, et la représentation, selon IAM-061 et IAM-064.
+* La spécification sur les vocabulaires fixe les schémas de concepts, avec leurs codes, libellés et versions, selon VOC-001 à VOC-065.
+* La spécification sur les API RESTful fixe les détails de problème, selon API-030, et les événements, selon API-100 à API-104.
+* La spécification sur les documents signés régit les cachets et le journal de transparence, selon LOG-002, LOG-019 et LOG-031.
+* La spécification sur les tests fixe les scénarios, selon TST-020 à TST-036.
+Elle fixe aussi les suites de conformité, selon TST-044 à TST-048.
+* La spécification sur les modèles de données fixe la forme d’un modèle LinkML, selon DMO-010 à DMO-024.
+* La spécification sur les types de données fixe la forme des dates, instants, intervalles, montants et identifiants.
+Elle le fait selon DAT-010 à DAT-072.
+* La spécification sur le nommage fixe les noms des champs, des événements et des codes, selon NAM-010, NAM-050 et NAM-060.
+
+== Exemples
+
+Le dossier `examples/` contient des fichiers synthétiques pour une allocation de logement fictive.
+Le programme, sa loi et chaque adresse sont fictifs.
+
+* `decision-type.yaml` décrit le type de décision, avec ses profils et son niveau d’incidence, selon DEC-010.
+* `reason-codes.jsonld` est le schéma de motifs, selon DEC-050.
+* `rule-versions.yaml` et `parameters/` contiennent deux versions de règles et un ensemble de paramètres datés, selon DEC-030 et DEC-037.
+* `decision-record-1.json` est un résultat que le service a renvoyé à une personne, selon DEC-061.
+* `review-step.json` est l’étape de révision d’une agente ou d’un agent, selon DEC-062.
+* `decision-record-2.json` est la décision finale, une révision du premier enregistrement, selon DEC-043.
+* `notice.json` et `decision-event.json` sont l’enregistrement de l’avis et l’événement de la décision finale.
+* `features/` contient le scénario en anglais et en français, selon DEC-080.
+
+Le script `examples/test-examples.sh` vérifie que `examples/check-examples.py` rejette des copies altérées de ces fichiers.
 
 == Conformité
 
@@ -11,35 +156,34 @@ ____
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 (link:https://www.rfc-editor.org/info/rfc2119[RFC 2119], link:https://www.rfc-editor.org/info/rfc8174[RFC 8174]) when, and only when, they appear in all capitals, as shown here.
 ____
 
-Les mots clés suivent l'exigence WRT-010 de la spécification de rédaction de la {abbr-fpsot-first}.
-La version française emploie les mots clés français de l'exigence WRT-011.
+Les mots clés suivent l’exigence WRT-010 de la spécification de rédaction de la {abbr-fpsot}.
+La version française emploie les mots clés français de l’exigence WRT-011.
 
-== Exigences
+== Normes
 
-Donnez à chaque exigence une ancre avec son identifiant, juste au-dessus de son paragraphe.
-L'ancre ressemble à `+[[XYZ-001]]+`.
-L'exemple ci-dessous montre la forme. Remplacez-le par la première exigence.
+Les règles résument les normes externes dans leurs propres mots et n’en reprennent aucun texte.
+Elles citent ces versions.
 
-[[TPL-001]]
-*TPL-001.* Un énoncé normatif DOIT employer un des mots clés du {abbr-bcp-first} 14, en majuscules.
-Le mot clé donne sa force à la règle.
+* Provenance : link:https://www.w3.org/TR/2013/REC-prov-o-20130430/[PROV-O], une recommandation du {abbr-w3c-first}, 30 avril 2013.
+* Modèles de décision : link:https://www.omg.org/spec/DMN/1.6/[DMN 1.6] de l’Object Management Group.
+* Versions : link:https://semver.org/spec/v2.0.0.html[Semantic Versioning 2.0.0].
+* Schémas de concepts, événements, scénarios et modèles : les versions que fixent les spécifications correspondantes.
+Ce sont les spécifications sur les vocabulaires, les interfaces, les essais et les modèles de données.
 
 == Références
-
-Donnez ici chaque source externe que cite cette page, avec la même adresse que son lien dans le texte.
-Chaque entrée donne le titre, l'éditeur, la version, la date et une copie archivée.
 
 === Références normatives
 
 * link:https://www.rfc-editor.org/info/rfc2119[RFC 2119, Key words for use in RFCs to Indicate Requirement Levels], IETF, BCP 14, 1997-03. link:https://web.archive.org/web/20261103005705/https://www.rfc-editor.org/info/rfc2119/[Copie archivée]
 * link:https://www.rfc-editor.org/info/rfc8174[RFC 8174, Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words], IETF, BCP 14, 2017-05. link:https://web.archive.org/web/20261103005743/https://www.rfc-editor.org/info/rfc8174/[Copie archivée]
+* link:https://www.w3.org/TR/2013/REC-prov-o-20130430/[PROV-O: The PROV Ontology], W3C, Recommendation, 2013-04-30. link:https://web.archive.org/web/20261104001552/https://www.w3.org/TR/2013/REC-prov-o-20130430/[Copie archivée]
+* link:https://www.omg.org/spec/DMN/1.6/[Decision Model and Notation], Object Management Group, version 1.6, 2026. link:https://web.archive.org/web/20261012072712/https://www.omg.org/spec/DMN/1.6/[Copie archivée]
+* link:https://semver.org/spec/v2.0.0.html[Semantic Versioning], version 2.0.0. link:https://web.archive.org/web/20261111141303/https://semver.org/spec/v2.0.0.html[Copie archivée]
 
 == Historique du document
-
-Ajoutez une ligne pour chaque version qui modifie cette page.
 
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
-|0.1.0 |2026-11-03 |Première version.
+|0.1.0 |2026-11-15 |Première version.
 |===

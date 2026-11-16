@@ -1,0 +1,33 @@
+# FPSOT decisions specification
+
+> What software must record and prove about each individual administrative decision that it makes or helps make, whatever the engine: decision types with jurisdiction profiles and impact levels, a plain decision contract with four result kinds, bitemporal rule versions with dated parameters, an append-only decision record aligned with PROV-O, factor-named reason codes with counterfactual values, notices rendered at notice time, human review steps gated by impact level, events without personal values, and a conformance suite for every rule provider.
+
+## Specification
+
+- [Overview](spec/en/index.adoc): scope, roles, the capability boundary, legal status and conformance; DEC-001 to DEC-006.
+- [Jurisdiction profiles](spec/en/profiles.adoc): DEC-010 to DEC-014.
+- [Decision contract](spec/en/contract.adoc): DEC-020 to DEC-028.
+- [Rule versions and effective dates](spec/en/rule-versions.adoc): DEC-030 to DEC-038.
+- [Decision records](spec/en/records.adoc): DEC-040 to DEC-048.
+- [Reasons and explanations](spec/en/reasons.adoc): DEC-050 to DEC-058.
+- [Human review](spec/en/human-review.adoc): DEC-060 to DEC-066.
+- [Interfaces and events](spec/en/api-events.adoc): DEC-070 to DEC-073.
+- [Testing and conformance](spec/en/testing.adoc): DEC-080 to DEC-086.
+- [Rules as code maturity](spec/en/maturity.adoc): informative.
+- [Questions for counsel](spec/en/questions-for-counsel.adoc): informative, not legal advice.
+
+## Model, profiles and examples
+
+- [LinkML model](model/decisions.yaml)
+- [Profiles](profiles/)
+- [Event schemas](registry/events/)
+- [Decision type](examples/decision-type.yaml)
+- [Reason scheme](examples/reason-codes.jsonld)
+- [Referred record](examples/decision-record-1.json), [review step](examples/review-step.json) and [final record](examples/decision-record-2.json)
+- [Scenario](examples/features/en/example-housing-benefit.feature)
+- [How-to guide: put a decision type under the specification](docs/modules/en/pages/index.adoc)
+
+## Optional
+
+- [Agent skill](skill/SKILL.md)
+- [Français](spec/fr/index.adoc)

@@ -1,0 +1,15 @@
+{
+  "id": "01994d85-0c11-7e42-a1b2-6c7d8e9fa004",
+  "decisionId": "01994d84-3e9a-7d21-b6c7-5a6b7c8d9e03",
+  "templateId": "housing-benefit-refusal",
+  "templateVersion": "2.0.1",
+  "language": "fr",
+  "channel": "online-account",
+  "issuedAt": "2026-09-15T14:20:05.000Z",
+  "automationNotice": true,
+  "recourseChannels": [
+    "reconsideration-request"
+  ],
+  "recourseDeadline": "2026-12-14",
+  "sealedRecordId": "01994d85-0c12-7f53-b2c3-7d8e9fa0b105"
+}

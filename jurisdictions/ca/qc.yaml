@@ -1,0 +1,32 @@
+# Comparison data. The format is defined by fpsot-spec-doc (model/jurisdiction.yaml).
+# The text of article 65.2 of the Access Act was not read at the source: the rows rest on the
+# guidance of the Government of Québec, and the wording of the article is to be verified.
+# This file is informational and not legal advice.
+code: CA-QC
+name: {en: Québec, fr: Québec}
+rows:
+  - id: DEC-042
+    text: {en: "For a decision based only on automated processing, the body gives the person, on request, the personal information that it used.", fr: "Pour une décision fondée exclusivement sur un traitement automatisé, l’organisme communique à la personne, à sa demande, les renseignements personnels utilisés."}
+    status: same
+    source: {title: "Gouvernement du Québec, Décision fondée exclusivement sur un traitement automatisé (guidance on article 65.2 of the Access Act)", date: "2025-10-20", url: "https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise", archive: "https://web.archive.org/web/20260820015019/https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise"}
+    last_checked: "2026-11-11"
+  - id: DEC-052
+    text: {en: "On request, the body also gives the reasons and the main factors and parameters, with their relative weight. It need not disclose the algorithm itself.", fr: "À sa demande, l’organisme communique aussi les raisons ainsi que les principaux facteurs et paramètres, avec leur importance relative. Il n’a pas à divulguer l’algorithme lui-même."}
+    status: same
+    source: {title: "Gouvernement du Québec, Décision fondée exclusivement sur un traitement automatisé (guidance on article 65.2 of the Access Act)", date: "2025-10-20", url: "https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise", archive: "https://web.archive.org/web/20260820015019/https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise"}
+    last_checked: "2026-11-11"
+  - id: DEC-057
+    text: {en: "The body informs the person of the automated processing at the latest when it informs them of the decision. It tells them how to send observations to a staff member who can review the decision.", fr: "L’organisme informe la personne du traitement automatisé au plus tard lorsqu’il l’informe de la décision. Il lui indique comment présenter ses observations à un membre du personnel en mesure de réviser la décision."}
+    status: stricter
+    source: {title: "Gouvernement du Québec, Décision fondée exclusivement sur un traitement automatisé (guidance on article 65.2 of the Access Act)", date: "2025-10-20", url: "https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise", archive: "https://web.archive.org/web/20260820015019/https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise"}
+    last_checked: "2026-11-11"
+  - id: DEC-060
+    text: {en: "A minor human step without real effect on the decision leaves it based only on automated processing.", fr: "Une intervention humaine mineure, sans effet réel sur la décision, la laisse fondée exclusivement sur un traitement automatisé."}
+    status: same
+    source: {title: "Gouvernement du Québec, Décision fondée exclusivement sur un traitement automatisé (guidance on article 65.2 of the Access Act)", date: "2025-10-20", url: "https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise", archive: "https://web.archive.org/web/20260820015019/https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise"}
+    last_checked: "2026-11-11"
+  - id: DEC-014
+    text: {en: "Before it puts such a system in place, the body conducts a privacy impact assessment. The guidance places this duty in article 63.5 of the Access Act, to be verified.", fr: "Avant de mettre un tel système en place, l’organisme réalise une évaluation des facteurs relatifs à la vie privée. Le guide situe cette obligation à l’article 63.5 de la Loi sur l’accès, à vérifier."}
+    status: stricter
+    source: {title: "Gouvernement du Québec, Décision fondée exclusivement sur un traitement automatisé (guidance on article 65.2 of the Access Act)", date: "2025-10-20", url: "https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise", archive: "https://web.archive.org/web/20260820015019/https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise"}
+    last_checked: "2026-11-11"
