@@ -1,4 +1,4 @@
-= Specification title
+= FPSOT decisions specification
 :doctype: book
 :toc:
 
