@@ -74,7 +74,7 @@ A ministry can then override one rule of the default and show which cases its ch
 It SHOULD publish the differences, as counts of cases for each change of outcome and of principal reason.
 
 OpenFisca calls such a change a reform, and runs it beside the law in force.
-The link:https://modparl.substack.com/p/leximpact[LexImpact project] in France does the same for draft amendments.
+link:https://leximpact.an.fr/[LexImpact], a unit of the French National Assembly, does the same for reforms of tax and social laws.
 A published comparison shows the effect of a change before it reaches people.
 
 == Providers in Decision Model and Notation
@@ -97,7 +97,7 @@ The page xref:maturity.adoc[Rules as code maturity] names engines to watch, as i
 
 * link:https://openfisca.org/doc/coding-the-legislation/writing_yaml_tests.html[Writing YAML tests], OpenFisca documentation. link:https://web.archive.org/web/20251112010629/https://openfisca.org/doc/coding-the-legislation/writing_yaml_tests.html[Archived copy]
 * link:https://jqwik.net/[jqwik, property-based testing on the JUnit Platform]. link:https://web.archive.org/web/20261012221202/https://jqwik.net/[Archived copy]
-* link:https://modparl.substack.com/p/leximpact[LexImpact], ModParl. link:https://web.archive.org/web/20250830110553/https://modparl.substack.com/p/leximpact[Archived copy]
+* link:https://leximpact.an.fr/[LexImpact], Assemblée nationale. link:https://web.archive.org/web/20261114052327/https://leximpact.an.fr/[Archived copy]
 * link:https://dmn-tck.github.io/tck/[DMN Technology Compatibility Kit, results], DMN TCK working group. link:https://web.archive.org/web/20261004122620/https://dmn-tck.github.io/tck/[Archived copy]
 
 == Document history
