@@ -44,7 +44,7 @@ La page des résultats de la trousse de compatibilité indique encore qu’elle 
 Les résultats de la trousse lui attribuent 3 391 tests réussis sur 3 407.
 * Les projets Apache KIE comprennent Drools et Kogito.
 Ils sont toujours en incubation à l’Apache Software Foundation, comme le montrent ses link:https://whimsy.apache.org/board/minutes/KIE.html[procès-verbaux du conseil].
-* Le link:https://forum.camunda.io/t/important-update-camunda-7-community-edition-end-of-life-announced/50921[forum de Camunda] a annoncé que l’édition communautaire de Camunda 7 n’aura plus de versions après la 7.24.
+* Le link:https://web.archive.org/web/20251028192831/https://forum.camunda.io/t/important-update-camunda-7-community-edition-end-of-life-announced/50921[forum de Camunda] a annoncé que l’édition communautaire de Camunda 7 n’aura plus de versions après la 7.24.
 Cette dernière date d’octobre 2025.
 * OpenFisca est une bibliothèque Python pour les règles fiscales et sociales fondées sur des paramètres datés.
 DEC-037 suit son modèle.
@@ -63,7 +63,7 @@ Le contrat, les enregistrements et la suite de conformité restent les mêmes.
 * link:https://arxiv.org/abs/2103.03198v2[Catala: A Programming Language for the Law], Denis Merigoux, Nicolas Chataing and Jonathan Protzenko, arXiv, version 2. link:https://web.archive.org/web/20261111215053/https://arxiv.org/abs/2103.03198v2[Copie archivée]
 * link:https://github.com/goldmansachs/jdmn[jDMN], Goldman Sachs, on GitHub. link:https://web.archive.org/web/20260430172133/https://github.com/goldmansachs/jdmn[Copie archivée]
 * link:https://whimsy.apache.org/board/minutes/KIE.html[Board minutes on KIE], Apache Software Foundation. link:https://web.archive.org/web/20260808193308/https://whimsy.apache.org/board/minutes/KIE.html[Copie archivée]
-* link:https://forum.camunda.io/t/important-update-camunda-7-community-edition-end-of-life-announced/50921[Important update: Camunda 7 Community Edition end of life announced], Camunda forum. link:https://web.archive.org/web/20251028192831/https://forum.camunda.io/t/important-update-camunda-7-community-edition-end-of-life-announced/50921[Copie archivée]
+* link:https://web.archive.org/web/20251028192831/https://forum.camunda.io/t/important-update-camunda-7-community-edition-end-of-life-announced/50921[Important update: Camunda 7 Community Edition end of life announced], forum de Camunda, copie archivée.
 * link:https://oecd-opsi.org/innovations/new-techniques-for-building-and-using-legal-encodings-in-the-drafting-room/[New techniques for building and using legal encodings in the drafting room], OECD Observatory of Public Sector Innovation. link:https://web.archive.org/web/20260511232839/https://oecd-opsi.org/innovations/new-techniques-for-building-and-using-legal-encodings-in-the-drafting-room/[Copie archivée]
 
 == Historique du document
