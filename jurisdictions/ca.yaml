@@ -1,0 +1,37 @@
+# Comparison data. The format is defined by fpsot-spec-doc (model/jurisdiction.yaml).
+# The official text of the Directive on Automated Decision-Making refused automated readers.
+# The rows on it rest on the November 2024 document of text changes, and the 2025 text is to be
+# verified. This file is informational and not legal advice.
+code: CA
+name: {en: Canada, fr: Canada}
+rows:
+  - id: DEC-001
+    text: {en: "The directive covers systems that make or help make administrative decisions about clients. Since 2023 it also covers internal services, such as hiring and security screening.", fr: "La directive vise les systèmes qui prennent ou aident à prendre des décisions administratives sur la clientèle. Depuis 2023, elle vise aussi les services internes, comme l’embauche et les enquêtes de sécurité."}
+    status: same
+    source: {title: "Treasury Board of Canada Secretariat, Amendments to the Directive on Automated Decision-Making", date: "2023-04-25", url: "https://www.canada.ca/en/government/system/digital-government/policies-standards/policy-service-digital-announcements/amendments-directive-automated-decision-making.html", archive: "https://web.archive.org/web/20260414090639/https://www.canada.ca/en/government/system/digital-government/policies-standards/policy-service-digital-announcements/amendments-directive-automated-decision-making.html"}
+    last_checked: "2026-11-11"
+  - id: DEC-013
+    text: {en: "The Algorithmic Impact Assessment scores a system and grades it in four levels, from little to very high impact. Mitigation does not lower the level; only a new assessment can change it.", fr: "L’Évaluation de l’incidence algorithmique note un système et le classe dans quatre niveaux, d’une incidence faible à très élevée. Les mesures d’atténuation n’abaissent pas le niveau; seule une nouvelle évaluation peut le changer."}
+    status: same
+    source: {title: "Government of Canada, Algorithmic Impact Assessment tool", date: "2026-09-15", url: "https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html", archive: "https://web.archive.org/web/20260831193114/https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html"}
+    last_checked: "2026-11-11"
+  - id: DEC-014
+    text: {en: "An institution completes the assessment at the start of design and again before production, and publishes the final results in both official languages.", fr: "Une institution remplit l’évaluation au début de la conception, puis de nouveau avant la production, et publie les résultats finaux dans les deux langues officielles."}
+    status: stricter
+    source: {title: "Government of Canada, Algorithmic Impact Assessment tool", date: "2026-09-15", url: "https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html", archive: "https://web.archive.org/web/20260831193114/https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html"}
+    last_checked: "2026-11-11"
+  - id: DEC-057
+    text: {en: "The proposed text asks for a plain-language notice of automation and for the recourse options open to the client. The section numbers of the 2025 text are to be verified.", fr: "Le texte proposé demande une mention en langage clair du traitement automatisé et les voies de recours offertes à la clientèle. Les numéros d’articles du texte de 2025 sont à vérifier."}
+    status: stricter
+    source: {title: "Treasury Board of Canada Secretariat, Text changes to the Directive on Automated Decision-Making", date: "2024-11", url: "https://wiki.gccollab.ca/images/0/00/Text_changes_to_the_Directive.pdf", archive: "https://web.archive.org/web/20261012132637/https://wiki.gccollab.ca/images/0/00/Text_changes_to_the_Directive.pdf"}
+    last_checked: "2026-11-11"
+  - id: DEC-061
+    text: {en: "Under the proposed text, a system at level III or IV cannot decide without specific points of human intervention, and a person makes the final decision. The 2025 text is to be verified.", fr: "Selon le texte proposé, un système de niveau III ou IV ne peut pas décider sans points d’intervention humaine précis, et une personne prend la décision finale. Le texte de 2025 est à vérifier."}
+    status: same
+    source: {title: "Treasury Board of Canada Secretariat, Text changes to the Directive on Automated Decision-Making", date: "2024-11", url: "https://wiki.gccollab.ca/images/0/00/Text_changes_to_the_Directive.pdf", archive: "https://web.archive.org/web/20261012132637/https://wiki.gccollab.ca/images/0/00/Text_changes_to_the_Directive.pdf"}
+    last_checked: "2026-11-11"
+  - id: DEC-066
+    text: {en: "The proposed text asks institutions to document human overrides and analyze them to drive corrective action. The 2025 text is to be verified.", fr: "Le texte proposé demande aux institutions de documenter les dérogations humaines et de les analyser pour orienter les mesures correctives. Le texte de 2025 est à vérifier."}
+    status: same
+    source: {title: "Treasury Board of Canada Secretariat, Text changes to the Directive on Automated Decision-Making", date: "2024-11", url: "https://wiki.gccollab.ca/images/0/00/Text_changes_to_the_Directive.pdf", archive: "https://web.archive.org/web/20261012132637/https://wiki.gccollab.ca/images/0/00/Text_changes_to_the_Directive.pdf"}
+    last_checked: "2026-11-11"

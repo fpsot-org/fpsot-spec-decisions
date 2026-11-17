@@ -1,0 +1,125 @@
+{
+  "id": "01994d84-3e9a-7d21-b6c7-5a6b7c8d9e03",
+  "decisionType": "example-housing-benefit",
+  "decisionTypeVersion": "1.0.0",
+  "profiles": [
+    {
+      "code": "core",
+      "version": "0.1.0"
+    },
+    {
+      "code": "ca-federal",
+      "version": "0.1.0"
+    }
+  ],
+  "impactLevel": "level-3",
+  "objects": [
+    {
+      "type": "PartyRole",
+      "id": "0198f2a1-7c3d-7e4f-8a5b-6c7d8e9f0a11",
+      "qualifier": "subject"
+    },
+    {
+      "type": "Application",
+      "id": "0198f2a1-9d4e-7a5b-9c6d-7e8f9a0b1c22",
+      "qualifier": "case"
+    }
+  ],
+  "legalAuthorities": [
+    {
+      "uri": "https://laws.example.org/eng/acts/E-1/section-3.html",
+      "otherLanguageUris": [
+        "https://laws.example.org/fra/lois/E-1/article-3.html"
+      ]
+    }
+  ],
+  "ruleSet": {
+    "code": "example-housing-benefit",
+    "version": "1.2.0",
+    "digest": "43dcdc350f7d62c3ca36c4cf005898093b2d4a4d5ca50563cc0f70a0e8e6de21",
+    "buildCoordinates": "org.example.benefits:example-housing-benefit-rules:1.2.0"
+  },
+  "parameterSets": [
+    {
+      "code": "example-housing-benefit-limits",
+      "version": "1.1.0",
+      "digest": "d34771637e407dde6c07f9eed58568716c6e497bbe5217ac2a8512d10641e94a"
+    }
+  ],
+  "effectiveDate": "2026-09-01",
+  "recordTime": "2026-09-15T14:16:43.000Z",
+  "startedAt": "2026-09-15T14:16:43.002Z",
+  "completedAt": "2026-09-15T14:16:43.008Z",
+  "inputs": [
+    {
+      "name": "household-income",
+      "value": {
+        "amount": "53410.00",
+        "currency": "CAD"
+      },
+      "source": "tax-authority",
+      "asOfDate": "2026-04-30",
+      "collectionMethod": "data-exchange"
+    },
+    {
+      "name": "household-size",
+      "value": 3,
+      "source": "applicant-declaration",
+      "asOfDate": "2026-08-28",
+      "collectionMethod": "online-form"
+    }
+  ],
+  "resultKind": "decided",
+  "reasonScheme": "https://vocab.example.org/example-housing-benefit-reasons/versions/1.0.0",
+  "reasons": [
+    {
+      "code": "household-income-above-limit",
+      "rank": 1,
+      "principal": true,
+      "clause": {
+        "uri": "https://laws.example.org/eng/acts/E-1/section-4.html",
+        "otherLanguageUris": [
+          "https://laws.example.org/fra/lois/E-1/article-4.html"
+        ]
+      },
+      "actualValue": {
+        "amount": "53410.00",
+        "currency": "CAD"
+      },
+      "thresholdValue": {
+        "amount": "52000.00",
+        "currency": "CAD"
+      },
+      "counterfactualRelation": "at-most",
+      "counterfactualValue": {
+        "amount": "52000.00",
+        "currency": "CAD"
+      }
+    },
+    {
+      "code": "household-size",
+      "rank": 2,
+      "principal": false,
+      "clause": {
+        "uri": "https://laws.example.org/eng/acts/E-1/section-4.html",
+        "otherLanguageUris": [
+          "https://laws.example.org/fra/lois/E-1/article-4.html"
+        ]
+      },
+      "actualValue": 3
+    }
+  ],
+  "automationDegree": "human-confirmed",
+  "trace": {
+    "uri": "https://decisions.example.org/traces/01994d84-3e9a-7d21-b6c7-5a6b7c8d9e03",
+    "digest": "b6d8e8d466355776c40598d847ef5795adbeaf6fd13e9afca6ec02648e879189"
+  },
+  "createdAt": "2026-09-15T14:16:43.010Z",
+  "updatedAt": "2026-09-15T14:16:43.010Z",
+  "outcome": "refused",
+  "reviewStepIds": [
+    "01994d7e-2b10-7c3a-8e55-4f6a7b8c9d02"
+  ],
+  "predecessorId": "0199485a-6f2c-7b1e-9a40-3c5d7e8f9a01",
+  "changeCause": "human-review"
+}

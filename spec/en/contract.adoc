@@ -1,0 +1,192 @@
+= Decision contract
+include::_fpsot-terms.adoc[]
+
+The decision contract is the interface between a decision service and the rules of one decision type.
+It has a form that any language can read, and a binding for Java.
+This page describes the contract.
+It does not ship code: the short Java on this page is informative.
+
+The contract has three parts.
+The input holds the facts of one case.
+The evaluation context says which law applies and what the system knew.
+The result is one of four kinds, so that missing facts and human judgment have their own place.
+
+== Form of the contract
+
+[[DEC-020]]
+*DEC-020.* Each rule provider MUST implement the decision contract of its decision type.
+The language-neutral form of the contract is the model of `model/decisions.yaml`.
+The input facts follow the class `InputFact`, the context follows the class `EvaluationContext` and the result follows the class `DecisionResult`.
+The decision service builds a `DecisionRecord` from each `DecisionResult`, under DEC-040.
+A provider in Java MUST also implement the Java binding of DEC-021.
+A provider in another language MUST map its results to the same model.
+
+The conformance suite of DEC-083 checks the contract through this model.
+A provider written in another language, or compiled from another rule language, can then pass the same suite.
+
+[[DEC-021]]
+*DEC-021.* The Java binding MUST be a plain Java module.
+It MUST NOT carry a framework annotation, or depend on a framework or an engine.
+The input of a decision type MUST be a Java record.
+The result MUST be a sealed interface whose permitted types are records, one for each result kind of DEC-024.
+A rule provider MUST NOT expose the interface of an engine through the contract.
+
+A module without framework code works in any Java program, whether it runs on a framework or not.
+A sealed result lets the compiler check that each caller handles each result kind.
+Java gives this through link:https://openjdk.org/jeps/409[sealed classes] and link:https://openjdk.org/jeps/441[pattern matching for switch].
+
+This example is informative.
+Its names show the shape of the binding, and a later release of the binding may name things differently.
+
+[source,java]
+----
+public interface Decision<I extends Record, O> {
+    Result<O> decide(I input, EvaluationContext context);
+}
+
+public record EvaluationContext(
+        LocalDate effectiveDate,
+        Instant recordTime,
+        String decisionType,
+        List<ProfileReference> profiles,
+        Optional<Locale> language) {
+}
+
+public record Provenance(
+        List<ParameterSetReference> parameterSets,
+        List<String> presumptions,
+        Optional<TraceReference> trace) {
+}
+
+public sealed interface Result<O>
+        permits Decided, Referred, InsufficientInformation, NotApplicable {
+    List<Reason> reasons();
+    Provenance provenance();
+}
+
+public record Decided<O>(O outcome, Optional<Money> amount, RuleVersion ruleVersion,
+        List<Reason> reasons, Provenance provenance) implements Result<O> {
+}
+
+public record Referred<O>(String referralReason, Optional<O> recommendedOutcome,
+        RuleVersion ruleVersion, List<Reason> reasons, Provenance provenance)
+        implements Result<O> {
+}
+
+public record InsufficientInformation<O>(List<String> missingFacts,
+        RuleVersion ruleVersion, List<Reason> reasons, Provenance provenance)
+        implements Result<O> {
+}
+
+public record NotApplicable<O>(Optional<RuleVersion> ruleVersion,
+        List<Reason> reasons, Provenance provenance) implements Result<O> {
+}
+----
+
+Each record of this example maps to the class `EvaluationContext` or `DecisionResult` of the model.
+Only `NotApplicable` can lack a rule version, when no version holds the dates of the case, under DEC-035.
+
+A caller then handles every kind in one `switch`, and the compiler rejects a `switch` that misses one.
+
+[source,java]
+----
+String kind = switch (result) {
+    case Decided<Outcome> decided -> "decided";
+    case Referred<Outcome> referred -> "referred";
+    case InsufficientInformation<Outcome> missing -> "insufficient-information";
+    case NotApplicable<Outcome> notApplicable -> "not-applicable";
+};
+----
+
+== Evaluation context
+
+[[DEC-022]]
+*DEC-022.* The evaluation context MUST hold the effective date, the record time, the decision type and the profiles.
+It MUST name the release of each profile.
+The effective date is the date whose law applies to the case, such as the date of an application.
+The record time is the knowledge cutoff: only facts and rule versions recorded at or before it count.
+The context MAY hold the official language of the person, for the later notices.
+That language MUST NOT change the result or the reasons.
+
+The effective date is a calendar date under DAT-014, and the record time is an instant under DAT-010.
+Neither of them is the time of the run, which the record keeps apart under DEC-040.
+
+[[DEC-023]]
+*DEC-023.* A rule provider MUST compute its result only from the input, the context, its rule version and its parameters.
+It MUST NOT read the clock, a random source, a file, a database or a network service.
+The same input, context and rule version MUST give the same result, with the same reasons in the same order.
+
+A provider that reads nothing else can replay any past decision, under DEC-047.
+A fact that the rules need, such as a value from another register, enters as an input with its source.
+TST-011 asks the same of code that reads the time or a random value.
+
+== Result kinds
+
+[[DEC-024]]
+*DEC-024.* The result MUST be exactly one of these four kinds, and a profile MUST NOT remove one.
+
+* `decided`: the rules reached an outcome, such as `granted`, `refused` or `partly-granted`.
+* `referred`: a person must decide, for discretion, hardship, conflicting evidence or a review that a profile asks for.
+* `insufficient-information`: a fact that the rules need is missing, and the result lists each missing fact.
+* `not-applicable`: the rules do not cover the case or the effective date.
+
+A failure to compute, such as a fault in the provider, MUST NOT be a result.
+The decision service treats it as an error, under DEC-070, and records no decision.
+
+A result that can only grant or refuse hides the cases that need a person.
+Each kind carries its reasons and its rule version, so the record of DEC-040 can explain every kind.
+The one exception is a `not-applicable` result for dates that no rule version holds, under DEC-035.
+
+[[DEC-025]]
+*DEC-025.* A rule provider MUST NOT let a missing or unknown fact lead to an adverse outcome.
+When a fact that the rules need is missing, the result MUST be `insufficient-information` or `referred`.
+A provider MUST NOT fill a missing fact with a default value.
+Only a named presumption rule of DEC-033 MAY set such a value.
+
+Reports on the link:https://www.itnews.com.au/news/robodebt-report-calls-for-automated-decision-making-review-body-597734[Australian Robodebt scheme] describe debts that rested on estimates of income.
+Each person then had to disprove the debt.
+A separate result kind for missing facts keeps that burden where the law puts it.
+
+[[DEC-026]]
+*DEC-026.* The rules MUST be able to return `referred` when the law allows discretion or a hardship exception.
+A rule provider MUST NOT return an adverse `decided` result when the law leaves the case to a person.
+The record MUST give the reason for the referral, such as `discretion` or `hardship`.
+
+A hardship clause that the software cannot reach does not protect anyone.
+The referral keeps discretion inside the decision flow, where the record can show it.
+
+[[DEC-027]]
+*DEC-027.* A rule SHOULD give a result in proportion to the facts, such as a reduced amount, not a refusal.
+A small change in one fact can sometimes remove the whole benefit.
+The metadata of such a rule version MUST then set `cliffEdge` to `true`.
+The deploying body SHOULD review each such rule with its policy experts.
+
+A rule that removes a whole benefit for a minor defect harms people at scale.
+The flag lets a reviewer find such rules without reading the code.
+
+[[DEC-028]]
+*DEC-028.* Entitlement rules MUST NOT use a risk or fraud score as an input, unless they declare it.
+A declared input has its own entry in the description of the decision type.
+That entry cites the provision that allows the input.
+A risk score MUST come from its own decision type, with its own records under this specification.
+
+A Dutch court struck down the link:https://www.rechtspraak.nl/organisatie-en-contact/organisatie/rechtbanken/rechtbank-den-haag/nieuws/2020/02/syri-legislation-in-breach-of-european-convention-on-human-rights[SyRI risk-profiling law] in 2020.
+It found that nobody outside could see or check how the system worked.
+A score that feeds entitlement rules out of sight carries the same risk.
+
+== References
+
+=== Informative
+
+* link:https://openjdk.org/jeps/409[JEP 409: Sealed Classes], OpenJDK, delivered in JDK 17. link:https://web.archive.org/web/20261114005136/https://openjdk.org/jeps/409[Archived copy]
+* link:https://openjdk.org/jeps/441[JEP 441: Pattern Matching for switch], OpenJDK, delivered in JDK 21. link:https://web.archive.org/web/20261116032512/https://openjdk.org/jeps/441[Archived copy]
+* link:https://www.itnews.com.au/news/robodebt-report-calls-for-automated-decision-making-review-body-597734[Robodebt report calls for automated decision-making review body], iTnews, 2023-07. link:https://web.archive.org/web/20260726091704/https://www.itnews.com.au/news/robodebt-report-calls-for-automated-decision-making-review-body-597734[Archived copy]
+* link:https://www.rechtspraak.nl/organisatie-en-contact/organisatie/rechtbanken/rechtbank-den-haag/nieuws/2020/02/syri-legislation-in-breach-of-european-convention-on-human-rights[SyRI legislation in breach of European Convention on Human Rights], District Court of The Hague, 2020-02-05. link:https://web.archive.org/web/20261006165650/https://www.rechtspraak.nl/organisatie-en-contact/organisatie/rechtbanken/rechtbank-den-haag/nieuws/2020/02/syri-legislation-in-breach-of-european-convention-on-human-rights[Archived copy]
+
+== Document history
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Change
+|0.1.0 |2026-11-15 |First version.
+|===

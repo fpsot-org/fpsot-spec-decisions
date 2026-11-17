@@ -1,0 +1,26 @@
+{
+  "id": "01994d7e-2b10-7c3a-8e55-4f6a7b8c9d02",
+  "decisionId": "0199485a-6f2c-7b1e-9a40-3c5d7e8f9a01",
+  "actorId": "staff-8c41f2e0",
+  "actorRole": "benefit-officer",
+  "representedPartyId": "0198a000-1111-7222-8333-944455566677",
+  "authority": "housing-benefit-delegate",
+  "shownItems": [
+    "recommendation",
+    "inputs",
+    "reasons"
+  ],
+  "action": "confirmed",
+  "agreement": true,
+  "justification": "The income from the tax data matches the notice of assessment in the file, and the household made no hardship claim.",
+  "justificationLanguage": "en",
+  "startedAt": "2026-09-15T14:10:01.000Z",
+  "completedAt": "2026-09-15T14:16:42.500Z",
+  "engagement": {
+    "inputsOpened": true,
+    "reasonsOpened": true,
+    "activeDuration": "PT6M41S"
+  },
+  "createdAt": "2026-09-15T14:16:42.510Z",
+  "updatedAt": "2026-09-15T14:16:42.510Z"
+}

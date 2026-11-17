@@ -1,0 +1,112 @@
+= Jurisdiction profiles
+include::_fpsot-terms.adoc[]
+
+The laws on automated decisions differ in depth, not in kind.
+Each asks for a notice, an explanation, a human channel, an impact assessment and a record.
+They differ on when a person must take part and on how deep the explanation goes.
+They also differ on which assessment comes first.
+This page keeps those differences in profiles, apart from the core rules.
+A change in a law then becomes a new release of a profile, not a change to the contract.
+
+The research read several of these laws through government guidance or secondary sources.
+Each profile file names the texts that it follows and marks the ones that are _to be verified_.
+A profile states the practice of {abbr-fpsot-first}, and it is not legal advice.
+
+== Decision types
+
+[[DEC-010]]
+*DEC-010.* A deploying body MUST describe each decision type in a file of the class `DecisionType` of `model/decisions.yaml`.
+The description MUST give the profiles that apply with their releases, the impact level and the legal authority.
+It MUST also give the reason scheme, the rule set and the review settings.
+The body MUST publish a new release of the description for each change, under Semantic Versioning 2.0.0.
+Each decision record names the release that applied, under DEC-040.
+
+The file `examples/decision-type.yaml` describes a fictional housing benefit.
+
+== The profiles
+
+[[DEC-011]]
+*DEC-011.* A decision type MUST declare the `core` profile, and each profile of this table whose law applies.
+The decision service MUST apply every control of each declared profile at the impact level of the decision type.
+When two profiles set the same control, the stricter setting applies.
+Each profile is a file of the class `Profile` in the folder `profiles/`.
+
+[cols="2,3,3,4",options="header"]
+|===
+|Profile |Applies to |Impact assessment |Main controls
+|`core` |Every decision type |None named |The core rules only. A notice of automation and a recourse channel are recommended.
+|`ca-federal` |Federal institutions of Canada under the Directive on Automated Decision-Making |Algorithmic Impact Assessment |A notice of automation and recourse at every level. A review step before a final result at levels 3 and 4.
+|`ca-qc` |Québec public bodies |Privacy impact assessment, under article 63.5 of the Access Act, _to be verified_ |A notice when the decision is fully automated. A recourse and observations channel on every notice.
+|`fr` |French administrations |None named in this release |An explicit mention of algorithmic processing on every decision. Every reason in the explanation.
+|`eu-ai-high-risk` |High-risk systems of the European regulation on artificial intelligence |Fundamental rights impact assessment |A notice of automation. The override and stop functions of DEC-063, which apply under every profile.
+|===
+
+The `ca-federal` profile follows the proposed text of the federal directive, which a 2024 document of the {abbr-tbs-first} sets out.
+At levels 3 and 4, that text keeps the final decision for a person, at defined points of human intervention.
+Secondary sources date a later amendment to 24 June 2025, and its content is _to be verified_.
+
+The `ca-qc` profile follows link:https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise[government guidance on article 65.2] of the Québec Access Act.
+That article covers a decision based only on the automated processing of personal information.
+The guidance says that a minor human step without real effect leaves a decision fully automated.
+The wording of the article and article 8 of the Act respecting administrative justice are _to be verified_.
+
+The `fr` profile follows link:https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033205535[article L311-3-1] of the French code on relations between the public and the administration.
+That article asks for an explicit mention on each individual decision that rests on algorithmic processing.
+Article R311-3-1-2 lists what the person can obtain on request, and its items 2 to 4 are _to be verified_.
+
+The `eu-ai-high-risk` profile follows the link:https://eur-lex.europa.eu/eli/reg/2024/1689/oj[European regulation on artificial intelligence].
+Its Annex III counts a system that evaluates eligibility for public assistance benefits as high-risk, _to be verified_.
+Whether a deterministic rules engine is an artificial intelligence system under that regulation is a question for counsel.
+A body adopts this profile when its counsel says that the regulation applies, or by choice.
+
+== Releases of a profile
+
+[[DEC-012]]
+*DEC-012.* Each profile MUST have its own version number under Semantic Versioning 2.0.0, apart from the version of this specification.
+A profile MUST NOT remove a result kind of DEC-024, or relax a MUST of the core rules.
+A release that removes or relaxes a control of the same profile MUST take a new major version.
+A decision record MUST name the release of each profile that applied, under DEC-040.
+
+Laws on automated decisions are still moving, as the 2025 federal text and the European revisions show.
+A profile release can follow such a change without breaking the contract that every rule provider implements.
+
+== Impact levels
+
+[[DEC-013]]
+*DEC-013.* A decision type MUST state one impact level, from `level-1` to `level-4`.
+Under the `ca-federal` profile, the level MUST be the level of its published Algorithmic Impact Assessment.
+Under the other profiles, the deploying body MUST set the level from its own impact assessment.
+The level, and never the rule provider, decides which controls apply.
+
+The link:https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html[federal assessment tool] scores the risk and grades it in four levels.
+Mitigation does not lower the level, and only a new assessment can change it.
+Québec and France set no levels, so their profiles apply the same controls at each level.
+
+== Impact assessments
+
+[[DEC-014]]
+*DEC-014.* A decision type MUST name each impact assessment that its profiles ask for, with its reference and its date.
+A decision service MUST NOT run a decision type in production while such an assessment is missing.
+The deploying body MUST review the assessment when the scope or the rules of the decision type change.
+
+The service can check this rule from the description alone, before the first decision.
+The content of each assessment stays the duty of the deploying body.
+
+== References
+
+=== Informative
+
+* link:https://wiki.gccollab.ca/images/0/00/Text_changes_to_the_Directive.pdf[Text changes to the Directive on Automated Decision-Making], Treasury Board of Canada Secretariat, 2024-11. link:https://web.archive.org/web/20261012132637/https://wiki.gccollab.ca/images/0/00/Text_changes_to_the_Directive.pdf[Archived copy]
+* link:https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592[Directive on Automated Decision-Making], Treasury Board of Canada Secretariat, amended 2025-06-24, text to be verified. link:https://web.archive.org/web/20261110083537/https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592[Archived copy]
+* link:https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html[Algorithmic Impact Assessment tool], Government of Canada, 2026-09-15. link:https://web.archive.org/web/20260831193114/https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html[Archived copy]
+* link:https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise[Décision fondée exclusivement sur un traitement automatisé], Gouvernement du Québec, 2025-10-20. link:https://web.archive.org/web/20260820015019/https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise[Archived copy]
+* link:https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033205535[Code des relations entre le public et l'administration, article L311-3-1], Légifrance, version in force since 2016-10-09. link:https://web.archive.org/web/20250126141052/https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033205535/[Archived copy]
+* link:https://eur-lex.europa.eu/eli/reg/2024/1689/oj[Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence], European Union, 2024-06-13. link:https://web.archive.org/web/20261115193616/https://eur-lex.europa.eu/eli/reg/2024/1689/oj[Archived copy]
+
+== Document history
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Change
+|0.1.0 |2026-11-15 |First version.
+|===

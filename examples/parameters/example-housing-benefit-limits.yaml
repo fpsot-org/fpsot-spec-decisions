@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: Community-Spec-1.0
+# Example dated parameter set (DEC-037), in the form of the class ParameterSet of
+# model/decisions.yaml. Each value holds for a period, cites its source and records
+# when the body adopted it. The regulations and every address are fictional.
+code: example-housing-benefit-limits
+version: 1.1.0
+parameters:
+  - code: income-limit-three-persons
+    values:
+      - validity: {start: "2025-07-01", end: "2026-07-01"}
+        value: {amount: "50500.00", currency: CAD}
+        enactedAt: "2025-05-15T16:00:00Z"
+        legalSource: {uri: "https://laws.example.org/eng/regulations/E-1-1/section-2.html", otherLanguageUris: ["https://laws.example.org/fra/reglements/E-1-1/article-2.html"]}
+      - validity: {start: "2026-07-01"}
+        value: {amount: "52000.00", currency: CAD}
+        enactedAt: "2026-05-20T15:00:00Z"
+        legalSource: {uri: "https://laws.example.org/eng/regulations/E-1-1/section-2.html", otherLanguageUris: ["https://laws.example.org/fra/reglements/E-1-1/article-2.html"]}

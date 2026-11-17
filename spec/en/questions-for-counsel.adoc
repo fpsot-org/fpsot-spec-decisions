@@ -1,0 +1,89 @@
+= Questions for counsel
+include::_fpsot-terms.adoc[]
+
+This page is informative.
+It sets no rule, and it is not legal advice.
+It lists the legal questions that this specification raises but cannot answer.
+A lawyer must answer each one before {abbr-fpsot-first} or a deploying body relies on it.
+Some sources refuse automated readers, so the research read several statutes through guidance or secondary sources.
+A text or an article number marked _to be verified_ comes from such a source, not from the law itself.
+
+== Scope of the laws
+
+1. *Rules engines under the federal directive.* Is a deterministic rules engine that does not learn an automated decision system?
+The question concerns the definition in the 2025 text of the Directive on Automated Decision-Making.
+What changed in the text of 24 June 2025, _to be verified_?
+The points of interest are the levels of Appendix C and the content of explanations.
+Another is the proposed duty to document human overrides.
+
+2. *Rules engines as artificial intelligence.* Is a deterministic rules engine an AI system under the 2025 Québec statement of principles?
+That statement follows the definition of the OECD.
+Is it one under the European regulation on artificial intelligence?
+If not, which Québec instruments govern it, beyond article 65.2 of the Access Act and the Act respecting administrative justice?
+
+3. *Administrative justice.* Do articles 2, 4, 5 and 8 of the Act respecting administrative justice apply here, _to be verified_?
+Do they apply to every automated decision on a benefit or on eligibility?
+Does the duty of prior notice in article 5 reach beyond permits and other authorizations?
+
+4. *Express authority.* After Robodebt, some reviews called for express statutory authority before a body automates a decision.
+Does a federal or Québec body that uses the {abbr-fpsot} reference rules, or an override, need such authority?
+
+5. *International remedies.* Has Canada ratified the Council of Europe Framework Convention on artificial intelligence, CETS 225?
+Would its duty to provide remedies bind federal or provincial bodies that use {abbr-fpsot} software?
+
+== Article 65.2 of the Québec Access Act
+
+1. *Wording.* What is the exact text of article 65.2, _to be verified_?
+The article asks for notice at the latest when the body informs the person of the decision.
+What does that timing ask of software?
+Who counts as a staff member who can review the decision?
+
+2. *Real human effect.* Which human actions mean that a Québec decision no longer rests only on automated processing?
+Is a recorded confirmation with a justification enough, as DEC-062 records it?
+Or must the reviewer show that they examined the inputs?
+
+3. *Personal information used.* A body must give the personal information that it used, on request.
+Must it then keep the input values for the life of the decision?
+Or can it rely on references to source systems, which may themselves change or destroy the values?
+DEC-042 assumes the first answer.
+
+4. *Withheld factors.* May a body withhold some main factors as protected technical information when the rules are open source?
+Does publication under DEC-038 waive that exception?
+
+== Records and retention
+
+1. *Federal retention floor.* The Privacy Act and its regulations set a retention floor, _to be verified_.
+The sections at stake are section 6 of the act and section 4 of the regulations.
+That floor would be two years after the last administrative use.
+Are the rule version, the parameters and the trace personal information used for an administrative purpose?
+Does that floor then apply to them as well?
+
+2. *Language of the notice.* Consider a Québec body under the Charter of the French language.
+Must it give the notice and the explanation in French first?
+Does that hold even when the person chose English?
+Does rendering from codes at notice time, under DEC-056, meet any duty to keep the version that the body sent?
+
+== Reviewers and employees
+
+1. *Engagement evidence.* Can a body capture the time that a reviewer spends and whether they opened the explanation, under DEC-065?
+Can it do so under the Access Act and labor law without a separate privacy impact assessment?
+Can it do so without a consultation with the unions?
+
+== Liability of the steward
+
+1. *Overrides that fail.* An adopter may override an {abbr-fpsot} rule, and the override may produce unlawful decisions.
+What liability or harm to its reputation does {abbr-fpsot} then face as steward of the default rule and suite?
+Should the results of the suite carry a disclaimer that they are not a certification, as TST-047 already states?
+
+== Case law
+
+1. *Algorithm-assisted triage.* Sources disagree on the outcome of Haghshenas v. Canada, 2023 FC 464, on the use of the Chinook tool, _to be verified_.
+Does any case set a standard for the reasons of a decision that a rules engine helped make?
+
+== Document history
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Change
+|0.1.0 |2026-11-15 |First version.
+|===

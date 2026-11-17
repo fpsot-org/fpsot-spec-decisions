@@ -1,0 +1,109 @@
+= Testing and conformance
+include::_fpsot-terms.adoc[]
+
+Engine independence is a claim that a test can check.
+When every rule provider passes the same tests, a body can swap the {abbr-fpsot-first} default for its own rules.
+It does not need to redo its assessments.
+This page sets those tests, on top of the testing specification.
+
+The testing specification already asks for scenarios in Gherkin, written with domain experts, under TST-020 and TST-021.
+A component that replaces a business rule must pass its scenarios, except the changed ones, under TST-045.
+This page adds what decisions need: dates, frozen expected results and one shared suite.
+
+== Scenarios
+
+[[DEC-080]]
+*DEC-080.* Each rule version MUST have scenarios in Gherkin, under TST-020 to TST-036.
+Each scenario MUST state the effective date, the input facts, the result kind and the outcome.
+It MUST also state the expected reason codes and the provision that it tests.
+A decision table MAY drive the scenarios, with one Scenario Outline for each rule of the table, under TST-026.
+Each row of the Examples table of that outline is then one case of that rule.
+
+link:https://openfisca.org/doc/coding-the-legislation/writing_yaml_tests.html[OpenFisca tests] give a period, inputs and expected outputs for each case.
+The scenarios of this rule give the same facts in words that a policy expert can read.
+The files in `examples/features/` show a feature in English and in French, under TST-030.
+
+== Frozen corpora
+
+[[DEC-081]]
+*DEC-081.* Each rule version MUST have a corpus of cases with expected results and reasons, on synthetic data under TST-050.
+Once the version takes effect in production, the expected results of its corpus MUST NOT change.
+A change in an expected result MUST take a new rule version.
+
+A frozen corpus proves that a later build of the same version still decides as before.
+The replay as decided of DEC-047 relies on it.
+
+== Invariants
+
+[[DEC-082]]
+*DEC-082.* A rule provider SHOULD test these properties over generated inputs, in addition to its scenarios.
+
+* Each result carries at least one reason, and each reason code exists in the scheme.
+* For each effective date and record time, the resolver picks at most one version.
+* A missing fact never leads to an adverse outcome.
+* The same input and context give the same result and the same reasons.
+* Where the law intends it, the result moves one way as a fact grows.
+A benefit that falls as income rises is an example.
+
+Property-based tools, such as link:https://jqwik.net/[jqwik] for Java, generate many inputs and shrink a failure to its smallest case.
+
+== Decision conformance suite
+
+[[DEC-083]]
+*DEC-083.* {abbr-fpsot} MUST publish a decision conformance suite for each of its reference decision types.
+Each case MUST be a data file that holds the input, the context, the result and the reasons.
+Every rule provider of that decision type MUST pass the suite, whatever its language or engine.
+The suite MUST follow TST-044 to TST-048, and write its results in a form that a machine can read.
+
+{abbr-fpsot} provides a runner for Java providers.
+A provider in another language can run the same cases with its own runner, under TST-044.
+A result of the suite is never a certification by {abbr-fpsot}, under TST-047.
+The model of `model/decisions.yaml` and the files of `examples/` are its first fixtures.
+
+[[DEC-084]]
+*DEC-084.* A rule provider that replaces another one MUST meet TST-045 for its decision type.
+It MUST pass the scenarios and the corpus of the provider it replaces, except the cases it changes on purpose.
+It MUST list each changed case with its tag, and give a new scenario for each changed behavior.
+
+A ministry can then override one rule of the default and show which cases its change affects.
+
+== Comparing a baseline and an override
+
+[[DEC-085]]
+*DEC-085.* A deploying body that overrides a rule provider SHOULD run the baseline and the override on the same corpus.
+It SHOULD publish the differences, as counts of cases for each change of outcome and of principal reason.
+
+OpenFisca calls such a change a reform, and runs it beside the law in force.
+link:https://leximpact.an.fr/[LexImpact], a unit of the French National Assembly, does the same for reforms of tax and social laws.
+A published comparison shows the effect of a change before it reaches people.
+
+== Providers in Decision Model and Notation
+
+[[DEC-086]]
+*DEC-086.* A rule provider MAY run a model in Decision Model and Notation, DMN, behind the same contract.
+Such a provider MUST state the DMN version that its models use.
+It MUST use DMN 1.6 or a later version under DEC-005.
+It MUST state the commit of the DMN Technology Compatibility Kit that its engine passes, and its score.
+The build MUST fix its models, under DEC-003.
+
+DMN defines no format for a decision result and no versioning of models beyond their names.
+The record, the rule versions and the reasons therefore come from this specification, whatever the engine.
+The link:https://dmn-tck.github.io/tck/[results page of the kit] states that it reflects DMN 1.4, so a score says nothing about later features.
+The page xref:maturity.adoc[Rules as code maturity] names engines to watch, as information only.
+
+== References
+
+=== Informative
+
+* link:https://openfisca.org/doc/coding-the-legislation/writing_yaml_tests.html[Writing YAML tests], OpenFisca documentation. link:https://web.archive.org/web/20251112010629/https://openfisca.org/doc/coding-the-legislation/writing_yaml_tests.html[Archived copy]
+* link:https://jqwik.net/[jqwik, property-based testing on the JUnit Platform]. link:https://web.archive.org/web/20261012221202/https://jqwik.net/[Archived copy]
+* link:https://leximpact.an.fr/[LexImpact], Assemblée nationale. link:https://web.archive.org/web/20261114052327/https://leximpact.an.fr/[Archived copy]
+* link:https://dmn-tck.github.io/tck/[DMN Technology Compatibility Kit, results], DMN TCK working group. link:https://web.archive.org/web/20261004122620/https://dmn-tck.github.io/tck/[Archived copy]
+
+== Document history
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Change
+|0.1.0 |2026-11-15 |First version.
+|===

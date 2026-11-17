@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: Community-Spec-1.0
+# Jurisdiction profile of the FPSOT decisions specification (DEC-011, DEC-012), in the form
+# of the class Profile of model/decisions.yaml. Released apart from the core rules.
+# Federal institutions of Canada under the Directive on Automated Decision-Making of the
+# Treasury Board. The levels are the four impact levels of the Algorithmic Impact Assessment.
+# The controls follow the proposed text of November 2024 and the 2023 text; the text of the
+# 24 June 2025 amendment was not read at the source and is to be verified. Not legal advice.
+code: ca-federal
+version: 0.1.0
+title: {en: Canada federal profile, fr: Profil fédéral canadien}
+impactAssessmentKinds: [algorithmic-impact-assessment]
+levels:
+  - {level: level-1, humanReview: false, dualReview: false, automationNotice: required, recourseNotice: required, allReasons: false}
+  - {level: level-2, humanReview: false, dualReview: false, automationNotice: required, recourseNotice: required, allReasons: false}
+  - {level: level-3, humanReview: true, dualReview: false, automationNotice: required, recourseNotice: required, allReasons: false}
+  - {level: level-4, humanReview: true, dualReview: false, automationNotice: required, recourseNotice: required, allReasons: false}

@@ -1,0 +1,95 @@
+= Questions pour les juristes
+include::_fpsot-terms.adoc[]
+
+Cette page est informative.
+Elle ne fixe aucune règle, et elle ne constitue pas un avis juridique.
+Elle énumère les questions juridiques que soulève cette spécification sans pouvoir y répondre.
+Une ou un juriste doit répondre à chacune avant que la {abbr-fpsot-first} ou un organisme responsable s’y fie.
+Certaines sources refusent les lecteurs automatisés, et la recherche a donc lu plusieurs lois par des sources secondaires.
+Un texte ou un numéro d’article marqué _à vérifier_ vient d’une telle source, et non de la loi elle-même.
+
+== Portée des lois
+
+1. *Moteurs de règles et directive fédérale.* Un moteur de règles déterministe, qui n’apprend pas, est-il un système décisionnel automatisé?
+La question porte sur la définition du texte de 2025 de la Directive sur la prise de décisions automatisée.
+Qu’est-ce qui a changé dans le texte du 24 juin 2025, _à vérifier_?
+Les points d’intérêt sont les niveaux de l’annexe C et le contenu des explications.
+Un autre point est l’obligation proposée de documenter les dérogations humaines.
+
+2. *Moteurs de règles et intelligence artificielle.* Un moteur de règles déterministe est-il un système d’IA?
+La question se pose au sens de l’Énoncé de principes québécois de 2025.
+Cet énoncé suit la définition de l’OCDE.
+En est-il un au sens du règlement européen sur l’intelligence artificielle?
+Sinon, quels instruments québécois le régissent?
+On pense à ceux qui s’ajoutent à l’article 65.2 de la Loi sur l’accès et à la justice administrative.
+
+3. *Justice administrative.* Les articles 2, 4, 5 et 8 de la Loi sur la justice administrative s’appliquent-ils ici, _à vérifier_?
+S’appliquent-ils à chaque décision automatisée sur une prestation ou une admissibilité?
+L’obligation de préavis de l’article 5 va-t-elle au-delà des permis et des autres autorisations?
+
+4. *Habilitation expresse.* Après Robodebt, certains examens ont demandé une habilitation législative expresse avant qu’un organisme automatise une décision.
+Un organisme fédéral ou québécois en a-t-il besoin s’il emploie les règles de référence de la {abbr-fpsot} ou une substitution?
+
+5. *Recours internationaux.* Le Canada a-t-il ratifié la Convention-cadre du Conseil de l’Europe sur l’intelligence artificielle, STCE 225?
+Son obligation d’offrir des recours lierait-elle les organismes fédéraux ou provinciaux qui emploient les logiciels de la {abbr-fpsot}?
+
+== Article 65.2 de la Loi sur l’accès du Québec
+
+1. *Libellé.* Quel est le texte exact de l’article 65.2, _à vérifier_?
+L’article exige l’avis au plus tard quand l’organisme informe la personne de la décision.
+Qu’est-ce que ce moment exige d’un logiciel?
+Qui compte comme membre du personnel en mesure de réviser la décision?
+
+2. *Effet humain réel.* Quelles actions humaines font qu’une décision québécoise ne repose plus seulement sur un traitement automatisé?
+Une confirmation consignée avec une justification suffit-elle, comme DEC-062 la consigne?
+Ou la personne qui révise doit-elle montrer qu’elle a examiné les entrées?
+
+3. *Renseignements personnels utilisés.* Un organisme doit fournir, sur demande, les renseignements personnels qu’il a utilisés.
+Doit-il alors garder les valeurs d’entrée pendant toute la vie de la décision?
+Ou peut-il se fier à des références vers des systèmes sources, qui peuvent eux-mêmes changer ou détruire les valeurs?
+DEC-042 suppose la première réponse.
+
+4. *Facteurs retenus.* Les règles sont en code source ouvert.
+Un organisme peut-il quand même retenir certains facteurs principaux comme renseignements techniques protégés?
+La publication selon DEC-038 fait-elle tomber cette exception?
+
+== Enregistrements et conservation
+
+1. *Plancher fédéral de conservation.* La Loi sur la protection des renseignements personnels et son règlement fixent un plancher, _à vérifier_.
+Les dispositions en cause sont l’article 6 de la loi et l’article 4 du règlement.
+Ce plancher serait de deux ans après la dernière utilisation à des fins administratives.
+La version de règles, les paramètres et la trace sont-ils des renseignements personnels utilisés à des fins administratives?
+Ce plancher s’applique-t-il alors aussi à eux?
+
+2. *Langue de l’avis.* Prenons un organisme québécois soumis à la Charte de la langue française.
+Doit-il donner l’avis et l’explication d’abord en français?
+Cela vaut-il même quand la personne a choisi l’anglais?
+Le rendu à partir de codes au moment de l’avis, selon DEC-056, respecte-t-il une obligation de garder la version envoyée?
+
+== Personnes qui révisent et membres du personnel
+
+1. *Preuves de l’examen.* Un organisme peut-il consigner, selon DEC-065, le temps passé à réviser?
+Peut-il consigner si la personne a ouvert l’explication?
+Peut-il le faire, selon la Loi sur l’accès et le droit du travail, sans évaluation distincte?
+Cette évaluation serait celle des facteurs relatifs à la vie privée.
+Peut-il le faire sans consulter les syndicats?
+
+== Responsabilité de l’intendant
+
+1. *Substitutions qui échouent.* Un organisme peut substituer une règle de la {abbr-fpsot}, et la substitution peut produire des décisions illégales.
+Quelle responsabilité ou quelle atteinte à sa réputation la {abbr-fpsot} subit-elle alors?
+Elle est l’intendante de la règle par défaut et de la suite.
+Les résultats de la suite devraient-ils préciser qu’ils ne sont pas une certification, comme le prévoit déjà TST-047?
+
+== Jurisprudence
+
+1. *Tri assisté par algorithme.* Les sources divergent sur l’issue de Haghshenas c. Canada, 2023 CF 464, sur l’emploi de l’outil Chinook, _à vérifier_.
+Une décision judiciaire fixe-t-elle une norme pour les motifs d’une décision qu’un moteur de règles a aidé à prendre?
+
+== Historique du document
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Changement
+|0.1.0 |2026-11-15 |Première version.
+|===

@@ -1,15 +1,82 @@
-= Guide
-:page-type: explanation
+= Soumettre un type de décision à la spécification sur les décisions
+:page-type: how-to
 include::_fpsot-terms.adoc[]
 
-Cette page explique la spécification aux personnes qui l’adoptent.
-Chaque page de guide a un seul type.
-C’est un tutoriel, un guide pratique, une référence ou une explication.
+Ce guide mène un organisme public d’un type de décision automatisée à un type de décision conforme.
+Chaque étape cite la règle qu’elle respecte.
+Ce guide ne constitue pas un avis juridique.
+La page des questions pour les juristes énumère les points qu’une ou un juriste doit régler.
+Les fichiers de `examples/` suivent une allocation de logement fictive à chaque étape.
+
+== Décrire le type de décision
+
+Dressez la liste des lois qui régissent la décision, et choisissez les profils, selon DEC-011.
+Déclarez toujours `core`.
+Une institution fédérale canadienne ajoute `ca-federal`, un organisme québécois ajoute `ca-qc`, et une administration française ajoute `fr`.
+Ajoutez `eu-ai-high-risk` quand vos juristes jugent que le règlement européen s’applique.
+
+Fixez le niveau d’incidence à partir de votre évaluation d’impact, selon DEC-013.
+Sous `ca-federal`, c’est le niveau de votre Évaluation de l’incidence algorithmique publiée.
+Nommez chaque évaluation qu’exigent vos profils, selon DEC-014.
+
+Rédigez la description du type de décision, selon DEC-010.
+Le fichier `examples/decision-type.yaml` en montre une.
+
+== Rédiger le schéma de motifs
+
+Publiez un schéma de concepts de codes de motif selon la spécification sur les vocabulaires, selon DEC-050.
+Donnez à chaque code un libellé et une définition en français et en anglais.
+Nommez un facteur dans chaque code, comme `household-income-above-limit`, jamais un verdict, selon DEC-051.
+Le fichier `examples/reason-codes.jsonld` montre un petit schéma.
+
+== Écrire les règles
+
+Mettez en œuvre le contrat de décision, selon DEC-020 à DEC-023.
+Renvoyez `insufficient-information` quand un fait manque, jamais un refus, selon DEC-025.
+Renvoyez `referred` quand la loi laisse place au pouvoir discrétionnaire ou à une situation difficile, selon DEC-026.
+
+Donnez à chaque version de règles ses métadonnées, selon DEC-030 à DEC-033.
+Placez les montants et les seuils dans un fichier de paramètres datés, selon DEC-037.
+Gardez dans l’artefact chaque version dont une décision ouverte peut avoir besoin, selon DEC-034.
+
+Rédigez les scénarios avec vos spécialistes des politiques, en français et en anglais, selon DEC-080.
+Figez un corpus de cas pour chaque version avant qu’elle prenne effet, selon DEC-081.
+
+== Exploiter le service de décision
+
+Conservez un enregistrement pour chaque résultat, selon DEC-040.
+Apposez-y un cachet selon la spécification sur les documents signés, selon DEC-045.
+Gardez les valeurs d’entrée dans l’enregistrement, et seulement des identifiants et des codes dans les événements, selon DEC-042 et DEC-044.
+
+Aux niveaux 3 et 4 de `ca-federal`, le service renvoie d’abord chaque résultat à une ou un agent, selon DEC-061.
+Cette personne confirme ou modifie le résultat dans une étape de révision, avec une justification, selon DEC-062.
+L’enregistrement final révise l’enregistrement renvoyé, selon DEC-043.
+
+== Donner l’avis
+
+Produisez l’avis à partir de l’enregistrement, dans la langue de la personne, selon DEC-056.
+Indiquez que l’automatisation a pris part à la décision, selon DEC-057.
+Donnez aussi la voie de recours, comme l’exigent vos profils.
+Apposez un cachet sur l’avis produit, et gardez un enregistrement d’avis qui nomme ce cachet.
+
+== Vérifier le résultat
+
+Exécutez la vérification des exemples sur une copie du dépôt qui contient vos fichiers sous les mêmes noms.
+
+[source,text]
+----
+pip install --require-hashes -r examples/requirements.txt
+python3 examples/check-examples.py path/to/your/copy
+----
+
+Une réussite montre que vos enregistrements et vos étapes de révision sont cohérents selon les règles structurelles.
+Il en va de même pour vos avis, vos événements et vos fonctionnalités.
+Elle ne teste pas vos règles, ce que fera la suite de conformité des décisions de DEC-083.
 
 == Historique du document
 
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
-|0.1.0 |2026-11-03 |Première version.
+|0.1.0 |2026-11-15 |Première version.
 |===

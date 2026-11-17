@@ -1,0 +1,75 @@
+= Maturité des règles sous forme de code
+include::_fpsot-terms.adoc[]
+
+Cette page est informative.
+Elle ne fixe aucune règle.
+Elle donne une échelle qui aide un organisme à voir où en sont ses règles.
+Elle note aussi les moteurs et les langages que suit la {abbr-fpsot-first}.
+
+== Une échelle de cinq niveaux
+
+La {abbr-fpsot} a défini elle-même cette échelle.
+link:https://www.oecd.org/en/publications/cracking-the-code_3afe6ba5-en.html[L’Organisation de coopération et de développement économiques], OCDE, a publié en 2020 une étude sur ce sujet.
+Cette échelle n’est pas une échelle de l’OCDE, ni celle d’aucun autre organisme.
+La recherche menée pour cette spécification n’a trouvé aucune échelle de maturité dans les travaux de l’OCDE.
+Une correspondance avec un futur cadre de l’OCDE reste possible.
+
+[cols="1,2,5,3",options="header"]
+|===
+|Niveau |Nom |Ce qui est en place |Règles
+|0 |Cachées |Les règles n’existent que dans le code, sans citation, sans dates et sans tests qu’une ou un spécialiste peut lire. |Aucune
+|1 |Citées |Chaque version de règles cite sa source juridique, ses présomptions et le statut de son interprétation. |DEC-030 à DEC-033
+|2 |Datées et testées |Les versions de règles portent les deux horloges, les paramètres vivent dans des fichiers datés, et des spécialistes aident à écrire les scénarios. Chaque version a un corpus figé. |DEC-034 à DEC-037, DEC-080, DEC-081
+|3 |Publiées |La source, les scénarios, les résultats de la suite de conformité et l’explication générale sont publics. |DEC-038, DEC-058, DEC-083
+|4 |Corédigées |Les rédacteurs de la loi et les auteurs des règles écrivent les deux ensemble, et testent chaque version provisoire sur le corpus avant l’adoption. |DEC-085 et pratique de rédaction
+|===
+
+Chaque niveau comprend les niveaux inférieurs.
+Un organisme peut déclarer son niveau pour chaque type de décision dans la description de ce type.
+
+== Notes sur les moteurs et les langages
+
+Ces notes consignent l’état de quelques outils à la date de cette version.
+Elles ne conseillent aucun outil, et aucune règle de cette spécification n’en nomme un.
+
+* Catala est un langage d’Inria pour écrire le droit sous forme de code.
+La Caisse nationale des allocations familiales, CNAF, l’a link:https://caf.fr/professionnels/presse/publications/la-cnaf-et-inria-s-engagent-ensemble-pour-developper-catala-une-solution-souveraine-de-calcul-des[choisi avec Inria] en juin 2026.
+link:https://arxiv.org/abs/2103.03198v2[Une étude] a récrit en Catala une partie des prestations familiales françaises.
+Elle a trouvé une erreur dans l’implémentation officielle.
+La recherche n’a pas pu confirmer l’existence d’une génération de code Java.
+Si elle apparaît, un programme Catala pourrait devenir un fournisseur de règles derrière le même contrat.
+* DMN 1.6 est une norme officielle de l’Object Management Group, et DMN 1.7 est une version bêta.
+La page des résultats de la trousse de compatibilité indique encore qu’elle reflète DMN 1.4.
+* link:https://github.com/goldmansachs/jdmn[jDMN] génère du code Java à partir de modèles DMN à la construction de l’artefact, comme le veut DEC-003.
+Les résultats de la trousse lui attribuent 3 391 tests réussis sur 3 407.
+* Les projets Apache KIE comprennent Drools et Kogito.
+Ils sont toujours en incubation à l’Apache Software Foundation, comme le montrent ses link:https://whimsy.apache.org/board/minutes/KIE.html[procès-verbaux du conseil].
+* Le link:https://web.archive.org/web/20251028192831/https://forum.camunda.io/t/important-update-camunda-7-community-edition-end-of-life-announced/50921[forum de Camunda] a annoncé que l’édition communautaire de Camunda 7 n’aura plus de versions après la 7.24.
+Cette dernière date d’octobre 2025.
+* OpenFisca est une bibliothèque Python pour les règles fiscales et sociales fondées sur des paramètres datés.
+DEC-037 suit son modèle.
+* Blawx, employé au Canada, code la législation sous forme de programmes logiques.
+L’link:https://oecd-opsi.org/innovations/new-techniques-for-building-and-using-legal-encodings-in-the-drafting-room/[étude de cas de l’OCDE] décrit son emploi dans une salle de rédaction.
+
+Un organisme peut choisir n’importe lequel de ces outils, ou aucun.
+Le contrat, les enregistrements et la suite de conformité restent les mêmes.
+
+== Références
+
+=== Références informatives
+
+* link:https://www.oecd.org/en/publications/cracking-the-code_3afe6ba5-en.html[Cracking the Code: Rulemaking for humans and machines], OECD, 2020. link:https://web.archive.org/web/20261101181412/https://www.oecd.org/en/publications/cracking-the-code_3afe6ba5-en.html[Copie archivée]
+* link:https://caf.fr/professionnels/presse/publications/la-cnaf-et-inria-s-engagent-ensemble-pour-developper-catala-une-solution-souveraine-de-calcul-des[La Cnaf et Inria s'engagent ensemble pour développer Catala], Caisse nationale des allocations familiales, 2026-06. link:https://web.archive.org/web/20261019040107/https://www.caf.fr/professionnels/presse/publications/la-cnaf-et-inria-s-engagent-ensemble-pour-developper-catala-une-solution-souveraine-de-calcul-des[Copie archivée]
+* link:https://arxiv.org/abs/2103.03198v2[Catala: A Programming Language for the Law], Denis Merigoux, Nicolas Chataing and Jonathan Protzenko, arXiv, version 2. link:https://web.archive.org/web/20261111215053/https://arxiv.org/abs/2103.03198v2[Copie archivée]
+* link:https://github.com/goldmansachs/jdmn[jDMN], Goldman Sachs, on GitHub. link:https://web.archive.org/web/20260430172133/https://github.com/goldmansachs/jdmn[Copie archivée]
+* link:https://whimsy.apache.org/board/minutes/KIE.html[Board minutes on KIE], Apache Software Foundation. link:https://web.archive.org/web/20260808193308/https://whimsy.apache.org/board/minutes/KIE.html[Copie archivée]
+* link:https://web.archive.org/web/20251028192831/https://forum.camunda.io/t/important-update-camunda-7-community-edition-end-of-life-announced/50921[Important update: Camunda 7 Community Edition end of life announced], forum de Camunda, copie archivée.
+* link:https://oecd-opsi.org/innovations/new-techniques-for-building-and-using-legal-encodings-in-the-drafting-room/[New techniques for building and using legal encodings in the drafting room], OECD Observatory of Public Sector Innovation. link:https://web.archive.org/web/20260511232839/https://oecd-opsi.org/innovations/new-techniques-for-building-and-using-legal-encodings-in-the-drafting-room/[Copie archivée]
+
+== Historique du document
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Changement
+|0.1.0 |2026-11-15 |Première version.
+|===

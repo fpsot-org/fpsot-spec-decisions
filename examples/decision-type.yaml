@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: Community-Spec-1.0
+# Example description of a decision type (DEC-010 to DEC-014), in the form of the class
+# DecisionType of model/decisions.yaml. The program, the act and every address are fictional.
+code: example-housing-benefit
+version: 1.0.0
+title: {en: Example housing benefit, fr: Allocation de logement d’exemple}
+profiles:
+  - {code: core, version: 0.1.0}
+  - {code: ca-federal, version: 0.1.0}
+impactLevel: level-3
+impactAssessments:
+  - {kind: algorithmic-impact-assessment, reference: "https://open.example.org/aia/example-housing-benefit", completedOn: "2026-03-02"}
+legalAuthorities:
+  - {uri: "https://laws.example.org/eng/acts/E-1/section-3.html", otherLanguageUris: ["https://laws.example.org/fra/lois/E-1/article-3.html"]}
+reasonScheme: "https://vocab.example.org/example-housing-benefit-reasons/versions/1.0.0"
+ruleSetCode: example-housing-benefit
+humanReview: false
+dualReview: false
+publication:
+  sourceUri: "https://code.example.org/example-housing-benefit-rules"
+  explanationUri: "https://www.example.org/housing-benefit/how-we-decide"

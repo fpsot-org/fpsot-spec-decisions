@@ -1,0 +1,91 @@
+= Interfaces et événements
+include::_fpsot-terms.adoc[]
+
+Une décision sort d’un service de trois façons.
+Elle sort comme réponse d’une interface, comme événement d’affaires et comme événement destiné à d’autres services.
+Cette page fixe chacune de ces formes, au moyen des spécifications sur les API RESTful et sur l’observabilité.
+Elle ne définit aucun nouveau format d’erreur et aucun nouveau format d’événement.
+
+== Réponses
+
+[[DEC-070]]
+*DEC-070.* Une interface qui rend un résultat du contrat DOIT répondre avec un code d’état `2xx`, peu importe son type.
+Un refus, un renvoi, une demande de renseignements et un résultat `not-applicable` sont des résultats, et non des erreurs.
+L’interface DOIT répondre par des détails de problème selon API-030 seulement si le service ne peut pas produire de résultat.
+Une requête invalide et une défaillance du fournisseur de règles sont de tels échecs.
+L’interface DOIT alors employer les types de problème d’API-032 lorsqu’ils conviennent.
+
+Prendre un refus pour une erreur, c’est risquer de le relancer, de le masquer ou d’en perdre les motifs.
+Un résultat dans le corps d’une réponse de succès garde ses motifs et l’identifiant de son enregistrement.
+
+== Événements d’affaires
+
+[[DEC-071]]
+*DEC-071.* Un service de décision DOIT émettre un événement d’affaires selon OBS-070 pour chacun de ses enregistrements.
+Cela vaut pour les enregistrements de décision, les étapes de révision et les enregistrements d’avis.
+Chaque événement DOIT porter l’étape de cycle de vie `complete` d’OBS-072 et une clé d’activité d’OBS-071.
+Ses objets DOIVENT nommer l’enregistrement, avec le qualificatif `decision`, et les objets de l’enregistrement, selon OBS-073.
+Chaque événement DOIT porter les attributs obligatoires de ce tableau qui s’appliquent à son enregistrement, et DEVRAIT porter les autres.
+Il NE DOIT PAS porter la valeur d’un fait en intrant, un montant ou un nom.
+
+[cols="3,1,3",options="header"]
+|===
+|Attribut |Présence |Valeur
+|`org.fpsot.decision.type` |Obligatoire |Le code du type de décision.
+|`org.fpsot.decision.result_kind` |Obligatoire |Le type de résultat de DEC-024.
+|`org.fpsot.decision.outcome` |Obligatoire |Le code de l’issue d’un résultat décidé.
+|`org.fpsot.decision.reason_codes` |Recommandé |Les codes de motif, par ordre de rang.
+|`org.fpsot.decision.rule_set.code` |Obligatoire |Le code de l’ensemble de règles.
+|`org.fpsot.decision.rule_set.version` |Obligatoire |La version de règles.
+|`org.fpsot.decision.automation_degree` |Recommandé |Le degré d’automatisation de DEC-060.
+|`org.fpsot.decision.predecessor.id` |Obligatoire |L’enregistrement que celui-ci révise, s’il y a lieu.
+|`org.fpsot.decision.change_cause` |Obligatoire |La cause pour laquelle l’enregistrement révise son prédécesseur, selon DEC-043.
+|`org.fpsot.decision.review_step.action` |Obligatoire |L’action d’une étape de révision, selon DEC-062.
+|`org.fpsot.decision.review_step.agreement` |Obligatoire |L’accord ou le désaccord de la personne qui révise avec le résultat montré, selon DEC-062.
+|===
+
+Les clés d’activité viennent d’un schéma de l’organisme responsable, comme `decide-application`, `review-decision` et `issue-notice`.
+Un attribut s’applique quand l’enregistrement a une valeur pour lui.
+Pour une étape de révision ou un avis, cet enregistrement est la décision visée.
+Les attributs obligatoires sont ceux dont les statistiques de DEC-066 ont besoin.
+L’inventaire du composant énumère ces attributs et le schéma, selon OBS-010.
+L’exploration de processus et les statistiques de DEC-066 fonctionnent alors à partir des seuls événements, sans valeur personnelle.
+
+== Événements destinés à d’autres services
+
+[[DEC-072]]
+*DEC-072.* Un événement qu’un service de décision envoie à un autre service DOIT suivre CloudEvents selon API-100 et API-101.
+Il DOIT avoir un type de ce tableau, et ses données DOIVENT suivre le schéma de ce type dans `registry/events/`.
+Son `id` DOIT être l’identifiant de l’enregistrement, selon DEC-041.
+Ses données DOIVENT contenir seulement des identifiants et des codes, selon DEC-044.
+
+[cols="3,3",options="header"]
+|===
+|Type |Quand
+|`org.fpsot.decisions.decision.recorded` |Un service de décision stocke un enregistrement de décision.
+|`org.fpsot.decisions.review-step.recorded` |Un service de décision stocke une étape de révision.
+|`org.fpsot.decisions.notice.issued` |Un organisme émet un avis sur une décision.
+|===
+
+Les noms suivent NAM-050 et NAM-051, et les schémas suivent API-103.
+Un consommateur qui a besoin des intrants lit l’enregistrement par l’interface de DEC-073, avec sa propre autorisation.
+Le fichier `examples/decision-event.json` est l’événement de l’enregistrement final de l’exemple.
+
+== Accès aux enregistrements
+
+[[DEC-073]]
+*DEC-073.* Une interface qui sert des enregistrements de décision DOIT interroger le moteur d’autorisation à chaque requête, selon IAM-050.
+Chaque lecture d’un enregistrement DOIT être un événement d’accès selon OBS-042.
+La personne concernée, ou une personne qui la représente selon IAM-064, DOIT pouvoir obtenir son propre enregistrement.
+Cela comprend les intrants, les motifs avec leurs valeurs, la version de règles et le degré d’automatisation.
+
+Une personne qui demande ce qu’une décision a utilisé doit obtenir les faits de l’enregistrement, pas un résumé tardif.
+L’avis de DEC-056 rend le même contenu en langage clair.
+
+== Historique du document
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Changement
+|0.1.0 |2026-11-15 |Première version.
+|===

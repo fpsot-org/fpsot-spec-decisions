@@ -1,0 +1,130 @@
+= Motifs et explications
+include::_fpsot-terms.adoc[]
+
+Chaque régime que la recherche a examiné donne à la personne un certain droit de savoir pourquoi.
+Ils diffèrent par la profondeur.
+Les orientations du Québec parlent des raisons et des principaux facteurs et paramètres, avec leur importance relative.
+Le droit français parle des paramètres tels qu’ils s’appliquent à la situation de la personne.
+La Cour de justice de l’Union européenne demande la procédure et les principes que le responsable a réellement appliqués.
+
+Le modèle de motifs le plus éprouvé ne vient pas d’un gouvernement.
+Le link:https://www.consumerfinance.gov/rules-policy/regulations/1002/9/[Regulation B] des États-Unis exige des prêteurs des motifs principaux précis.
+Ces motifs décrivent les facteurs réellement pris en compte dans la cote.
+Il rejette les motifs vagues, comme le fait de ne pas répondre à des normes internes.
+Son commentaire officiel indique que plus de quatre motifs n’aident sans doute pas la personne qui demande.
+
+Cette page traduit ces obligations en codes et en valeurs, qu’un service rend en avis dans chaque langue.
+
+== Codes de motif
+
+[[DEC-050]]
+*DEC-050.* Chaque code de motif DOIT être un concept d’un schéma de concepts conforme à la spécification sur les vocabulaires.
+Le schéma donne à chaque code ses libellés et ses définitions en français et en anglais, selon VOC-010 et VOC-015.
+Un code ne change jamais et ne passe jamais à un autre concept, selon VOC-007.
+Chaque enregistrement DOIT nommer la version du schéma d’où viennent ses codes, selon VOC-036.
+Un code DOIT nommer un facteur de la décision, comme `household-income-above-limit`.
+
+Le fichier `examples/reason-codes.jsonld` est un petit schéma de motifs.
+Ses codes décrivent les faits qui ont mené au résultat, et non le résultat lui-même.
+
+[[DEC-051]]
+*DEC-051.* Un code de motif NE DOIT PAS énoncer seulement un verdict ou un échec général.
+Des codes comme `not-eligible`, `does-not-meet-criteria`, `internal-policy` ou `score-too-low` ne sont pas conformes.
+
+Une personne ne peut pas contester un motif qui ne nomme aucun fait.
+
+[[DEC-052]]
+*DEC-052.* Un enregistrement DOIT donner ses motifs par ordre d’importance, avec un rang à partir de 1.
+Chaque motif DOIT dire s’il est principal, et DOIT citer la disposition qu’applique son élément de règle.
+Chaque motif DEVRAIT donner la valeur du facteur et le seuil auquel la règle l’a comparée.
+Ces valeurs viennent des intrants et des paramètres datés de DEC-037.
+
+Un avis dans n’importe quelle langue et à n’importe quelle profondeur peut alors venir du même enregistrement.
+
+[[DEC-053]]
+*DEC-053.* Un enregistrement DEVRAIT marquer au plus quatre motifs comme principaux.
+Un avis DEVRAIT donner d’abord les motifs principaux.
+Quand un profil fixe `allReasons`, l’explication DOIT donner chaque motif de l’enregistrement.
+
+Le profil `fr` fixe `allReasons`, car le droit français parle des paramètres tels qu’ils s’appliquent au cas.
+Une longue liste de motifs cache ceux qui comptent.
+
+[[DEC-054]]
+*DEC-054.* Un schéma de motifs PEUT contenir le code `other`.
+Seule une personne, dans une étape de révision, PEUT donner ce code.
+Un fournisseur de règles NE DOIT PAS le faire.
+Un motif au code `other` DOIT porter un texte en français et en anglais dans `otherText`.
+
+Un fournisseur de règles connaît chaque motif que ses règles peuvent produire, il n’a donc jamais besoin d’`other`.
+Une personne qui révise peut rencontrer un cas qu’aucun code ne couvre.
+Le texte dans les deux langues permet à l’organisme de rendre l’avis dans la langue de la personne.
+
+== Valeurs contrefactuelles
+
+[[DEC-055]]
+*DEC-055.* Pour chaque motif principal, un fournisseur de règles DEVRAIT donner la valeur exacte où le motif cesse de s’appliquer.
+Il suppose que les autres faits restent les mêmes.
+La valeur DOIT être exacte, comme un seuil tiré des paramètres, et jamais une estimation.
+Le motif porte alors `counterfactualRelation`, comme `at-most`, et `counterfactualValue`.
+
+Des règles peuvent calculer une telle valeur exactement, ce que les modèles d’apprentissage ne peuvent pas faire.
+Des commentateurs lisent l’affaire C-203/22 comme orientant vers des explications de ce type.
+Cette lecture de l’arrêt de la Cour de justice de l’Union européenne est _à vérifier_.
+Le principe d’explicabilité de l’énoncé de principes du Québec sur l’intelligence artificielle va dans le même sens.
+Cette règle est un DEVRAIT dans la version 0.1.
+Une version ultérieure d’un profil pourra en faire un DOIT.
+
+== Avis
+
+[[DEC-056]]
+*DEC-056.* Un enregistrement de décision NE DOIT PAS contenir de texte rédigé.
+Un service DOIT rendre chaque avis au moment de l’émettre, à partir de l’enregistrement et d’un gabarit versionné.
+Il DOIT employer la langue officielle que la personne a choisie.
+Il DOIT garder un enregistrement d’avis de la classe `Notice`.
+Cet enregistrement nomme le gabarit, sa version, la langue, le canal et le moment.
+L’organisme DOIT cacheter l’avis rendu selon la spécification sur les documents signés, et nommer son manifeste de cachet selon LOG-019.
+
+Les textes de DEC-054 et de DEC-062 sont les seuls textes qu’une personne écrit dans ces enregistrements.
+Un seul enregistrement sert alors à un avis en français, à un avis en anglais et à l’explication sur demande.
+L’avis cacheté garde le texte exact que la personne a reçu.
+
+[[DEC-057]]
+*DEC-057.* Chaque avis DOIT respecter les contrôles d’avis des profils de son type de décision.
+
+* `automationNotice` : l’avis mentionne qu’un traitement automatisé a pris part à la décision, et dans quelle mesure.
+* `recourseNotice` : l’avis donne chaque voie de recours ou moyen de présenter des observations, avec le contact et le délai.
+
+L’enregistrement d’avis DOIT indiquer si l’avis contenait la mention du traitement automatisé.
+Il DOIT énumérer chaque voie qu’a offerte l’avis.
+
+Les orientations du Québec demandent d’informer la personne au plus tard au moment où l’organisme communique la décision.
+Elles demandent aussi un moyen de présenter des observations à un membre du personnel qui peut réviser la décision.
+
+== Explication générale
+
+[[DEC-058]]
+*DEC-058.* Un organisme responsable DEVRAIT expliquer chaque type de décision dans un texte publié.
+Ce texte DEVRAIT être en langage clair et dans les deux langues.
+Il DEVRAIT donner les principaux facteurs et leur importance relative, le degré d’automatisation et les recours.
+Il DEVRAIT aussi renvoyer à la source des règles de DEC-038.
+
+Une personne peut alors comprendre les règles avant de faire une demande, et une personne de l’extérieur peut les vérifier.
+
+== Références
+
+=== Références informatives
+
+* link:https://www.consumerfinance.gov/rules-policy/regulations/1002/9/[12 CFR 1002.9, Notifications], Consumer Financial Protection Bureau, Regulation B. link:https://web.archive.org/web/20261013034327/https://www.consumerfinance.gov/rules-policy/regulations/1002/9/[Copie archivée]
+* link:https://www.consumerfinance.gov/rules-policy/regulations/1002/c/[12 CFR 1002, Appendix C, Sample Notification Forms], Consumer Financial Protection Bureau, Regulation B. link:https://web.archive.org/web/20261009121518/https://www.consumerfinance.gov/rules-policy/regulations/1002/c/[Copie archivée]
+* link:https://curia.europa.eu/juris/liste.jsf?num=C-203/22[Case C-203/22, Dun & Bradstreet Austria], Court of Justice of the European Union, judgment of 2025-02-27. link:https://web.archive.org/web/20260107023217/https://curia.europa.eu/juris/liste.jsf?num=C-203/22[Copie archivée]
+* link:https://arxiv.org/abs/1711.00399v2[Counterfactual Explanations without Opening the Black Box], Sandra Wachter, Brent Mittelstadt and Chris Russell, arXiv, version 2. link:https://web.archive.org/web/20240718092231/https://arxiv.org/abs/1711.00399v2[Copie archivée]
+* link:https://cdn-contenu.quebec.ca/cdn-contenu/adm/min/cybersecurite_numerique/Publications/Strategie_IA/Enonce_IA.pdf[Énoncé de principes pour une utilisation responsable de l'intelligence artificielle par les organismes publics], Gouvernement du Québec, édition 2025. link:https://web.archive.org/web/20260822182626/https://cdn-contenu.quebec.ca/cdn-contenu/adm/min/cybersecurite_numerique/Publications/Strategie_IA/Enonce_IA.pdf[Copie archivée]
+* link:https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise[Décision fondée exclusivement sur un traitement automatisé], Gouvernement du Québec, 2025-10-20. link:https://web.archive.org/web/20260820015019/https://www.quebec.ca/gouvernement/travailler-gouvernement/normes-gouvernance-pratiques-internes/protection-des-renseignements-personnels/technologie-et-droit-a-la-protection-des-renseignements-personnels/decision-traitement-automatise[Copie archivée]
+
+== Historique du document
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Changement
+|0.1.0 |2026-11-15 |Première version.
+|===

@@ -1,0 +1,27 @@
+# Comparison data. The format is defined by fpsot-spec-doc (model/jurisdiction.yaml).
+# Article L311-3-1 was read on Légifrance. Article R311-3-1-2 was read through a copy of the
+# decree, and its items 2 to 4 are to be verified. Article L312-1-3 was read only through
+# government guidance. This file is informational and not legal advice.
+code: FR
+name: {en: France, fr: France}
+rows:
+  - id: DEC-001
+    text: {en: "An individual decision taken on the basis of algorithmic processing is in scope, whatever the part of the official. Government guidance counts even a spreadsheet as algorithmic processing.", fr: "Une décision individuelle prise sur le fondement d’un traitement algorithmique est visée, quelle que soit la part de l’agente ou de l’agent. Un guide de l’État compte même un tableur comme un traitement algorithmique."}
+    status: same
+    source: {title: "Code des relations entre le public et l'administration, article L311-3-1", date: "2016-10-09", url: "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033205535", archive: "https://web.archive.org/web/20250126141052/https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033205535/"}
+    last_checked: "2026-11-11"
+  - id: DEC-057
+    text: {en: "The decision carries an explicit mention that informs the person of the algorithmic processing. The rules of the processing and its main features go to the person on request.", fr: "La décision comporte une mention explicite qui informe la personne du traitement algorithmique. Les règles du traitement et ses principales caractéristiques lui sont communiquées à sa demande."}
+    status: stricter
+    source: {title: "Code des relations entre le public et l'administration, article L311-3-1", date: "2016-10-09", url: "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033205535", archive: "https://web.archive.org/web/20250126141052/https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033205535/"}
+    last_checked: "2026-11-11"
+  - id: DEC-052
+    text: {en: "On request, the administration gives the degree and contribution of the processing to the decision. Items 2 to 4, to be verified, add the data and their sources, the parameters and their weight as applied to the person, and the operations.", fr: "À sa demande, l’administration communique le degré et le mode de contribution du traitement à la décision. Les points 2 à 4, à vérifier, ajoutent les données et leurs sources, les paramètres et leur pondération appliqués à la situation de la personne, et les opérations."}
+    status: stricter
+    source: {title: "Décret n° 2017-330 du 14 mars 2017 relatif aux droits des personnes faisant l'objet de décisions individuelles prises sur le fondement d'un traitement algorithmique (copy published by Dalloz Actualité)", date: "2017-03-14", url: "https://www.dalloz-actualite.fr/document/decr-n-2017-330-14-mars-2017-jo-16-mars", archive: "https://web.archive.org/web/20261116032505/https://www.dalloz-actualite.fr/sites/dalloz-actualite.fr/files/resources/2017/03/decret_2017-330_du_14_mars_2017.pdf"}
+    last_checked: "2026-11-15"
+  - id: DEC-038
+    text: {en: "Government guidance describes a duty for administrations of 50 agents or more to publish the rules of their main algorithmic processing for individual decisions. The article, L312-1-3, is to be verified.", fr: "Un guide de l’État décrit l’obligation, pour les administrations de 50 agents ou plus, de publier les règles de leurs principaux traitements algorithmiques servant aux décisions individuelles. L’article L312-1-3 est à vérifier."}
+    status: stricter
+    source: {title: "Guides data.gouv.fr, Fiche pratique : l'inventaire des principaux traitements algorithmiques (archived copy; the page left guides.data.gouv.fr in 2026)", url: "https://web.archive.org/web/20260107050654/https://guides.data.gouv.fr/autres-ressources-utiles/les-algorithmes-publics-pourquoi-et-comment-les-expliquer/fiche-pratique-linventaire-des-principaux-traitements-algorithmiques", archive: "https://web.archive.org/web/20260107050654/https://guides.data.gouv.fr/autres-ressources-utiles/les-algorithmes-publics-pourquoi-et-comment-les-expliquer/fiche-pratique-linventaire-des-principaux-traitements-algorithmiques"}
+    last_checked: "2026-11-16"

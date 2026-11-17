@@ -1,0 +1,171 @@
+= Decision records
+include::_fpsot-terms.adoc[]
+
+No law sets a complete schema for the record of one decision.
+Taken together, though, they ask for the same facts.
+The federal directive of Canada asks institutions to document their automated decisions.
+Québec guidance says that a body must give the personal information that it used, on request.
+Under the European regulation on artificial intelligence, a high-risk system must log its events automatically.
+
+This page sets one record that can serve all of them.
+Most of its fields belong to other {abbr-fpsot-first} specifications, and this page cites them.
+Only the fields that are specific to decisions are new.
+
+== The record
+
+[[DEC-040]]
+*DEC-040.* A decision service MUST create one decision record for each result of a rule provider, whatever its kind.
+The record MUST follow the class `DecisionRecord` of `model/decisions.yaml`.
+It MUST hold the fields of this table, and take each field from the specification that owns it.
+
+[cols="3,3,2",options="header"]
+|===
+|Field |Owner |Rule
+|`id` |Observability: the identifier of the business event |OBS-024, DEC-041
+|`objects` |Observability: object references |OBS-073
+|`decisionType`, `decisionTypeVersion` |Vocabularies for the code, this specification for the release |VOC-064, DEC-010
+|`profiles`, `impactLevel` |This specification |DEC-011 to DEC-013
+|`legalAuthorities` |This specification |DEC-031
+|`ruleSet`, `parameterSets` |This specification: the plan of the activity |DEC-030, DEC-037
+|`effectiveDate`, `recordTime` |This specification |DEC-022
+|`startedAt`, `completedAt`, `createdAt`, `updatedAt` |Observability and data types: instants in {abbr-utc-first} |OBS-030, DAT-010
+|`inputs`, `presumptions` |This specification |DEC-042, DEC-033
+|`resultKind`, `outcome`, `recommendedOutcome`, `referralReason`, `missingFacts` |This specification, with codes under the vocabularies specification |DEC-024 to DEC-026
+|`amount` |Data types: money |DAT-050
+|`reasonScheme`, `reasons` |Vocabularies for the codes, this specification for the parameters |DEC-050 to DEC-055
+|`automationDegree`, `reviewStepIds` |This specification, with reviewers as identity actors |DEC-060, IAM-091
+|`predecessorId`, `changeCause` |This specification: a revision |DEC-043
+|`trace` |This specification, by reference |DEC-048
+|Integrity |Log: seal, manifest and transparency log |DEC-045
+|===
+
+The model follows link:https://www.w3.org/TR/2013/REC-prov-o-20130430/[PROV-O].
+A record is an entity that one decision activity generated.
+That activity used the inputs and followed the rule version as its plan.
+The service and each reviewer were its agents.
+A later record is a revision of an earlier one.
+
+The model follows DMO-010 to DMO-013 and DMO-020 to DMO-024 of the data models specification.
+Its valid examples sit in `examples/`, and its test builds the invalid ones from broken copies.
+The example folder of DMO-017 and the generated forms of DMO-014 and DMO-015 will come with the conformance suite.
+
+The effective date, the record time and the time of the run are three different facts.
+A replay needs all three.
+
+[[DEC-041]]
+*DEC-041.* The `id` of a decision record MUST be the `org.fpsot.event.id` of the business event of that decision, under OBS-024.
+The CloudEvents event of DEC-072 MUST carry the same value as its `id`.
+The seal manifest of the record MUST carry it as its `id`, under LOG-019.
+
+One identifier then joins the record, its event, its seal and its entry in the transparency log.
+
+== Inputs
+
+[[DEC-042]]
+*DEC-042.* The record MUST keep the value of each input fact, or an immutable reference to a stored copy.
+A stored copy MUST live at least as long as the record.
+The record MUST NOT keep a hash of a fact in place of its value or its reference.
+Each input MUST give its source, the date when the source stated it and how the body collected it.
+
+Government guidance on article 65.2 says that a Québec body must give the personal information that it used, on request.
+A hash cannot give that information back.
+A reference to a source system that can change or destroy the value cannot either.
+
+== Revisions
+
+[[DEC-043]]
+*DEC-043.* A decision service MUST NOT change or delete a decision record before its retention ends.
+To correct, review, reconsider or reprocess a decision, it MUST create a new record.
+The new record MUST name the old one in `predecessorId`, give a `changeCause` code and hold every field again.
+A record that revises a `referred` record with a `decided` result MUST name at least one review step.
+A record that revises an `insufficient-information` record MUST rest on new inputs or on a review step.
+It MUST NOT rest on elapsed time alone.
+
+Each new record then stands alone.
+A referral or a request for information never turns into an automated result by itself.
+Change causes come from a scheme under the vocabularies specification, such as `human-review`, `correction`, `appeal` or `retroactive-law`.
+The file `examples/decision-record-2.json` revises `examples/decision-record-1.json` after a human review.
+OBS-078 sets the same principle for business events.
+
+== Three stores
+
+[[DEC-044]]
+*DEC-044.* A deploying body MUST keep three stores of decision data apart.
+
+* The decision record holds the full inputs.
+Only the roles that the deploying body names may read it, under IAM-050.
+* The business event of DEC-071 holds identifiers, codes and the rule version.
+It MUST NOT hold the value of an input fact, an amount or a name.
+* Statistics for monitoring come from the events and hold no direct identifier of a person.
+They MUST replace each such identifier with a keyed pseudonym for one purpose, under OBS-093.
+
+A system MUST NOT copy an input value into an event or into a statistics store.
+
+Each store has its own purpose, its own readers and its own retention.
+A copy of an income in an event would spread it to every reader of the log.
+
+== Integrity
+
+[[DEC-045]]
+*DEC-045.* A deploying body MUST seal each decision record under the signed records specification.
+Its series of decision records MUST claim at least the `seal-log` profile of LOG-002.
+The salted hash of LOG-031 is then the only data about the record in the transparency log.
+When the body destroys a record, it MUST destroy the salt with it, under LOG-081.
+
+A sealed record proves that nobody changed it after the decision.
+The log proves that the body showed the same record to every reader.
+The salt keeps any personal information out of the log.
+
+== Retention
+
+[[DEC-046]]
+*DEC-046.* Each decision record, review step and notice record MUST have a retention rule.
+That rule MUST name its rule of the retention schedule.
+OBS-102 sets that duty for log stores, and this rule applies it to decision data.
+A legal hold under OBS-103 MUST stop destruction, and each destruction MUST leave an event under OBS-104.
+The body MUST keep each rule version, parameter file and reason scheme release while a record that used it remains.
+
+Only the schedule of the deploying body sets how long a record stays.
+The retention profile of OBS-101 does not apply to decision records.
+The comparison data gives the retention periods that the research found, each _to be verified_.
+The page xref:questions-for-counsel.adoc[Questions for counsel] asks a lawyer which floors apply.
+
+== Replay
+
+[[DEC-047]]
+*DEC-047.* A decision service MUST be able to replay a decision in two modes.
+
+* As decided: the original rule version, the original parameters, the original inputs and the original context.
+The result and its reasons MUST be the same as in the original record.
+* As corrected: rectified inputs, or the rule version that the current record time selects, or both.
+The result MUST be a new record that revises the original under DEC-043.
+
+A replay as decided shows what the system did.
+A replay as corrected shows what it should have done once the facts or the law changed.
+A person in Québec may ask to correct the information that a decision used.
+The second mode is then a common case.
+
+== Traces
+
+[[DEC-048]]
+*DEC-048.* A rule provider MAY produce a trace of each run, such as the rule elements that applied.
+When it does, the record MUST name the trace by {abbr-uri-first} and digest, and MUST NOT hold it inline.
+The deploying body MUST keep the trace as long as the record.
+
+link:https://openfisca.readthedocs.io/en/latest/openfisca-python-api/tracer.html[OpenFisca] records the value of each parameter for each period in its trace.
+A trace by reference keeps the record small and readable, while the detail stays available for a review.
+
+== References
+
+=== Informative
+
+* link:https://www.w3.org/TR/2013/REC-prov-o-20130430/[PROV-O: The PROV Ontology], W3C, Recommendation, 2013-04-30. link:https://web.archive.org/web/20261104001552/https://www.w3.org/TR/2013/REC-prov-o-20130430/[Archived copy]
+* link:https://openfisca.readthedocs.io/en/latest/openfisca-python-api/tracer.html[Tracer], OpenFisca Python API documentation. link:https://web.archive.org/web/20261116032611/https://openfisca.readthedocs.io/en/latest/openfisca-python-api/tracer.html[Archived copy]
+
+== Document history
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Change
+|0.1.0 |2026-11-15 |First version.
+|===

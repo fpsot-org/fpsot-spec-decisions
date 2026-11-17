@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fpsot.org/schemas/decisions/events/org.fpsot.decisions.notice.issued.schema.json",
+  "$comment": "SPDX-License-Identifier: Community-Spec-1.0. FPSOT decisions event data (DEC-072). The data holds identifiers and codes only, never the value of a fact, an amount or a name (DEC-044). The CloudEvents attributes follow API-101.",
+  "title": "org.fpsot.decisions.notice.issued",
+  "description": "A body issued a notice about a decision (DEC-056, DEC-072).",
+  "type": "object",
+  "required": [
+    "noticeId",
+    "decisionId",
+    "templateId",
+    "templateVersion",
+    "language",
+    "channel",
+    "automationNotice",
+    "recourseChannels",
+    "sealedRecordId"
+  ],
+  "properties": {
+    "noticeId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "The id of the notice record, which is also the id of this event (DEC-041)."
+    },
+    "decisionId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "The decision record that the notice communicates (DEC-056)."
+    },
+    "templateId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "The template that rendered the notice (DEC-056)."
+    },
+    "templateVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$",
+      "description": "The release of the template (DEC-056)."
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*$",
+      "description": "The language of the notice (DEC-056)."
+    },
+    "channel": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "How the body sent the notice (DEC-056)."
+    },
+    "automationNotice": {
+      "type": "boolean",
+      "description": "Whether the notice stated that automation took part (DEC-057)."
+    },
+    "recourseChannels": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+      },
+      "description": "Each recourse or observations channel that the notice offered (DEC-057)."
+    },
+    "sealedRecordId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "The id of the seal manifest of the rendered notice (LOG-019)."
+    }
+  },
+  "additionalProperties": false
+}

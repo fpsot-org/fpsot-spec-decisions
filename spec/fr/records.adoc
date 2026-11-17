@@ -1,0 +1,175 @@
+= Enregistrements de décision
+include::_fpsot-terms.adoc[]
+
+Aucune loi ne fixe un schéma complet pour l’enregistrement d’une décision.
+Prises ensemble, les lois demandent pourtant les mêmes faits.
+La directive fédérale du Canada demande aux institutions de documenter leurs décisions automatisées.
+Selon les orientations du Québec, un organisme doit fournir sur demande les renseignements personnels qu’il a utilisés.
+Le règlement européen sur l’intelligence artificielle oblige un système à haut risque à journaliser ses événements automatiquement.
+
+Cette page fixe un seul enregistrement qui peut servir à tous ces régimes.
+La plupart de ses champs relèvent d’autres spécifications de la {abbr-fpsot-first}, que cette page cite.
+Seuls les champs propres aux décisions sont nouveaux.
+
+== L’enregistrement
+
+[[DEC-040]]
+*DEC-040.* Un service de décision DOIT créer un enregistrement de décision pour chaque résultat d’un fournisseur de règles.
+Cette règle vaut pour chaque type de résultat.
+L’enregistrement DOIT suivre la classe `DecisionRecord` de `model/decisions.yaml`.
+Il DOIT contenir les champs de ce tableau, et tirer chaque champ de la spécification qui en est responsable.
+
+[cols="3,3,2",options="header"]
+|===
+|Champ |Responsable |Règle
+|`id` |Observabilité : l’identifiant de l’événement d’affaires |OBS-024, DEC-041
+|`objects` |Observabilité : références à des objets |OBS-073
+|`decisionType`, `decisionTypeVersion` |Vocabulaires pour le code, cette spécification pour la version |VOC-064, DEC-010
+|`profiles`, `impactLevel` |Cette spécification |DEC-011 à DEC-013
+|`legalAuthorities` |Cette spécification |DEC-031
+|`ruleSet`, `parameterSets` |Cette spécification : le plan de l’activité |DEC-030, DEC-037
+|`effectiveDate`, `recordTime` |Cette spécification |DEC-022
+|`startedAt`, `completedAt`, `createdAt`, `updatedAt` |Observabilité et types de données : instants en {abbr-utc-first} |OBS-030, DAT-010
+|`inputs`, `presumptions` |Cette spécification |DEC-042, DEC-033
+|`resultKind`, `outcome`, `recommendedOutcome`, `referralReason`, `missingFacts` |Cette spécification, avec des codes selon la spécification sur les vocabulaires |DEC-024 à DEC-026
+|`amount` |Types de données : argent |DAT-050
+|`reasonScheme`, `reasons` |Vocabulaires pour les codes, cette spécification pour les paramètres |DEC-050 à DEC-055
+|`automationDegree`, `reviewStepIds` |Cette spécification, avec les personnes qui révisent comme acteurs de l’identité |DEC-060, IAM-091
+|`predecessorId`, `changeCause` |Cette spécification : une révision |DEC-043
+|`trace` |Cette spécification, par référence |DEC-048
+|Intégrité |Journal : cachet, manifeste et journal de transparence |DEC-045
+|===
+
+Le modèle suit link:https://www.w3.org/TR/2013/REC-prov-o-20130430/[PROV-O].
+Un enregistrement est une entité qu’a produite une activité de décision.
+Cette activité a utilisé les intrants et a suivi la version de règles comme plan.
+Le service et chaque personne qui révise en étaient les agents.
+Un enregistrement ultérieur est une révision d’un enregistrement antérieur.
+
+Le modèle suit DMO-010 à DMO-013 et DMO-020 à DMO-024 de la spécification sur les modèles de données.
+Ses exemples valides se trouvent dans `examples/`, et son test produit les exemples invalides à partir de copies altérées.
+Le dossier d’exemples de DMO-017 et les formes générées selon DMO-014 et DMO-015 viendront avec la suite de conformité.
+
+La date d’effet, le moment d’enregistrement et l’heure de l’exécution sont trois faits distincts.
+Une réexécution a besoin des trois.
+
+[[DEC-041]]
+*DEC-041.* L’`id` d’un enregistrement de décision DOIT être l’`org.fpsot.event.id` de l’événement d’affaires de cette décision, selon OBS-024.
+L’événement CloudEvents de DEC-072 DOIT porter la même valeur comme `id`.
+Le manifeste de cachet de l’enregistrement DOIT la porter comme `id`, selon LOG-019.
+
+Un seul identifiant relie alors l’enregistrement, son événement, son cachet et son entrée dans le journal de transparence.
+
+== Intrants
+
+[[DEC-042]]
+*DEC-042.* L’enregistrement DOIT garder la valeur de chaque fait en intrant, ou une référence immuable à une copie stockée.
+Une copie stockée DOIT exister au moins aussi longtemps que l’enregistrement.
+L’enregistrement NE DOIT PAS garder un condensé d’un fait à la place de sa valeur ou de sa référence.
+Chaque intrant DOIT donner sa source, la date où la source l’a énoncé et le mode de collecte.
+
+Selon les orientations gouvernementales sur l’article 65.2, un organisme du Québec doit fournir sur demande les renseignements personnels utilisés.
+Un condensé ne permet pas de rendre ces renseignements.
+Une référence à un système source qui peut modifier ou détruire la valeur ne le permet pas non plus.
+
+== Révisions
+
+[[DEC-043]]
+*DEC-043.* Un service de décision NE DOIT PAS modifier ni supprimer un enregistrement avant la fin de sa conservation.
+Pour corriger, réviser, réexaminer ou retraiter une décision, il DOIT créer un nouvel enregistrement.
+Le nouvel enregistrement DOIT nommer l’ancien dans `predecessorId`, donner un code `changeCause` et contenir de nouveau tous les champs.
+Un enregistrement qui révise un enregistrement `referred` par un résultat `decided` DOIT nommer au moins une étape de révision.
+Un enregistrement qui révise un enregistrement `insufficient-information` DOIT reposer sur de nouveaux intrants ou sur une étape de révision.
+Il NE DOIT PAS reposer sur le seul passage du temps.
+
+Chaque nouvel enregistrement se suffit alors à lui-même.
+Un renvoi ou une demande de renseignements ne devient jamais de lui-même un résultat automatisé.
+Les causes de changement viennent d’un schéma selon la spécification sur les vocabulaires.
+En voici des exemples : `human-review`, `correction`, `appeal` ou `retroactive-law`.
+Le fichier `examples/decision-record-2.json` révise `examples/decision-record-1.json` après une révision humaine.
+OBS-078 fixe le même principe pour les événements d’affaires.
+
+== Trois lieux de conservation
+
+[[DEC-044]]
+*DEC-044.* Un organisme responsable DOIT tenir séparés trois lieux de conservation des données de décision.
+
+* L’enregistrement de décision contient les intrants complets.
+Seuls les rôles que nomme l’organisme responsable peuvent le lire, selon IAM-050.
+* L’événement d’affaires de DEC-071 contient des identifiants, des codes et la version de règles.
+Il NE DOIT PAS contenir la valeur d’un fait en intrant, un montant ou un nom.
+* Les statistiques de suivi viennent des événements et ne contiennent aucun identifiant direct de personne.
+Elles DOIVENT remplacer chacun de ces identifiants par un pseudonyme à clé propre à une seule finalité, selon OBS-093.
+
+Un système NE DOIT PAS copier la valeur d’un intrant dans un événement ou dans un lieu de statistiques.
+
+Chaque lieu a sa propre finalité, ses propres lecteurs et sa propre durée de conservation.
+Un revenu copié dans un événement se répandrait chez chaque lecteur du journal.
+
+== Intégrité
+
+[[DEC-045]]
+*DEC-045.* Un organisme responsable DOIT apposer un {term-seal} sur chaque enregistrement de décision, selon la spécification sur les documents signés.
+Sa série d’enregistrements de décision DOIT revendiquer au moins le profil `seal-log` de LOG-002.
+Le condensé salé de LOG-031 est alors la seule donnée sur l’enregistrement dans le journal de transparence.
+Quand l’organisme détruit un enregistrement, il DOIT détruire le sel avec lui, selon LOG-081.
+
+Un enregistrement cacheté prouve que personne ne l’a modifié après la décision.
+Le journal prouve que l’organisme a montré le même enregistrement à chaque lecteur.
+Le sel garde tout renseignement personnel hors du journal.
+
+== Conservation
+
+[[DEC-046]]
+*DEC-046.* Chaque enregistrement de décision, étape de révision et enregistrement d’avis DOIT avoir une règle de conservation.
+Cette règle DOIT nommer sa règle du calendrier de conservation.
+OBS-102 fixe cette obligation pour les magasins de journaux, et cette règle l’applique aux données de décision.
+Une préservation de la preuve selon OBS-103 DOIT arrêter la destruction, et chaque destruction DOIT laisser un événement selon OBS-104.
+L’organisme DOIT garder chaque version de règles, fichier de paramètres et version de schéma de motifs.
+Il les garde tant qu’un enregistrement qui s’en sert demeure.
+
+Seul le calendrier de l’organisme responsable fixe la durée de conservation d’un enregistrement.
+Le profil de conservation d’OBS-101 ne s’applique pas aux enregistrements de décision.
+Les données de comparaison donnent les durées de conservation que la recherche a trouvées, chacune _à vérifier_.
+La page xref:questions-for-counsel.adoc[Questions pour les juristes] demande à des juristes quels seuils minimaux s’appliquent.
+
+== Réexécution
+
+[[DEC-047]]
+*DEC-047.* Un service de décision DOIT pouvoir réexécuter une décision de deux façons.
+
+* Telle que décidée : la version de règles, les paramètres, les intrants et le contexte d’origine.
+Le résultat et ses motifs DOIVENT être les mêmes que dans l’enregistrement d’origine.
+* Telle que corrigée : des intrants rectifiés, ou la version de règles que choisit le moment d’enregistrement actuel, ou les deux.
+Le résultat DOIT être un nouvel enregistrement qui révise l’original selon DEC-043.
+
+Une réexécution « telle que décidée » montre ce que le système a fait.
+Une réexécution « telle que corrigée » montre ce qu’il aurait dû faire une fois les faits ou le droit changés.
+Au Québec, une personne peut demander la rectification des renseignements qu’une décision a utilisés.
+Le second mode est donc un cas courant.
+
+== Traces
+
+[[DEC-048]]
+*DEC-048.* Un fournisseur de règles PEUT produire une trace d’exécution, comme les éléments de règle qui se sont appliqués.
+Le cas échéant, l’enregistrement DOIT nommer la trace par son {abbr-uri-first} et son condensé.
+Il NE DOIT PAS la contenir en ligne.
+L’organisme responsable DOIT garder la trace aussi longtemps que l’enregistrement.
+
+link:https://openfisca.readthedocs.io/en/latest/openfisca-python-api/tracer.html[OpenFisca] inscrit dans sa trace la valeur de chaque paramètre pour chaque période.
+Une trace par référence garde l’enregistrement court et lisible, et le détail reste disponible pour une révision.
+
+== Références
+
+=== Références informatives
+
+* link:https://www.w3.org/TR/2013/REC-prov-o-20130430/[PROV-O: The PROV Ontology], W3C, Recommendation, 2013-04-30. link:https://web.archive.org/web/20261104001552/https://www.w3.org/TR/2013/REC-prov-o-20130430/[Copie archivée]
+* link:https://openfisca.readthedocs.io/en/latest/openfisca-python-api/tracer.html[Tracer], OpenFisca Python API documentation. link:https://web.archive.org/web/20261116032611/https://openfisca.readthedocs.io/en/latest/openfisca-python-api/tracer.html[Copie archivée]
+
+== Historique du document
+
+[cols="1,1,4",options="header"]
+|===
+|Version |Date |Changement
+|0.1.0 |2026-11-15 |Première version.
+|===
