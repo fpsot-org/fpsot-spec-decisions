@@ -91,5 +91,34 @@ case_fails feature-without-date 'states no effective date \(DEC-080\)' \
 case_fails feature-without-reason-code 'scenario @example-housing-benefit-003 states no reason code \(DEC-080\)' \
   'p = "examples/features/en/example-housing-benefit.feature"; s = open(p, encoding="utf-8").read().replace("      And the principal reason is \"household-income-missing\"\n", ""); open(p, "w", encoding="utf-8").write(s)'
 
+case_fails all-reasons-five-principal 'principal reasons; give at most four \(DEC-053\)' \
+  'd = ry("profiles/ca-federal.yaml"); d["levels"][2]["allReasons"] = True; wy("profiles/ca-federal.yaml", d)
+d = rj(R2); x = d["reasons"][0]; d["reasons"] = [dict(x, rank=i) for i in range(1, 6)]; wj(R2, d)'
+case_fails no-principal-reason 'a result needs at least one principal reason \(DEC-053\)' \
+  'd = rj(R1); d["resultKind"] = "insufficient-information"; d["missingFacts"] = ["household-income"]; [d.pop(k) for k in ("referralReason", "recommendedOutcome")]; [x.update(principal=False) for x in d["reasons"]]; wj(R1, d)'
+case_fails referral-step-counted-as-decided 'degree of automation must be human-confirmed, from the review steps \(DEC-060\)' \
+  's = rj(S); s2 = dict(s, id="01994d7d-0000-7000-8000-000000000001", actorId="staff-1b2c3d4e", action="referred", startedAt="2026-09-15T13:00:00.000Z", completedAt="2026-09-15T13:05:00.000Z", createdAt="2026-09-15T13:05:00.010Z", updatedAt="2026-09-15T13:05:00.010Z"); wj("examples/review-step-0.json", s2)
+d = rj(R2); d["reviewStepIds"].insert(0, s2["id"]); d["automationDegree"] = "human-decided"; wj(R2, d)'
+case_fails gated-with-only-referral-step 'needs a review step before a decided result \(DEC-061\)' \
+  'd = rj(S); d["action"] = "referred"; wj(S, d)
+d = rj(R2); d["automationDegree"] = "fully-automated"; wj(R2, d)'
+case_fails other-from-confirming-step 'only a person in a review step may give the reason other' \
+  'd = rj(R2); d["reasons"][1]["code"] = "other"; d["reasons"][1]["otherText"] = [{"language": "en", "text": "The lease ends before the benefit period."}, {"language": "fr", "text": "Le bail prend fin avant la période de l’allocation."}]; wj(R2, d)'
+case_fails other-text-one-language 'otherText in English and French \(DEC-054\)' \
+  'd = rj(R2); d["reasons"][1]["code"] = "other"; d["reasons"][1]["otherText"] = [{"language": "en", "text": "The lease ends before the benefit period."}]; wj(R2, d)'
+case_fails recourse-when-fully-automated 'give a recourse channel \(DEC-057\)' \
+  'd = ry("profiles/ca-federal.yaml"); d["levels"][2]["recourseNotice"] = "required-when-fully-automated"; wy("profiles/ca-federal.yaml", d)
+d = rj(N); d["decisionId"] = rj(R1)["id"]; del d["recourseChannels"]; wj(N, d)'
+case_fails referral-reason-not-in-scheme 'is not in the scheme of referral reasons \(DEC-026\)' \
+  'd = rj(R1); d["referralReason"] = "manual-check"; wj(R1, d)'
+case_fails change-cause-not-in-scheme 'is not in the scheme of change causes \(DEC-043\)' \
+  'd = rj(R2); d["changeCause"] = "officer-review"; wj(R2, d)'
+case_fails missing-fact-not-in-scheme 'fact household-assets is not in the scheme of facts' \
+  'd = rj(R1); d["resultKind"] = "insufficient-information"; d["missingFacts"] = ["household-assets"]; [d.pop(k) for k in ("referralReason", "recommendedOutcome")]; wj(R1, d)'
+case_fails reviewer-id-in-event '\$\.data\.actorId is not allowed by the event schema \(API-103\)' \
+  's = rj(S); wj("examples/decision-event-review-step.json", {"specversion": "1.0", "id": s["id"], "source": "/v1/review-steps", "type": "org.fpsot.decisions.review-step.recorded", "time": s["createdAt"], "datacontenttype": "application/json", "data": {"reviewStepId": s["id"], "decisionId": s["decisionId"], "actorId": s["actorId"], "actorRole": s["actorRole"], "representedPartyId": s["representedPartyId"], "action": s["action"], "agreement": s["agreement"]}})'
+case_fails notice-without-timestamps 'createdAt is required in Notice \(DEC-040\)' \
+  'd = rj(N); del d["createdAt"]; wj(N, d)'
+
 [ $fail -eq 0 ] && echo "PASS: every case"
 exit $fail

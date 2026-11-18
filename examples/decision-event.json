@@ -28,7 +28,7 @@
     "outcome": "refused",
     "reasonCodes": [
       "household-income-above-limit",
-      "household-size"
+      "household-size-too-small-for-higher-limit"
     ],
     "principalReasonCodes": [
       "household-income-above-limit"

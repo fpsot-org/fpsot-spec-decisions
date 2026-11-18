@@ -16,6 +16,7 @@ reasonScheme: "https://vocab.example.org/example-housing-benefit-reasons/version
 ruleSetCode: example-housing-benefit
 humanReview: false
 dualReview: false
+reviewWindow: P1Y
 publication:
   sourceUri: "https://code.example.org/example-housing-benefit-rules"
   explanationUri: "https://www.example.org/housing-benefit/how-we-decide"

@@ -142,6 +142,9 @@ Le programme, sa loi et chaque adresse sont fictifs.
 
 * `decision-type.yaml` décrit le type de décision, avec ses profils et son niveau d’incidence, selon DEC-010.
 * `reason-codes.jsonld` est le schéma de motifs, selon DEC-050.
+* `referral-reasons.jsonld`, `change-causes.jsonld` et `fact-codes.jsonld` sont les autres schémas des exemples.
+Ils contiennent les motifs de renvoi, les causes de modification et les faits, selon DEC-026, DEC-043 et DEC-025.
+Une vraie version d’un schéma exige aussi son fichier Turtle, selon VOC-050.
 * `rule-versions.yaml` et `parameters/` contiennent deux versions de règles et un ensemble de paramètres datés, selon DEC-030 et DEC-037.
 * `decision-record-1.json` est un résultat que le service a renvoyé à une personne, selon DEC-061.
 * `review-step.json` est l’étape de révision d’une agente ou d’un agent, selon DEC-062.

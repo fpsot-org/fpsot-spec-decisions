@@ -47,6 +47,8 @@ Il NE DOIT PAS porter la valeur d’un fait en intrant, un montant ou un nom.
 Les clés d’activité viennent d’un schéma de l’organisme responsable, comme `decide-application`, `review-decision` et `issue-notice`.
 Un attribut s’applique quand l’enregistrement a une valeur pour lui.
 Pour une étape de révision ou un avis, cet enregistrement est la décision visée.
+L’événement d’une étape de révision désigne la personne qui révise par son rôle, selon OBS-075.
+
 Les attributs obligatoires sont ceux dont les statistiques de DEC-066 ont besoin.
 L’inventaire du composant énumère ces attributs et le schéma, selon OBS-010.
 L’exploration de processus et les statistiques de DEC-066 fonctionnent alors à partir des seuls événements, sans valeur personnelle.
@@ -58,6 +60,7 @@ L’exploration de processus et les statistiques de DEC-066 fonctionnent alors �
 Il DOIT avoir un type de ce tableau, et ses données DOIVENT suivre le schéma de ce type dans `registry/events/`.
 Son `id` DOIT être l’identifiant de l’enregistrement, selon DEC-041.
 Ses données DOIVENT contenir seulement des identifiants et des codes, selon DEC-044.
+Ses données NE DOIVENT PAS contenir l’identifiant d’une personne qui a agi, comme une personne qui révise, selon API-102.
 
 [cols="3,3",options="header"]
 |===
@@ -69,6 +72,7 @@ Ses données DOIVENT contenir seulement des identifiants et des codes, selon DEC
 
 Les noms suivent NAM-050 et NAM-051, et les schémas suivent API-103.
 Un consommateur qui a besoin des intrants lit l’enregistrement par l’interface de DEC-073, avec sa propre autorisation.
+Un consommateur qui a besoin de connaître la personne qui révise lit l’étape de révision de la même façon.
 Le fichier `examples/decision-event.json` est l’événement de l’enregistrement final de l’exemple.
 
 == Accès aux enregistrements

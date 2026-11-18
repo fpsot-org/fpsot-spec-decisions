@@ -57,6 +57,7 @@ Personne ne peut examiner ni contester une présomption qui n’a ni nom ni sour
 Cela comprend chaque version dont un organisme peut encore trancher, réviser, réexaminer ou réexécuter les dossiers.
 Retirer une telle version DOIT entraîner une nouvelle version majeure de l’artefact.
 L’organisme responsable DOIT indiquer, pour chaque type de décision, combien de temps une décision reste ouverte à la révision.
+Il indique cette durée dans `reviewWindow`, dans la description du type de décision.
 
 DEC-003 interdit de charger des règles pendant l’exécution.
 Un déploiement ne peut donc pas ajouter une ancienne version plus tard.

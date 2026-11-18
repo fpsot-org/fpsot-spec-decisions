@@ -166,8 +166,8 @@ The flag lets a reviewer find such rules without reading the code.
 
 [[DEC-028]]
 *DEC-028.* Entitlement rules MUST NOT use a risk or fraud score as an input, unless they declare it.
-A declared input has its own entry in the description of the decision type.
-That entry cites the provision that allows the input.
+A declared input has its own entry in `declaredScoreInputs`, in the description of the decision type.
+That entry cites the provision that allows the input and names the decision type that produces the score.
 A risk score MUST come from its own decision type, with its own records under this specification.
 
 A Dutch court struck down the link:https://www.rechtspraak.nl/organisatie-en-contact/organisatie/rechtbanken/rechtbank-den-haag/nieuws/2020/02/syri-legislation-in-breach-of-european-convention-on-human-rights[SyRI risk-profiling law] in 2020.

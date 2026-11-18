@@ -27,6 +27,7 @@ Publish a concept scheme of reason codes under the vocabularies specification, u
 Give each code a label and a definition in English and in French.
 Name a factor in each code, such as `household-income-above-limit`, never a verdict, under DEC-051.
 The file `examples/reason-codes.jsonld` shows a small scheme.
+Publish each release in Turtle and in JSON-LD, under VOC-050, while the example shows JSON-LD only.
 
 == Write the rules
 

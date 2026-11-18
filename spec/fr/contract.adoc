@@ -172,8 +172,8 @@ Cet indicateur d’effet de seuil permet de repérer ces règles sans lire le co
 
 [[DEC-028]]
 *DEC-028.* Les règles d’attribution NE DOIVENT PAS employer une cote de risque ou de fraude non déclarée en entrée.
-Une donnée d’entrée déclarée a sa propre entrée dans la description du type de décision.
-Cette entrée cite la disposition qui permet cette donnée.
+Une donnée d’entrée déclarée a sa propre entrée dans `declaredScoreInputs`, dans la description du type de décision.
+Cette entrée cite la disposition qui permet cette donnée et nomme le type de décision qui produit la cote.
 Une cote de risque DOIT venir de son propre type de décision, avec ses propres enregistrements selon cette spécification.
 
 Un tribunal néerlandais a invalidé en 2020 la link:https://www.rechtspraak.nl/organisatie-en-contact/organisatie/rechtbanken/rechtbank-den-haag/nieuws/2020/02/syri-legislation-in-breach-of-european-convention-on-human-rights[loi sur le profilage de risque SyRI].

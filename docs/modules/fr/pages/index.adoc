@@ -28,6 +28,7 @@ Publiez un schéma de concepts de codes de motif selon la spécification sur les
 Donnez à chaque code un libellé et une définition en français et en anglais.
 Nommez un facteur dans chaque code, comme `household-income-above-limit`, jamais un verdict, selon DEC-051.
 Le fichier `examples/reason-codes.jsonld` montre un petit schéma.
+Publiez chaque version en Turtle et en JSON-LD, selon VOC-050, alors que l’exemple ne montre que le JSON-LD.
 
 == Écrire les règles
 

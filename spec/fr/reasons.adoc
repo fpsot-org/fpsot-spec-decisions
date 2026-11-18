@@ -26,6 +26,9 @@ Un code DOIT nommer un facteur de la décision, comme `household-income-above-li
 
 Le fichier `examples/reason-codes.jsonld` est un petit schéma de motifs.
 Ses codes décrivent les faits qui ont mené au résultat, et non le résultat lui-même.
+Les fichiers `examples/referral-reasons.jsonld`, `examples/change-causes.jsonld` et `examples/fact-codes.jsonld` contiennent les autres codes des exemples.
+Chaque schéma d’exemple existe seulement en {abbr-json-ld-first}.
+Une vraie version d’un schéma exige aussi son fichier Turtle, selon VOC-050.
 
 [[DEC-051]]
 *DEC-051.* Un code de motif NE DOIT PAS énoncer seulement un verdict ou un échec général.
@@ -42,9 +45,10 @@ Ces valeurs viennent des intrants et des paramètres datés de DEC-037.
 Un avis dans n’importe quelle langue et à n’importe quelle profondeur peut alors venir du même enregistrement.
 
 [[DEC-053]]
-*DEC-053.* Un enregistrement DEVRAIT marquer au plus quatre motifs comme principaux.
+*DEC-053.* Un enregistrement DEVRAIT marquer au moins un et au plus quatre motifs comme principaux.
 Un avis DEVRAIT donner d’abord les motifs principaux.
 Quand un profil fixe `allReasons`, l’explication DOIT donner chaque motif de l’enregistrement.
+La limite de quatre motifs principaux s’applique aussi sous `allReasons`.
 
 Le profil `fr` fixe `allReasons`, car le droit français parle des paramètres tels qu’ils s’appliquent au cas.
 Une longue liste de motifs cache ceux qui comptent.
@@ -54,9 +58,12 @@ Une longue liste de motifs cache ceux qui comptent.
 Seule une personne, dans une étape de révision, PEUT donner ce code.
 Un fournisseur de règles NE DOIT PAS le faire.
 Un motif au code `other` DOIT porter un texte en français et en anglais dans `otherText`.
+Selon DMO-024, chaque texte est une simple chaîne, avec son étiquette de langue, telle que la personne l’a écrite.
 
 Un fournisseur de règles connaît chaque motif que ses règles peuvent produire, il n’a donc jamais besoin d’`other`.
 Une personne qui révise peut rencontrer un cas qu’aucun code ne couvre.
+Une personne qui ajoute un motif modifie le résultat que le service a montré.
+L’étape de révision consigne alors une modification ou un désaccord.
 Le texte dans les deux langues permet à l’organisme de rendre l’avis dans la langue de la personne.
 
 == Valeurs contrefactuelles
@@ -95,7 +102,7 @@ L’avis cacheté garde le texte exact que la personne a reçu.
 * `recourseNotice` : l’avis donne chaque voie de recours ou moyen de présenter des observations, avec le contact et le délai.
 
 L’enregistrement d’avis DOIT indiquer si l’avis contenait la mention du traitement automatisé.
-Il DOIT énumérer chaque voie qu’a offerte l’avis.
+Il DOIT énumérer chaque voie qu’a offerte l’avis, avec son contact et son délai, s’il y a lieu.
 
 Les orientations du Québec demandent d’informer la personne au plus tard au moment où l’organisme communique la décision.
 Elles demandent aussi un moyen de présenter des observations à un membre du personnel qui peut réviser la décision.

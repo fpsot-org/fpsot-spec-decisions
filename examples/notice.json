@@ -8,8 +8,13 @@
   "issuedAt": "2026-09-15T14:20:05.000Z",
   "automationNotice": true,
   "recourseChannels": [
-    "reconsideration-request"
+    {
+      "code": "reconsideration-request",
+      "contact": "https://www.example.org/housing-benefit/reconsideration",
+      "deadline": "2026-12-14"
+    }
   ],
-  "recourseDeadline": "2026-12-14",
-  "sealedRecordId": "01994d85-0c12-7f53-b2c3-7d8e9fa0b105"
+  "sealedRecordId": "01994d85-0c12-7f53-b2c3-7d8e9fa0b105",
+  "createdAt": "2026-09-15T14:20:05.120Z",
+  "updatedAt": "2026-09-15T14:20:05.120Z"
 }

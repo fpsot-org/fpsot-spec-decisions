@@ -25,7 +25,7 @@ Feature: Eligibility for the example housing benefit
       And a household of 3 persons with a household income of "52000.00" CAD
       When the rule provider evaluates the application
       Then the result kind is "decided" with the outcome "granted"
-      And the principal reason is "household-size" with the limit "52000.00" CAD
+      And the principal reason is "household-income-within-limit" with the limit "52000.00" CAD
       And the reason cites section "4" of the act "E-1"
 
   Rule: A missing fact never leads to a refusal

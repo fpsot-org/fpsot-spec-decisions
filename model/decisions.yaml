@@ -13,7 +13,15 @@ description: >-
   Records hold codes, values and references, never rendered prose
   (DEC-056). Each element cites its requirement IDs.
   The model says nothing about storage (DMO-003).
-version: 0.1.0
+  The decision record, the review step and the notice record are entities
+  under DMO-021, each with its id. A slot that names a decision type, a
+  profile, a rule set, a parameter set, a reason scheme or a template by
+  its code and version refers to a published versioned artifact, not to an
+  entity: the artifact is a released file, it never changes once released,
+  and its code and version identify it. DMO-021 does not apply to such
+  artifacts, and the classes that describe them (DecisionType, Profile,
+  RuleVersion, ParameterSet) have no id.
+version: 0.2.0
 license: Community-Spec-1.0
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -360,7 +368,13 @@ classes:
       thresholdValue: {range: Any, description: "The limit or the expected value that the rule compared it with. DEC-052."}
       counterfactualRelation: {range: CodeValue, description: "How the value of the factor would have to stand against counterfactualValue for this reason not to apply: at-most, at-least, equal-to or other-than. DEC-055."}
       counterfactualValue: {range: Any, description: "The exact value at which this reason would no longer apply, with the other facts unchanged. DEC-055."}
-      otherText: {range: MultilingualText, inlined: true, description: "Text in English and French, for the code other only. DEC-054."}
+      otherText: {range: WrittenText, multivalued: true, inlined_as_list: true, description: "For the code other only: the text that the reviewer wrote, at least once in English and once in French. Each text is a plain string with its language, kept as written, not MultilingualText, which DMO-024 keeps for published text. DEC-054, DMO-024."}
+
+  WrittenText:
+    description: "Text that a person wrote in one language, kept as written, with its language tag. DEC-054, DMO-024."
+    attributes:
+      language: {range: LanguageTag, required: true, description: "The language of the text. LOC-001."}
+      text: {range: FreeText, required: true, description: "The text, as the person wrote it. DEC-054."}
 
   TraceReference:
     description: "A trace of the run that the provider keeps apart from the record. DEC-048."
@@ -452,7 +466,7 @@ classes:
       activeDuration: {range: Duration, required: true, description: "The time during which the record was in front of the person, under DAT-021. DEC-065."}
 
   Notice:
-    description: "The record of one notice that a body gave about a decision. The notice text itself is a sealed outbound record. DEC-056, DEC-057."
+    description: "The record of one notice that a body gave about a decision. The notice text itself is a sealed outbound record. A notice record never changes once stored. DEC-056, DEC-057."
     attributes:
       id: {identifier: true, range: Uuid, description: "The identifier of the notice record. DEC-056."}
       decisionId: {range: DecisionRecord, required: true, description: "The decision record that the notice communicates. DEC-056."}
@@ -462,12 +476,20 @@ classes:
       channel: {range: CodeValue, required: true, description: "How the body sent the notice, such as mail or online-account. DEC-056."}
       issuedAt: {range: Instant, required: true, description: "When the body issued the notice. DEC-056."}
       automationNotice: {range: boolean, required: true, description: "Whether the notice stated that automation took part in the decision. DEC-057."}
-      recourseChannels: {range: CodeValue, multivalued: true, required: true, description: "Each recourse or observations channel that the notice offered. DEC-057."}
-      recourseDeadline: {range: CalendarDate, description: "The last day to use the recourse, when one applies. DEC-057."}
+      recourseChannels: {range: RecourseChannel, multivalued: true, inlined_as_list: true, description: "Each recourse or observations channel that the notice offered, with its contact and its deadline. Absent only when the notice offered none, which the profiles allow only where recourseNotice is recommended. DEC-057."}
       sealedRecordId: {range: Uuid, required: true, description: "The id of the seal manifest of the rendered notice, under LOG-019. DEC-056."}
+      createdAt: {range: Instant, required: true, description: "When the service stored the notice record. DMO-050."}
+      updatedAt: {range: Instant, required: true, description: "Always equal to createdAt, since a notice record never changes. DMO-050."}
+
+  RecourseChannel:
+    description: "One recourse or observations channel that a notice offered. DEC-057."
+    attributes:
+      code: {range: CodeValue, required: true, description: "The code of the channel, such as reconsideration-request or observations. DEC-057."}
+      contact: {range: uri, required: true, description: "Where the person uses the channel, such as a web form, a mailto: or a tel: URI. DEC-057."}
+      deadline: {range: CalendarDate, description: "The last day to use the channel, when one applies. DEC-057."}
 
   DecisionType:
-    description: "The description of one decision type, which a deploying body publishes and versions. DEC-010 to DEC-014."
+    description: "The description of one decision type, which a deploying body publishes and versions. A published versioned artifact, identified by its code and version, so it has no id under DMO-021. DEC-010 to DEC-014."
     attributes:
       code: {range: CodeValue, required: true, description: "The code of the decision type. DEC-010."}
       version: {range: SemanticVersion, required: true, description: "The release of this description. DEC-010."}
@@ -481,6 +503,15 @@ classes:
       humanReview: {range: boolean, required: true, description: "Whether every final result needs a review step, beyond what the profiles ask. DEC-061."}
       dualReview: {range: boolean, required: true, description: "Whether every final result needs two review steps by distinct people. DEC-064."}
       publication: {range: Publication, inlined: true, required: true, description: "Where the body publishes the rules and the general explanation. DEC-038, DEC-058."}
+      reviewWindow: {range: Duration, required: true, description: "How long a decision of this type stays open to review, reconsideration or appeal, counted from the decision, under DAT-020. The rule provider keeps each rule version that a decision still open may need. DEC-034."}
+      declaredScoreInputs: {range: DeclaredScoreInput, multivalued: true, inlined_as_list: true, description: "Each risk or fraud score that the entitlement rules may use as an input. Rules use no other score. DEC-028."}
+
+  DeclaredScoreInput:
+    description: "A risk or fraud score that the entitlement rules of a decision type may use as an input. DEC-028."
+    attributes:
+      fact: {range: CodeValue, required: true, description: "The code of the input fact that carries the score, as in InputFact.name. DEC-028, DEC-042."}
+      sourceDecisionType: {range: CodeValue, required: true, description: "The decision type that produces the score, with its own records. DEC-028."}
+      legalSource: {range: LegalSource, inlined: true, required: true, description: "The provision that allows the rules to use the score. DEC-028, DEC-031."}
 
   ImpactAssessment:
     description: "An impact assessment of a decision type. DEC-014."
@@ -497,7 +528,7 @@ classes:
       exception: {range: CodeValue, description: "The ground for not publishing the source, such as protected-security-information. DEC-038."}
 
   Profile:
-    description: "A jurisdiction profile: the controls that apply at each impact level. Each profile is a file in profiles/. DEC-011, DEC-012."
+    description: "A jurisdiction profile: the controls that apply at each impact level. Each profile is a file in profiles/. A published versioned artifact, identified by its code and version, so it has no id under DMO-021. DEC-011, DEC-012."
     attributes:
       code: {range: CodeValue, required: true, description: "The code of the profile. DEC-011."}
       version: {range: SemanticVersion, required: true, description: "The release of the profile. DEC-012."}
@@ -516,7 +547,7 @@ classes:
       allReasons: {range: boolean, required: true, description: "Whether the explanation must give every reason, not only the principal ones. DEC-053."}
 
   RuleVersion:
-    description: "The metadata of one version of a rule set. DEC-030 to DEC-035."
+    description: "The metadata of one version of a rule set. A published versioned artifact, identified by its rule set code and version, so it has no id under DMO-021. DEC-030 to DEC-035."
     attributes:
       ruleSetCode: {range: CodeValue, required: true, description: "The code of the rule set. DEC-030."}
       version: {range: SemanticVersion, required: true, description: "The rule version. DEC-030."}
@@ -528,7 +559,7 @@ classes:
       cliffEdge: {range: boolean, required: true, description: "Whether a small change in one fact can remove the whole benefit. DEC-027."}
 
   ParameterSet:
-    description: "A file of dated parameters, such as amounts and thresholds. DEC-037."
+    description: "A file of dated parameters, such as amounts and thresholds. A published versioned artifact, identified by its code and version, so it has no id under DMO-021. DEC-037."
     attributes:
       code: {range: CodeValue, required: true, description: "The code of the parameter set. DEC-037."}
       version: {range: SemanticVersion, required: true, description: "The release of the file. DEC-037."}

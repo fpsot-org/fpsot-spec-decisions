@@ -46,6 +46,8 @@ It MUST NOT carry the value of an input fact, an amount or a name.
 The activity keys come from a scheme of the deploying body, such as `decide-application`, `review-decision` and `issue-notice`.
 An attribute applies when the record has a value for it.
 For a review step or a notice, the record is the decision that it is about.
+The event of a review step names the reviewer by role, under OBS-075.
+
 The required attributes are those that the statistics of DEC-066 need.
 The inventory of the component lists these attributes and the scheme, under OBS-010.
 Process mining and the statistics of DEC-066 then work from the events alone, with no personal value.
@@ -57,6 +59,7 @@ Process mining and the statistics of DEC-066 then work from the events alone, wi
 It MUST have a type of this table, and its data MUST follow the schema of that type in `registry/events/`.
 Its `id` MUST be the identifier of the record, under DEC-041.
 Its data MUST hold identifiers and codes only, under DEC-044.
+Its data MUST NOT hold the identifier of a person who acted, such as a reviewer, under API-102.
 
 [cols="3,3",options="header"]
 |===
@@ -68,6 +71,7 @@ Its data MUST hold identifiers and codes only, under DEC-044.
 
 The names follow NAM-050 and NAM-051, and the schemas follow API-103.
 A consumer that needs the inputs reads the record through the interface of DEC-073, with its own authorization.
+A consumer that needs the reviewer reads the review step in the same way.
 The file `examples/decision-event.json` is the event of the final record of the example.
 
 == Access to records

@@ -22,7 +22,7 @@
 - [Profiles](profiles/)
 - [Event schemas](registry/events/)
 - [Decision type](examples/decision-type.yaml)
-- [Reason scheme](examples/reason-codes.jsonld)
+- [Reason scheme](examples/reason-codes.jsonld), with the schemes of [referral reasons](examples/referral-reasons.jsonld), [change causes](examples/change-causes.jsonld) and [facts](examples/fact-codes.jsonld)
 - [Referred record](examples/decision-record-1.json), [review step](examples/review-step.json) and [final record](examples/decision-record-2.json)
 - [Scenario](examples/features/en/example-housing-benefit.feature)
 - [How-to guide: put a decision type under the specification](docs/modules/en/pages/index.adoc)

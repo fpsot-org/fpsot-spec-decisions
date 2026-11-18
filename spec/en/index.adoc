@@ -133,6 +133,9 @@ The program, its act and every address are fictional.
 
 * `decision-type.yaml` describes the decision type, with its profiles and its impact level, under DEC-010.
 * `reason-codes.jsonld` is the reason scheme, under DEC-050.
+* `referral-reasons.jsonld`, `change-causes.jsonld` and `fact-codes.jsonld` are the other schemes of the examples.
+They hold the referral reasons, the change causes and the facts, under DEC-026, DEC-043 and DEC-025.
+A real release of a scheme also needs its Turtle file, under VOC-050.
 * `rule-versions.yaml` and `parameters/` hold two rule versions and a dated parameter set, under DEC-030 and DEC-037.
 * `decision-record-1.json` is a result that the service referred to a person, under DEC-061.
 * `review-step.json` is the review step of an officer, under DEC-062.

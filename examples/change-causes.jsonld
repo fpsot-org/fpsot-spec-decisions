@@ -1,0 +1,277 @@
+{
+  "@context": {
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "dct": "http://purl.org/dc/terms/"
+  },
+  "@graph": [
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-change-causes",
+      "@type": "skos:ConceptScheme",
+      "owl:versionInfo": "1.0.0",
+      "dct:license": {
+        "@id": "https://spdx.org/licenses/Community-Spec-1.0"
+      },
+      "skos:prefLabel": [
+        {
+          "@value": "Change causes for example housing benefit decisions",
+          "@language": "en"
+        },
+        {
+          "@value": "Causes de modification des décisions sur l’allocation de logement d’exemple",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "Synthetic example of a scheme of change causes of the FPSOT decisions specification (DEC-043). Each code says why a record revises an earlier one.",
+          "@language": "en"
+        },
+        {
+          "@value": "Exemple synthétique d’un schéma de causes de modification de la spécification FPSOT sur les décisions (DEC-043). Chaque code dit pourquoi un enregistrement en révise un plus ancien.",
+          "@language": "fr"
+        }
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/human-review"
+        },
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/correction"
+        },
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/reconsideration"
+        },
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/appeal"
+        },
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/retroactive-law"
+        },
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/rectified-input"
+        },
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/reprocessing"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/human-review",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:notation": "human-review",
+      "skos:prefLabel": [
+        {
+          "@value": "Human review",
+          "@language": "en"
+        },
+        {
+          "@value": "Révision humaine",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "A review step led to the new record (DEC-061).",
+          "@language": "en"
+        },
+        {
+          "@value": "Une étape de révision a mené au nouvel enregistrement (DEC-061).",
+          "@language": "fr"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/correction",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:notation": "correction",
+      "skos:prefLabel": [
+        {
+          "@value": "Correction",
+          "@language": "en"
+        },
+        {
+          "@value": "Correction",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "The body corrected an error in an earlier record.",
+          "@language": "en"
+        },
+        {
+          "@value": "L’organisme a corrigé une erreur dans un enregistrement antérieur.",
+          "@language": "fr"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/reconsideration",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:notation": "reconsideration",
+      "skos:prefLabel": [
+        {
+          "@value": "Reconsideration",
+          "@language": "en"
+        },
+        {
+          "@value": "Réexamen",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "The person asked the body to reconsider the decision.",
+          "@language": "en"
+        },
+        {
+          "@value": "La personne a demandé à l’organisme de réexaminer la décision.",
+          "@language": "fr"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/appeal",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:notation": "appeal",
+      "skos:prefLabel": [
+        {
+          "@value": "Appeal",
+          "@language": "en"
+        },
+        {
+          "@value": "Appel",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "A body that hears appeals changed or confirmed the decision.",
+          "@language": "en"
+        },
+        {
+          "@value": "Une instance d’appel a modifié ou confirmé la décision.",
+          "@language": "fr"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/retroactive-law",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:notation": "retroactive-law",
+      "skos:prefLabel": [
+        {
+          "@value": "Retroactive law",
+          "@language": "en"
+        },
+        {
+          "@value": "Loi rétroactive",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "A rule version with retroactive effect changed the result (DEC-036).",
+          "@language": "en"
+        },
+        {
+          "@value": "Une version de règles à effet rétroactif a changé le résultat (DEC-036).",
+          "@language": "fr"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/rectified-input",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:notation": "rectified-input",
+      "skos:prefLabel": [
+        {
+          "@value": "Rectified input",
+          "@language": "en"
+        },
+        {
+          "@value": "Intrant rectifié",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "The person or the body rectified a fact that the decision used (DEC-047).",
+          "@language": "en"
+        },
+        {
+          "@value": "La personne ou l’organisme a rectifié un fait que la décision a utilisé (DEC-047).",
+          "@language": "fr"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-change-causes/concepts/reprocessing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-change-causes"
+      },
+      "skos:notation": "reprocessing",
+      "skos:prefLabel": [
+        {
+          "@value": "Reprocessing",
+          "@language": "en"
+        },
+        {
+          "@value": "Retraitement",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "The service ran the decision again, such as after new inputs arrived.",
+          "@language": "en"
+        },
+        {
+          "@value": "Le service a traité la décision de nouveau, par exemple après l’arrivée de nouveaux intrants.",
+          "@language": "fr"
+        }
+      ]
+    }
+  ]
+}

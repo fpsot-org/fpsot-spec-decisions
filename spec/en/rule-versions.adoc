@@ -56,6 +56,7 @@ Nobody can review or contest a presumption that has no name and no source.
 That includes each version whose cases a body can still decide, review, reconsider or replay.
 Removing such a version MUST take a new major version of the artifact.
 The deploying body MUST state, for each decision type, how long a decision stays open to review.
+It states that period in `reviewWindow`, in the description of the decision type.
 
 DEC-003 forbids loading rules at run time, so a deployment cannot add an old version later.
 Decisions under appeal still need the version that made them.

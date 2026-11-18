@@ -15,9 +15,11 @@ It runs two kinds of checks, and reports every failure with the rule it breaks.
 - Structural checks of the rules: revision links resolve, a referral or a request for
   information ends only through a review step or new inputs, the resolver finds at
   most one rule version and the record names it, thresholds come from the dated
-  parameters, reason codes exist in the scheme, at most four principal reasons, a
-  gated result has its review steps, the degree of automation matches them, no prose
-  in records, no value of a fact in an event, notices meet the profiles, and the
+  parameters, reason codes, referral reasons, change causes and fact codes exist in
+  their example schemes, at least one and at most four principal reasons, the code
+  other comes from a person who changed the result, a gated result has a review step
+  that kept or changed it, the degree of automation matches the review steps, no
+  prose in records, no value of a fact in an event, notices meet the profiles, and the
   English and French features match and each states a reason code.
 """
 import glob
@@ -29,12 +31,12 @@ import sys
 import yaml
 
 BUILTIN = {"string", "integer", "boolean", "uri", "date", "datetime", "double", "float"}
-URI = re.compile(r"^https?://\S+$")
+URI = re.compile(r"^(https?://|mailto:|tel:)\S+$")
 GENERIC = {"not-eligible", "ineligible", "does-not-meet-criteria", "criteria-not-met", "policy",
            "internal-policy", "internal-standard", "score-too-low", "insufficient-score",
            "failed-qualifying-score", "refused", "denied", "rejected"}
 # Slots that may hold text that a person writes (DEC-054, DEC-062), and the values of facts.
-TEXT_PATHS = (re.compile(r"\.justification$"), re.compile(r"\.otherText\.[a-z-]+$"),
+TEXT_PATHS = (re.compile(r"\.justification$"), re.compile(r"\.otherText\[\d+\]\.text$"),
               re.compile(r"^\$\.inputs\[\d+\]\.value(\.|\[|$)"))
 
 failures = []
@@ -284,6 +286,10 @@ def main():
     scheme_uri, codes = scheme_codes(scheme_path)
     if dtype["reasonScheme"] != scheme_uri:
         fail(rel(dt_path), f"reasonScheme must be {scheme_uri}", "DEC-050")
+    # The other codes of a record also come from schemes (DEC-025, DEC-026, DEC-043, VOC-064).
+    _, referral_codes = scheme_codes(os.path.join(ex, "referral-reasons.jsonld"))
+    _, cause_codes = scheme_codes(os.path.join(ex, "change-causes.jsonld"))
+    _, fact_codes = scheme_codes(os.path.join(ex, "fact-codes.jsonld"))
 
     # Rule versions and parameters (DEC-030 to DEC-037).
     rv_path = os.path.join(ex, "rule-versions.yaml")
@@ -331,6 +337,13 @@ def main():
             fail(where, "a referred result needs a referral reason", "DEC-026")
         if kind == "insufficient-information" and not r.get("missingFacts"):
             fail(where, "an insufficient-information result lists the missing facts", "DEC-025")
+        if r.get("referralReason") and r["referralReason"] not in referral_codes:
+            fail(where, f"referral reason {r['referralReason']} is not in the scheme of referral reasons", "DEC-026")
+        if r.get("changeCause") and r["changeCause"] not in cause_codes:
+            fail(where, f"change cause {r['changeCause']} is not in the scheme of change causes", "DEC-043")
+        for code in (r.get("missingFacts") or []) + [i.get("name") for i in r.get("inputs", [])]:
+            if code not in fact_codes:
+                fail(where, f"fact {code} is not in the scheme of facts", "DEC-025, DEC-042")
         if r.get("decisionType") != dtype["code"] or r.get("decisionTypeVersion") != dtype["version"]:
             fail(where, "the decision type and its version must match decision-type.yaml", "DEC-010")
         if r.get("profiles") != dtype["profiles"] or r.get("impactLevel") != dtype["impactLevel"]:
@@ -374,9 +387,10 @@ def main():
                 [x.get("rank") for x in reasons] != sorted(x.get("rank") for x in reasons):
             fail(where, "reasons come in order of rank, from 1 with no gap", "DEC-052")
         principal = [x for x in reasons if x.get("principal")]
-        if not principal and kind in ("decided", "referred"):
-            fail(where, "a result needs at least one principal reason", "DEC-052")
-        if len(principal) > 4 and not any(l.get("allReasons") for l in levels):
+        if not principal:
+            fail(where, "a result needs at least one principal reason", "DEC-053")
+        # allReasons asks the explanation for every reason; it does not lift the limit on principal ones.
+        if len(principal) > 4:
             fail(where, f"{len(principal)} principal reasons; give at most four", "DEC-053")
         for x in reasons:
             code = x.get("code")
@@ -384,10 +398,9 @@ def main():
                 fail(where, f"reason code {code} is not in the reason scheme", "DEC-050")
             if code in GENERIC:
                 fail(where, f"reason code {code} is a generic reason", "DEC-051")
-            if (code == "other") != ("otherText" in x):
+            langs = {str(t.get("language", "")).split("-")[0].lower() for t in x.get("otherText") or []}
+            if (code == "other") != ("otherText" in x) or (code == "other" and not {"en", "fr"} <= langs):
                 fail(where, "the code other, and only it, carries otherText in English and French", "DEC-054")
-            if code == "other" and not r.get("reviewStepIds"):
-                fail(where, "only a person may give the reason other", "DEC-054")
             if "thresholdValue" in x and x["thresholdValue"] not in values:
                 fail(where, f"the threshold of {code} is not a parameter value for the effective date", "DEC-037")
             if ("counterfactualValue" in x) != ("counterfactualRelation" in x):
@@ -427,16 +440,22 @@ def main():
                 fail(where, f"review step {sid} must be about a record that this one revises", "DEC-061")
             if s.get("completedAt", "") > r["createdAt"]:
                 fail(where, f"review step {sid} ends after the record", "DEC-061")
-        changed = any(s.get("action") != "confirmed" or not s.get("agreement") for s in own)
-        degree = "fully-automated" if not own else ("human-decided" if changed else "human-confirmed")
+        # A step that only refers the case on or asks for a fact neither keeps nor changes the result (DEC-060).
+        deciding = [s for s in own if s.get("action") in ("confirmed", "changed")]
+        changed = any(s.get("action") == "changed" or not s.get("agreement") for s in deciding)
+        degree = "fully-automated" if not deciding else ("human-decided" if changed else "human-confirmed")
         if r.get("automationDegree") != degree:
             fail(where, f"the degree of automation must be {degree}, from the review steps", "DEC-060")
         gated = dtype["humanReview"] or any(l.get("humanReview") for l in levels)
-        if kind == "decided" and gated and not own:
+        if kind == "decided" and gated and not deciding:
             fail(where, f"impact level {r.get('impactLevel')} needs a review step before a decided result", "DEC-061")
         dual = dtype["dualReview"] or any(l.get("dualReview") for l in levels)
-        if kind == "decided" and dual and len({s.get("actorId") for s in own}) < 2:
+        if kind == "decided" and dual and len({s.get("actorId") for s in deciding}) < 2:
             fail(where, "dual review needs two review steps by distinct people", "DEC-064")
+        # A rule provider never gives other, so it comes from a person who changed the result (DEC-054).
+        if any(x.get("code") == "other" for x in reasons) and not changed:
+            fail(where, "only a person in a review step may give the reason other: name a step that changed the "
+                 "result or disagreed with it", "DEC-054")
 
     for sid, (where, s) in steps.items():
         if s.get("decisionId") not in records:
@@ -453,12 +472,13 @@ def main():
             fail(where, f"decisionId {n.get('decisionId')} does not resolve", "DEC-056")
             continue
         r = records[n["decisionId"]][1]
+        def needed(control):
+            return control == "required" or (
+                control == "required-when-fully-automated" and r["automationDegree"] == "fully-automated")
         for l in levels_of(r["profiles"], r["impactLevel"], where):
-            need = l["automationNotice"] == "required" or (
-                l["automationNotice"] == "required-when-fully-automated" and r["automationDegree"] == "fully-automated")
-            if need and not n.get("automationNotice"):
+            if needed(l["automationNotice"]) and not n.get("automationNotice"):
                 fail(where, "the profile asks the notice to state that automation took part", "DEC-057")
-            if l["recourseNotice"] == "required" and not n.get("recourseChannels"):
+            if needed(l["recourseNotice"]) and not n.get("recourseChannels"):
                 fail(where, "the profile asks the notice to give a recourse channel", "DEC-057")
 
     # Event schemas (API-103) and events (DEC-041, DEC-044, DEC-072).
@@ -538,6 +558,9 @@ def main():
                 for code in named:
                     if code not in codes:
                         fail(rel(path), f"scenario {tag} names reason code {code}, which is not in the scheme", "DEC-050")
+                for code in re.findall(r'(?:missing fact|fait manquant) "([a-z0-9-]+)"', text):
+                    if code not in fact_codes:
+                        fail(rel(path), f"scenario {tag} names fact {code}, which is not in the scheme of facts", "DEC-025")
 
     for f in failures:
         print(f)
