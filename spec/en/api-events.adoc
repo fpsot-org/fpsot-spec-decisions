@@ -90,5 +90,6 @@ The notice of DEC-056 renders the same content in plain language.
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Removes the reviewer's identifier from the review-step event (DEC-072).
 |0.1.0 |2026-11-15 |First version.
 |===

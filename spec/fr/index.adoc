@@ -190,5 +190,6 @@ Ce sont les spécifications sur les vocabulaires, les interfaces, les essais et 
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Énumère les nouveaux schémas d’exemple.
 |0.1.0 |2026-11-15 |Première version.
 |===

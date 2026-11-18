@@ -170,5 +170,6 @@ A trace by reference keeps the record small and readable, while the detail stays
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Defines the replay of a reviewed record (DEC-047).
 |0.1.0 |2026-11-15 |First version.
 |===

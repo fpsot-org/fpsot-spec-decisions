@@ -119,5 +119,6 @@ Whether a body can still keep back rules that are open source is a question for 
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Names the attribute for the review window (DEC-034) and links an archived copy of a source.
 |0.1.0 |2026-11-15 |First version.
 |===

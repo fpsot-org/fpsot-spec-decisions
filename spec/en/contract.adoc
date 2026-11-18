@@ -188,5 +188,6 @@ A score that feeds entitlement rules out of sight carries the same risk.
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Names the attribute for declared score inputs (DEC-028).
 |0.1.0 |2026-11-15 |First version.
 |===

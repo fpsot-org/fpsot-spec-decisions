@@ -180,5 +180,6 @@ They cite these versions.
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Lists the new example schemes.
 |0.1.0 |2026-11-15 |First version.
 |===

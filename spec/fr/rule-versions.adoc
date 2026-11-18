@@ -125,5 +125,6 @@ C’est une question pour les juristes.
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Nomme l’attribut de la période de révision (DEC-034) et donne une copie archivée d’une source.
 |0.1.0 |2026-11-15 |Première version.
 |===

@@ -115,5 +115,6 @@ Le contenu de chaque évaluation reste la responsabilité de l’organisme respo
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Définit quel réglage est le plus strict (DEC-011).
 |0.1.0 |2026-11-15 |Première version.
 |===

@@ -130,5 +130,6 @@ A person can then understand the rules before applying, and an outside reviewer 
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Updates principal reasons, text written by a person, recourse channels and the example schemes (DEC-050 to DEC-057).
 |0.1.0 |2026-11-15 |First version.
 |===

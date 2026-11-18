@@ -114,5 +114,6 @@ Des taux de dérogation élevés révèlent une règle faible, et des taux près
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Ne compte que les étapes de révision qui ont maintenu ou modifié le résultat (DEC-060, DEC-061).
 |0.1.0 |2026-11-15 |Première version.
 |===

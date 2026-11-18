@@ -112,5 +112,6 @@ The content of each assessment stays the duty of the deploying body.
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Defines which setting is the stricter one (DEC-011).
 |0.1.0 |2026-11-15 |First version.
 |===

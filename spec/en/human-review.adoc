@@ -112,5 +112,6 @@ High override rates show a weak rule, and rates near zero can show automation bi
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Counts only the review steps that kept or changed the result (DEC-060, DEC-061).
 |0.1.0 |2026-11-15 |First version.
 |===

@@ -194,5 +194,6 @@ Une cote qui alimente à l’abri des regards des règles d’attribution prése
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Nomme l’attribut des données d’entrée déclarées (DEC-028).
 |0.1.0 |2026-11-15 |Première version.
 |===

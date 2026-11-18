@@ -174,5 +174,6 @@ Une trace par référence garde l’enregistrement court et lisible, et le déta
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Définit la réexécution d’un enregistrement révisé (DEC-047).
 |0.1.0 |2026-11-15 |Première version.
 |===

@@ -91,5 +91,6 @@ L’avis de DEC-056 rend le même contenu en langage clair.
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Retire l’identifiant de la personne qui révise de l’événement d’une étape de révision (DEC-072).
 |0.1.0 |2026-11-15 |Première version.
 |===

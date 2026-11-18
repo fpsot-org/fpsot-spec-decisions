@@ -133,5 +133,6 @@ Une personne peut alors comprendre les règles avant de faire une demande, et un
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Met à jour les motifs principaux, le texte écrit par une personne, les voies de recours et les schémas d’exemple (DEC-050 à DEC-057).
 |0.1.0 |2026-11-15 |Première version.
 |===
