@@ -40,7 +40,7 @@ Une lectrice ou un lecteur dans l’une ou l’autre langue peut alors ouvrir la
 Un service de décision NE DOIT PAS employer en production une version de règles dont le statut n’est pas `approved`.
 L’organisme responsable décide qui approuve, par exemple ses services juridiques.
 
-L’administration fiscale française consigne l’approbation de chaque interprétation juridique dans le suivi de son link:https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[projet Catala].
+L’administration fiscale française consigne l’approbation de chaque interprétation juridique dans le suivi de son link:https://web.archive.org/web/20261116032627/https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[projet Catala].
 Un statut dans les métadonnées laisse la même trace, quel que soit l’outil d’un organisme.
 
 [[DEC-033]]
@@ -117,7 +117,7 @@ C’est une question pour les juristes.
 
 * link:https://martinfowler.com/articles/bitemporal-history.html[Bitemporal History], Martin Fowler. link:https://web.archive.org/web/20260830155909/https://martinfowler.com/articles/bitemporal-history.html[Copie archivée]
 * link:https://openfisca.org/doc/coding-the-legislation/legislation_parameters.html[Legislation parameters], documentation d’OpenFisca. link:https://web.archive.org/web/20260412222533/https://openfisca.org/doc/coding-the-legislation/legislation_parameters.html[Copie archivée]
-* link:https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[ir-catala, étiquettes du suivi des billets], Direction générale des Finances publiques, sur la forge de l’Adullact. link:https://web.archive.org/web/20261116032627/https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[Copie archivée]
+* link:https://web.archive.org/web/20261116032627/https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[ir-catala, étiquettes du suivi des billets], Direction générale des Finances publiques, sur la forge de l’Adullact, copie archivée.
 
 == Historique du document
 

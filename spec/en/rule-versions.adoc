@@ -39,7 +39,7 @@ A reader in either language can then open the provision that a rule applies.
 A decision service MUST NOT use a rule version in production unless its status is `approved`.
 The deploying body decides who approves, such as its legal services.
 
-The French tax administration records the sign-off of each legal interpretation in the tracker of its link:https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[Catala project].
+The French tax administration records the sign-off of each legal interpretation in the tracker of its link:https://web.archive.org/web/20261116032627/https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[Catala project].
 A status in the metadata gives the same trace, whatever tool a body uses.
 
 [[DEC-033]]
@@ -111,7 +111,7 @@ Whether a body can still keep back rules that are open source is a question for 
 
 * link:https://martinfowler.com/articles/bitemporal-history.html[Bitemporal History], Martin Fowler. link:https://web.archive.org/web/20260830155909/https://martinfowler.com/articles/bitemporal-history.html[Archived copy]
 * link:https://openfisca.org/doc/coding-the-legislation/legislation_parameters.html[Legislation parameters], OpenFisca documentation. link:https://web.archive.org/web/20260412222533/https://openfisca.org/doc/coding-the-legislation/legislation_parameters.html[Archived copy]
-* link:https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[ir-catala, labels of the issue tracker], Direction générale des Finances publiques, on the Adullact forge. link:https://web.archive.org/web/20261116032627/https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[Archived copy]
+* link:https://web.archive.org/web/20261116032627/https://gitlab.adullact.net/dgfip/impots-nationaux-revenu-patrimoine-particuliers/ir-catala/-/labels[ir-catala, labels of the issue tracker], Direction générale des Finances publiques, on the Adullact forge, archived copy.
 
 == Document history
 
