@@ -21,6 +21,9 @@ Il NE DOIT PAS tirer ce degré d’un paramètre du type de décision.
 * `human-confirmed` : chaque étape de révision a maintenu le résultat que le service a montré, avec une justification.
 * `human-decided` : au moins une étape de révision a modifié le résultat ou l’a fixé.
 
+Une étape qui renvoie seulement le dossier ou demande un fait manquant ne maintient ni ne modifie le résultat.
+Elle ne compte pas dans le degré.
+
 Une étiquette choisie à l’avance ne peut pas prouver ce qui est arrivé à un cas précis.
 Le script `examples/check-examples.py` recalcule le degré à partir des étapes de révision.
 
@@ -28,7 +31,7 @@ Le script `examples/check-examples.py` recalcule le degré à partir des étapes
 
 [[DEC-061]]
 *DEC-061.* Un niveau de profil ou un type de décision peut exiger une révision humaine.
-Le service NE DOIT PAS alors rendre un résultat `decided` final sans étape de révision.
+Le service NE DOIT PAS alors rendre un résultat `decided` final sans étape de révision qui l’a maintenu ou modifié.
 Tant qu’une personne n’a pas agi, le résultat DOIT être `referred`, avec le motif `human-review-required`.
 L’enregistrement garde alors dans `recommendedOutcome` l’issue que proposaient les règles.
 L’enregistrement final DOIT nommer les étapes de révision qui y ont mené, et réviser l’enregistrement renvoyé selon DEC-043.
@@ -111,5 +114,6 @@ Des taux de dérogation élevés révèlent une règle faible, et des taux près
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Ne compte que les étapes de révision qui ont maintenu ou modifié le résultat (DEC-060, DEC-061).
 |0.1.0 |2026-11-15 |Première version.
 |===

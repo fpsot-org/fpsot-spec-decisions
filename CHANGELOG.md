@@ -6,6 +6,29 @@ and versions follow [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-18
+
+### Changed
+
+- The review-step event no longer carries the identifier of the person who reviewed (DEC-072, API-102); consumers read the review step through the record.
+- `Notice.recourseChannels` lists objects with a code, a contact and an optional deadline (DEC-057); the separate `recourseDeadline` is gone.
+- "The stricter setting" of two profiles now has a defined order (DEC-011).
+- Only review steps that kept or changed the result count toward the degree of automation, gating and dual review (DEC-060, DEC-061).
+- A record should mark at least one principal reason, and the limit of four applies under `allReasons` too (DEC-053).
+- `otherText` is a list of texts written by a person, each with its language tag (DEC-054, DMO-024).
+- Replay "as decided" of a reviewed record checks the recorded steps instead of reproducing the reviewer's judgment (DEC-047).
+- The example reason code `household-size` became two codes that name a factor and its direction.
+
+### Added
+
+- `Notice.createdAt` and `updatedAt`; `DecisionType.reviewWindow` (DEC-034) and `declaredScoreInputs` (DEC-028).
+- Example schemes for referral reasons, change causes and fact codes, checked by `examples/check-examples.py`, with 12 more test cases.
+- Notes that a released concept scheme also needs Turtle (VOC-050), and that code-keyed artifacts are published versions outside DMO-021.
+
+### Fixed
+
+- Links to the Camunda forum and the ir-catala labels point to archived copies, as both sites refuse the CI runners.
+
 ## [0.1.0] - 2026-11-15
 
 ### Added

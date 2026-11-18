@@ -137,6 +137,9 @@ The page xref:questions-for-counsel.adoc[Questions for counsel] asks a lawyer wh
 
 * As decided: the original rule version, the original parameters, the original inputs and the original context.
 The result and its reasons MUST be the same as in the original record.
+For a record that follows review steps, the replay MUST give the result and reasons that the reviewers saw.
+It MUST then check that the recorded review steps lead from that result to the record.
+A replay does not reproduce the judgment of a reviewer.
 * As corrected: rectified inputs, or the rule version that the current record time selects, or both.
 The result MUST be a new record that revises the original under DEC-043.
 
@@ -167,5 +170,6 @@ A trace by reference keeps the record small and readable, while the detail stays
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Defines the replay of a reviewed record (DEC-047).
 |0.1.0 |2026-11-15 |First version.
 |===

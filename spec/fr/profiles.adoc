@@ -28,8 +28,12 @@ Le fichier `examples/decision-type.yaml` décrit une allocation de logement fict
 [[DEC-011]]
 *DEC-011.* Un type de décision DOIT déclarer le profil `core`, et chaque profil de ce tableau dont la loi s’applique.
 Le service de décision DOIT appliquer chaque contrôle de chaque profil déclaré au niveau d’incidence du type de décision.
-Quand deux profils fixent le même contrôle, le réglage le plus strict s’applique.
 Chaque profil est un fichier de la classe `Profile` dans le dossier `profiles/`.
+Quand deux profils fixent le même contrôle, le réglage le plus strict s’applique :
+
+* `humanReview`, `dualReview` et `allReasons` : `true` est plus strict que `false`.
+* `automationNotice` et `recourseNotice` : `required`, puis `required-when-fully-automated`, puis `recommended`, du plus strict au moins strict.
+* Les évaluations d’incidence s’additionnent : le type de décision exige chacune de celles que nomme un profil déclaré, selon DEC-014.
 
 [cols="2,3,3,4",options="header"]
 |===
@@ -111,5 +115,6 @@ Le contenu de chaque évaluation reste la responsabilité de l’organisme respo
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Définit quel réglage est le plus strict (DEC-011).
 |0.1.0 |2026-11-15 |Première version.
 |===

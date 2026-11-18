@@ -1,0 +1,107 @@
+{
+  "@context": {
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "dct": "http://purl.org/dc/terms/"
+  },
+  "@graph": [
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-facts",
+      "@type": "skos:ConceptScheme",
+      "owl:versionInfo": "1.0.0",
+      "dct:license": {
+        "@id": "https://spdx.org/licenses/Community-Spec-1.0"
+      },
+      "skos:prefLabel": [
+        {
+          "@value": "Facts of the example housing benefit",
+          "@language": "en"
+        },
+        {
+          "@value": "Faits de l’allocation de logement d’exemple",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "Synthetic example of a scheme of the facts that the rules of a decision type use (DEC-025, DEC-042). Inputs and missing facts name their fact by these codes.",
+          "@language": "en"
+        },
+        {
+          "@value": "Exemple synthétique d’un schéma des faits qu’utilisent les règles d’un type de décision (DEC-025, DEC-042). Les intrants et les faits manquants nomment leur fait par ces codes.",
+          "@language": "fr"
+        }
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-facts/concepts/household-income"
+        },
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-facts/concepts/household-size"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-facts/concepts/household-income",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-facts"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-facts"
+      },
+      "skos:notation": "household-income",
+      "skos:prefLabel": [
+        {
+          "@value": "Household income",
+          "@language": "en"
+        },
+        {
+          "@value": "Revenu du ménage",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "The yearly income of all members of the household.",
+          "@language": "en"
+        },
+        {
+          "@value": "Le revenu annuel de tous les membres du ménage.",
+          "@language": "fr"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-facts/concepts/household-size",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-facts"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-facts"
+      },
+      "skos:notation": "household-size",
+      "skos:prefLabel": [
+        {
+          "@value": "Household size",
+          "@language": "en"
+        },
+        {
+          "@value": "Taille du ménage",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "The number of persons in the household.",
+          "@language": "en"
+        },
+        {
+          "@value": "Le nombre de personnes du ménage.",
+          "@language": "fr"
+        }
+      ]
+    }
+  ]
+}

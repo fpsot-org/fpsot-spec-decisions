@@ -25,7 +25,7 @@ Fonctionnalité: Admissibilité à l’allocation de logement d’exemple
       Et un ménage de 3 personnes dont le revenu du ménage est de "52000.00" CAD
       Quand le fournisseur de règles évalue la demande
       Alors le type de résultat est "decided" avec l’issue "granted"
-      Et le motif principal est "household-size" avec la limite "52000.00" CAD
+      Et le motif principal est "household-income-within-limit" avec la limite "52000.00" CAD
       Et le motif cite l’article "4" de la loi "E-1"
 
   Règle: Un fait manquant ne mène jamais à un refus

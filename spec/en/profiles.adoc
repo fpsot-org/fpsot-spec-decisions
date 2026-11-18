@@ -28,8 +28,12 @@ The file `examples/decision-type.yaml` describes a fictional housing benefit.
 [[DEC-011]]
 *DEC-011.* A decision type MUST declare the `core` profile, and each profile of this table whose law applies.
 The decision service MUST apply every control of each declared profile at the impact level of the decision type.
-When two profiles set the same control, the stricter setting applies.
 Each profile is a file of the class `Profile` in the folder `profiles/`.
+When two profiles set the same control, the stricter setting applies:
+
+* `humanReview`, `dualReview` and `allReasons`: `true` is stricter than `false`.
+* `automationNotice` and `recourseNotice`: `required`, then `required-when-fully-automated`, then `recommended`, from the strictest.
+* Impact assessments add up: the decision type needs each one that a declared profile names, under DEC-014.
 
 [cols="2,3,3,4",options="header"]
 |===
@@ -108,5 +112,6 @@ The content of each assessment stays the duty of the deploying body.
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Defines which setting is the stricter one (DEC-011).
 |0.1.0 |2026-11-15 |First version.
 |===

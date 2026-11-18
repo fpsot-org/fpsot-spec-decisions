@@ -25,6 +25,9 @@ A code MUST name a factor of the decision, such as `household-income-above-limit
 
 The file `examples/reason-codes.jsonld` is a small reason scheme.
 Its codes describe the facts that drove the result, not the result itself.
+The files `examples/referral-reasons.jsonld`, `examples/change-causes.jsonld` and `examples/fact-codes.jsonld` hold the other codes of the examples.
+Each example scheme is in {abbr-json-ld-first} only.
+A real release of a scheme also needs its Turtle file, under VOC-050.
 
 [[DEC-051]]
 *DEC-051.* A reason code MUST NOT state only a verdict or a general failure.
@@ -41,9 +44,10 @@ These values come from the inputs and from the dated parameters of DEC-037.
 A notice in any language and at any depth can then come from the same record.
 
 [[DEC-053]]
-*DEC-053.* A record SHOULD mark at most four reasons as principal.
+*DEC-053.* A record SHOULD mark at least one and at most four reasons as principal.
 A notice SHOULD give the principal reasons first.
 When a profile sets `allReasons`, the explanation MUST give every reason of the record.
+The limit of four principal reasons still applies under `allReasons`.
 
 The `fr` profile sets `allReasons`, since French law speaks of the parameters as they applied to the case.
 A long list of reasons hides the ones that matter.
@@ -52,9 +56,12 @@ A long list of reasons hides the ones that matter.
 *DEC-054.* A reason scheme MAY hold the code `other`.
 Only a person in a review step MAY give that code, and a rule provider MUST NOT.
 A reason with the code `other` MUST carry text in English and in French in `otherText`.
+Each text is a plain string with its language tag, kept as the reviewer wrote it, under DMO-024.
 
 A rule provider knows every reason that its rules can produce, so it never needs `other`.
 A reviewer may meet a case that no code covers.
+A reviewer who adds a reason changes the result that the service showed.
+The review step then records a change or a disagreement.
 The text in both languages lets the body render the notice in the language of the person.
 
 == Counterfactuals
@@ -93,7 +100,7 @@ The sealed notice keeps the exact text that the person received.
 * `recourseNotice`: the notice gives each recourse or observations channel, with its contact and its deadline.
 
 The notice record MUST state whether the notice said that automation took part.
-It MUST list each channel that the notice offered.
+It MUST list each channel that the notice offered, with its contact and its deadline, if any.
 
 Québec guidance asks the body to inform the person at the latest when it gives the decision.
 It also asks for the means to send observations to a staff member who can review the decision.
@@ -123,5 +130,6 @@ A person can then understand the rules before applying, and an outside reviewer 
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Updates principal reasons, text written by a person, recourse channels and the example schemes (DEC-050 to DEC-057).
 |0.1.0 |2026-11-15 |First version.
 |===

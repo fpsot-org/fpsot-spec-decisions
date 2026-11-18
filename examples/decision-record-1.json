@@ -99,7 +99,7 @@
       }
     },
     {
-      "code": "household-size",
+      "code": "household-size-too-small-for-higher-limit",
       "rank": 2,
       "principal": false,
       "clause": {

@@ -1,0 +1,141 @@
+{
+  "@context": {
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "dct": "http://purl.org/dc/terms/"
+  },
+  "@graph": [
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons",
+      "@type": "skos:ConceptScheme",
+      "owl:versionInfo": "1.0.0",
+      "dct:license": {
+        "@id": "https://spdx.org/licenses/Community-Spec-1.0"
+      },
+      "skos:prefLabel": [
+        {
+          "@value": "Referral reasons for example housing benefit decisions",
+          "@language": "en"
+        },
+        {
+          "@value": "Motifs de renvoi des décisions sur l’allocation de logement d’exemple",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "Synthetic example of a scheme of referral reasons of the FPSOT decisions specification (DEC-026, DEC-061). Each code says why a result went to a person.",
+          "@language": "en"
+        },
+        {
+          "@value": "Exemple synthétique d’un schéma de motifs de renvoi de la spécification FPSOT sur les décisions (DEC-026, DEC-061). Chaque code dit pourquoi un résultat est allé à une personne.",
+          "@language": "fr"
+        }
+      ],
+      "skos:hasTopConcept": [
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons/concepts/human-review-required"
+        },
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons/concepts/discretion"
+        },
+        {
+          "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons/concepts/hardship"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons/concepts/human-review-required",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons"
+      },
+      "skos:notation": "human-review-required",
+      "skos:prefLabel": [
+        {
+          "@value": "Human review required",
+          "@language": "en"
+        },
+        {
+          "@value": "Révision humaine requise",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "A profile level or the decision type asks a person to review the result before it becomes final (DEC-061).",
+          "@language": "en"
+        },
+        {
+          "@value": "Un niveau de profil ou le type de décision exige qu’une personne révise le résultat avant qu’il devienne définitif (DEC-061).",
+          "@language": "fr"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons/concepts/discretion",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons"
+      },
+      "skos:notation": "discretion",
+      "skos:prefLabel": [
+        {
+          "@value": "Discretion",
+          "@language": "en"
+        },
+        {
+          "@value": "Pouvoir discrétionnaire",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "The law leaves the case to the judgment of a person (DEC-026).",
+          "@language": "en"
+        },
+        {
+          "@value": "La loi laisse le cas au jugement d’une personne (DEC-026).",
+          "@language": "fr"
+        }
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons/concepts/hardship",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons"
+      },
+      "skos:topConceptOf": {
+        "@id": "https://vocab.example.org/example-housing-benefit-referral-reasons"
+      },
+      "skos:notation": "hardship",
+      "skos:prefLabel": [
+        {
+          "@value": "Hardship claim",
+          "@language": "en"
+        },
+        {
+          "@value": "Demande pour situation difficile",
+          "@language": "fr"
+        }
+      ],
+      "skos:definition": [
+        {
+          "@value": "The household claims a hardship that only a person can weigh (DEC-026).",
+          "@language": "en"
+        },
+        {
+          "@value": "Le ménage invoque une situation difficile que seule une personne peut évaluer (DEC-026).",
+          "@language": "fr"
+        }
+      ]
+    }
+  ]
+}

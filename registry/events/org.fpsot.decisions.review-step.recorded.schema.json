@@ -1,14 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fpsot.org/schemas/decisions/events/org.fpsot.decisions.review-step.recorded.schema.json",
-  "$comment": "SPDX-License-Identifier: Community-Spec-1.0. FPSOT decisions event data (DEC-072). The data holds identifiers and codes only, never the value of a fact, an amount or a name (DEC-044). The CloudEvents attributes follow API-101.",
+  "$comment": "SPDX-License-Identifier: Community-Spec-1.0. FPSOT decisions event data (DEC-072). The data holds identifiers and codes only, never the value of a fact, an amount, a name or the identifier of a reviewer (DEC-044, DEC-072). The CloudEvents attributes follow API-101.",
   "title": "org.fpsot.decisions.review-step.recorded",
   "description": "A decision service stored a review step (DEC-062, DEC-072).",
   "type": "object",
   "required": [
     "reviewStepId",
     "decisionId",
-    "actorId",
     "actorRole",
     "representedPartyId",
     "action",
@@ -25,16 +24,10 @@
       "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
       "description": "The decision record that the service showed the reviewer (DEC-062)."
     },
-    "actorId": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 255,
-      "description": "The opaque identifier of the reviewer, as the actor of IAM-091. It is never a name, an email address or a number that identifies a person (IAM-093)."
-    },
     "actorRole": {
       "type": "string",
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
-      "description": "The role of the reviewer (OBS-075)."
+      "description": "The role of the reviewer (OBS-075). The event names the reviewer by role only: the actor of IAM-091 stays in the review step, which a consumer reads under DEC-073 (DEC-072, API-102)."
     },
     "representedPartyId": {
       "type": "string",

@@ -140,6 +140,9 @@ La page xref:questions-for-counsel.adoc[Questions pour les juristes] demande à 
 
 * Telle que décidée : la version de règles, les paramètres, les intrants et le contexte d’origine.
 Le résultat et ses motifs DOIVENT être les mêmes que dans l’enregistrement d’origine.
+Pour un enregistrement issu d’étapes de révision, la réexécution DOIT donner le résultat et les motifs présentés à la révision.
+Elle DOIT ensuite vérifier que les étapes de révision consignées mènent de ce résultat à l’enregistrement.
+Une réexécution ne reproduit pas le jugement d’une personne qui révise.
 * Telle que corrigée : des intrants rectifiés, ou la version de règles que choisit le moment d’enregistrement actuel, ou les deux.
 Le résultat DOIT être un nouvel enregistrement qui révise l’original selon DEC-043.
 
@@ -171,5 +174,6 @@ Une trace par référence garde l’enregistrement court et lisible, et le déta
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Changement
+|0.2.0 |2026-11-18 |Définit la réexécution d’un enregistrement révisé (DEC-047).
 |0.1.0 |2026-11-15 |Première version.
 |===

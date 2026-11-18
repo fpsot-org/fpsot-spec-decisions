@@ -20,7 +20,8 @@
       ],
       "skos:hasTopConcept": [
         {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-income-above-limit"},
-        {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-size"},
+        {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-size-too-small-for-higher-limit"},
+        {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-income-within-limit"},
         {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-income-missing"},
         {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/residence-outside-program-area"},
         {"@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/hardship-exception"},
@@ -43,18 +44,33 @@
       ]
     },
     {
-      "@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-size",
+      "@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-size-too-small-for-higher-limit",
       "@type": "skos:Concept",
       "skos:inScheme": {"@id": "https://vocab.example.org/example-housing-benefit-reasons"},
       "skos:topConceptOf": {"@id": "https://vocab.example.org/example-housing-benefit-reasons"},
-      "skos:notation": "household-size",
+      "skos:notation": "household-size-too-small-for-higher-limit",
       "skos:prefLabel": [
-        {"@value": "Household size", "@language": "en"},
-        {"@value": "Taille du ménage", "@language": "fr"}
+        {"@value": "Household too small for a higher income limit", "@language": "en"},
+        {"@value": "Ménage trop petit pour une limite de revenu plus élevée", "@language": "fr"}
       ],
       "skos:definition": [
-        {"@value": "The number of persons in the household, which sets the income limit that applies.", "@language": "en"},
-        {"@value": "Le nombre de personnes du ménage, qui fixe la limite de revenu applicable.", "@language": "fr"}
+        {"@value": "The household has too few persons for a higher income limit to apply.", "@language": "en"},
+        {"@value": "Le ménage compte trop peu de personnes pour qu’une limite de revenu plus élevée s’applique.", "@language": "fr"}
+      ]
+    },
+    {
+      "@id": "https://vocab.example.org/example-housing-benefit-reasons/concepts/household-income-within-limit",
+      "@type": "skos:Concept",
+      "skos:inScheme": {"@id": "https://vocab.example.org/example-housing-benefit-reasons"},
+      "skos:topConceptOf": {"@id": "https://vocab.example.org/example-housing-benefit-reasons"},
+      "skos:notation": "household-income-within-limit",
+      "skos:prefLabel": [
+        {"@value": "Household income within the limit", "@language": "en"},
+        {"@value": "Revenu du ménage dans la limite", "@language": "fr"}
+      ],
+      "skos:definition": [
+        {"@value": "The income of the household is at or below the limit for its size.", "@language": "en"},
+        {"@value": "Le revenu du ménage est égal ou inférieur à la limite qui s’applique à sa taille.", "@language": "fr"}
       ]
     },
     {

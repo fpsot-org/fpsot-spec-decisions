@@ -21,6 +21,9 @@ It MUST NOT take the degree from a setting of the decision type.
 * `human-confirmed`: each review step kept the result that the service showed, with a justification.
 * `human-decided`: at least one review step changed the result or set it.
 
+A step that only refers the case or asks for a missing fact neither keeps nor changes the result.
+It does not count toward the degree.
+
 A label chosen in advance cannot prove what happened to one case.
 The check `examples/check-examples.py` recomputes the degree from the review steps.
 
@@ -28,7 +31,7 @@ The check `examples/check-examples.py` recomputes the degree from the review ste
 
 [[DEC-061]]
 *DEC-061.* A profile level or a decision type can ask for human review.
-Then the service MUST NOT return a final `decided` result without a review step.
+Then the service MUST NOT return a final `decided` result without a review step that kept or changed the result.
 Until a person acts, the result MUST be `referred`, with the reason `human-review-required`.
 The record then keeps the outcome that the rules proposed in `recommendedOutcome`.
 The final record MUST name the review steps that led to it, and revise the referred record under DEC-043.
@@ -109,5 +112,6 @@ High override rates show a weak rule, and rates near zero can show automation bi
 [cols="1,1,4",options="header"]
 |===
 |Version |Date |Change
+|0.2.0 |2026-11-18 |Counts only the review steps that kept or changed the result (DEC-060, DEC-061).
 |0.1.0 |2026-11-15 |First version.
 |===
